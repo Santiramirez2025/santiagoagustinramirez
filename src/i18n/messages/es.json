@@ -146,13 +146,16 @@
   "coaching": {
     "label": "Coaching & Mentoría",
     "title": "No solo te construyo la herramienta. Te ayudo a usarla para crecer.",
-    "subtitle": "Soy Coach Profesional Certificado y Licenciado en Marketing. Combino tecnología, estrategia y mentoría para que tu negocio escale de verdad — no solo en código, sino en resultados.",
+    "subtitle": "Certificado en Coaching Profesional y Desarrollo Personal (180 hs) y Licenciado en Marketing. Combino tecnología, estrategia y mentoría para que tu negocio escale de verdad — no solo en código, sino en resultados.",
     "popularBadge": "MÁS ELEGIDO",
     "credentials": {
-      "coach": "Coach Profesional Certificado",
+      "coach": "Coaching Profesional y Desarrollo Personal (180 hs)",
       "marketing": "Lic. en Marketing y Marketing Digital",
       "dev": "Desarrollador Full-Stack Senior"
     },
+    "verifyLabel": "Verificar certificado →",
+    "verifyUrl": "https://app.edutin.com/verify/17603487",
+    "certIssuer": "Edutin Academy · Actualizado Marzo/2026",
     "forWho": {
       "title": "¿Para quién es esto?",
       "items": [

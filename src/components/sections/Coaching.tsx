@@ -71,6 +71,18 @@ export function Coaching() {
               </div>
             ))}
           </div>
+          <div className="flex justify-center items-center gap-3 mt-4">
+            <span className="text-[11px] text-zinc-600">{t("certIssuer")}</span>
+            <span className="text-zinc-700">·</span>
+            <a
+              href={t("verifyUrl")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] font-semibold text-amber-400/80 hover:text-amber-400 transition-colors underline underline-offset-2"
+            >
+              {t("verifyLabel")}
+            </a>
+          </div>
         </Reveal>
 
         {/* Who is this for */}

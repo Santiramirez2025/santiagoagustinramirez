@@ -146,13 +146,16 @@
   "coaching": {
     "label": "Coaching & Mentoring",
     "title": "I don't just build the tool. I help you use it to grow.",
-    "subtitle": "I'm a Certified Professional Coach with a degree in Marketing & Digital Marketing. I combine technology, strategy and mentoring so your business actually scales — not just in code, but in results.",
+    "subtitle": "Certified in Professional Coaching & Personal Development (180 hrs) with a degree in Marketing & Digital Marketing. I combine technology, strategy and mentoring so your business actually scales — not just in code, but in results.",
     "popularBadge": "MOST POPULAR",
     "credentials": {
-      "coach": "Certified Professional Coach",
+      "coach": "Professional Coaching & Personal Development (180 hrs)",
       "marketing": "BA in Marketing & Digital Marketing",
       "dev": "Senior Full-Stack Developer"
     },
+    "verifyLabel": "Verify certificate →",
+    "verifyUrl": "https://app.edutin.com/verify/17603487",
+    "certIssuer": "Edutin Academy · March 2026",
     "forWho": {
       "title": "Who is this for?",
       "items": [
