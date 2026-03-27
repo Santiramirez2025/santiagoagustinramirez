@@ -1,0 +1,16 @@
+{
+  "name": "Santiago Ramírez · Dev, Coach & Marketing",
+  "short_name": "Santiago R.",
+  "description": "Apps, coaching y estrategia digital para tu negocio",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050507",
+  "theme_color": "#7C3AED",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
