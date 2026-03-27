@@ -9,6 +9,8 @@ interface CtaButtonProps {
   variant?: "primary" | "secondary";
   className?: string;
   external?: boolean;
+  style?: React.CSSProperties;
+  onClick?: () => void;
 }
 
 export function CtaButton({
@@ -17,6 +19,8 @@ export function CtaButton({
   variant = "primary",
   className,
   external = true,
+  style,
+  onClick,
 }: CtaButtonProps) {
   const isPrimary = variant === "primary";
 
@@ -27,6 +31,8 @@ export function CtaButton({
       rel={external ? "noopener noreferrer" : undefined}
       whileHover={{ y: -2, scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
+      onClick={onClick}
+      style={style}
       className={cn(
         "inline-flex items-center gap-2 rounded-[14px] font-bold text-[15px] no-underline transition-shadow duration-200",
         isPrimary

@@ -17,8 +17,14 @@
     "titleHighlight": "cada día sin sistema",
     "subtitle": "Transformo negocios manuales en {highlight} En 15 días, con demo funcional antes de pagar.",
     "subtitleHighlight": "plataformas digitales que generan clientes, automatizan procesos y te devuelven tiempo.",
+    "trustLine": "Clientes reales en Villa María y exterior",
     "cta": "Quiero mi demo gratis →",
     "ctaSecondary": "Ver resultados reales ↓",
+    "ctaSubtext": "Sin compromiso · Respuesta en menos de 2 horas",
+    "floatingSpeed": "App lista en 15 días",
+    "floatingSpeedSub": "Entrega garantizada",
+    "floatingRisk": "Demo gratis antes de pagar",
+    "floatingRiskSub": "Cero riesgo para vos",
     "stats": {
       "businesses": "Negocios transformados",
       "delivery": "Días de entrega",
@@ -26,31 +32,35 @@
     }
   },
   "pain": {
-    "label": "¿Te suena familiar?",
-    "title": "Estos problemas te están costando plata",
+    "label": "¿Te pasa esto?",
+    "title": "Estos problemas te están costando plata todos los días",
+    "subtitle": "Si te identificás con al menos uno, tu negocio necesita un sistema. No mañana — ahora.",
     "items": [
       {
         "icon": "😩",
         "title": "¿Perdés clientes porque no te encuentran?",
-        "desc": "Sin presencia digital, tus clientes se van con la competencia que sí aparece en Google."
+        "desc": "Mientras vos no aparecés en Google, tu competencia se queda con los clientes que te estaban buscando."
       },
       {
         "icon": "📋",
         "title": "¿Gestionás todo por WhatsApp y Excel?",
-        "desc": "Errores, olvidos, datos perdidos. Tu negocio crece, pero tu forma de trabajar no."
+        "desc": "Errores, olvidos, datos perdidos. Tu negocio crece, pero tu forma de trabajar se quedó en 2015."
       },
       {
         "icon": "⏰",
         "title": "¿No te da el tiempo para todo?",
-        "desc": "Contestar consultas, hacer presupuestos, seguir clientes... todo manual, todo lento."
+        "desc": "Contestar consultas, hacer presupuestos, seguir clientes... todo manual, todo lento. Y vos, quemado."
       },
       {
         "icon": "💸",
-        "title": "¿Invertiste en algo que no funcionó?",
-        "desc": "Pagaste por una web o sistema que no trajo resultados. Sin soporte. Sin retorno."
+        "title": "¿Ya pagaste por algo que no funcionó?",
+        "desc": "Una web que no vende, un sistema que nadie usa, un \"sobrino\" que desapareció. Plata tirada."
       }
     ],
-    "cta": "Resolver esto ahora →"
+    "costLabel": "Estimado perdido / mes",
+    "costDesc": "Entre clientes que no llegan, tiempo desperdiciado y errores manuales — esto es lo que un negocio promedio pierde por no tener un sistema digital.",
+    "bridge": "La buena noticia: esto se resuelve. Y más rápido de lo que pensás.",
+    "cta": "Quiero resolver esto →"
   },
   "differentiator": {
     "label": "Diferencial único",
@@ -155,7 +165,7 @@
     },
     "verifyLabel": "Verificar certificado →",
     "verifyUrl": "https://app.edutin.com/verify/17603487",
-    "certIssuer": "Edutin Academy · Actualizado Marzo/2026",
+    "certIssuer": "Edutin Academy · Marzo 2026",
     "forWho": {
       "title": "¿Para quién es esto?",
       "items": [

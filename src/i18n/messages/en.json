@@ -17,8 +17,14 @@
     "titleHighlight": "every day without a system",
     "subtitle": "I turn manual businesses into {highlight} In 15 days, with a working demo before you pay.",
     "subtitleHighlight": "digital platforms that generate clients, automate processes and give you back your time.",
+    "trustLine": "Real clients in Argentina and abroad",
     "cta": "Get my free demo →",
     "ctaSecondary": "See real results ↓",
+    "ctaSubtext": "No commitment · Response in less than 2 hours",
+    "floatingSpeed": "App ready in 15 days",
+    "floatingSpeedSub": "Guaranteed delivery",
+    "floatingRisk": "Free demo before paying",
+    "floatingRiskSub": "Zero risk for you",
     "stats": {
       "businesses": "Businesses transformed",
       "delivery": "Days to delivery",
@@ -27,30 +33,34 @@
   },
   "pain": {
     "label": "Sound familiar?",
-    "title": "These problems are costing you money",
+    "title": "These problems are costing you money every single day",
+    "subtitle": "If you identify with even one of these, your business needs a system. Not tomorrow — now.",
     "items": [
       {
         "icon": "😩",
         "title": "Losing clients because they can't find you?",
-        "desc": "Without a digital presence, your clients go to competitors who show up on Google."
+        "desc": "While you're invisible on Google, your competitors are taking the clients that were looking for you."
       },
       {
         "icon": "📋",
         "title": "Managing everything through WhatsApp and spreadsheets?",
-        "desc": "Mistakes, forgotten tasks, lost data. Your business grows, but your workflow doesn't."
+        "desc": "Mistakes, forgotten tasks, lost data. Your business is growing, but your workflow is stuck in 2015."
       },
       {
         "icon": "⏰",
         "title": "No time for everything?",
-        "desc": "Answering inquiries, making quotes, following up with clients... all manual, all slow."
+        "desc": "Answering inquiries, making quotes, following up with clients... all manual, all slow. And you, burned out."
       },
       {
         "icon": "💸",
-        "title": "Already invested in something that didn't work?",
-        "desc": "You paid for a website or system that didn't deliver results. No support. No ROI."
+        "title": "Already paid for something that didn't work?",
+        "desc": "A website that doesn't sell, a system nobody uses, a freelancer who disappeared. Money wasted."
       }
     ],
-    "cta": "Fix this now →"
+    "costLabel": "Estimated lost / month",
+    "costDesc": "Between clients that don't arrive, wasted time, and manual errors — this is what an average business loses by not having a digital system.",
+    "bridge": "The good news: this is fixable. And faster than you think.",
+    "cta": "I want to fix this →"
   },
   "differentiator": {
     "label": "Unique advantage",
