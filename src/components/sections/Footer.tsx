@@ -6,8 +6,9 @@ export function Footer() {
   const t = useTranslations("footer");
 
   return (
-    <footer className="py-6 border-t border-white/[0.04] text-center">
-      <p className="text-[11px] text-zinc-800">{t("copy")}</p>
+    <footer className="relative py-8 px-6 text-center">
+      <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: "linear-gradient(90deg, transparent, rgba(124,58,237,0.15), transparent)" }} />
+      <p className="text-[11px] text-zinc-700">{t("copy")}</p>
     </footer>
   );
 }
