@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://santiagoramirez.dev/sitemap.xml
+Sitemap: https://santiagoagustinramirez.com/sitemap.xml
