@@ -4,12 +4,8 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
 
-// ═══════════════════════════════════════════
-// CONFIGURACION: Pone tu Pixel ID aca
-// ═══════════════════════════════════════════
-const PIXEL_ID = "1419051696174763"; // Ejemplo: "123456789012345"
+const PIXEL_ID = "1419051696174763";
 
-// Declaracion global de fbq para TypeScript
 declare global {
   interface Window {
     fbq: (...args: unknown[]) => void;
@@ -17,28 +13,14 @@ declare global {
   }
 }
 
-/**
- * Componente que carga el Meta Pixel y trackea:
- * - PageView en cada cambio de ruta
- * - ViewContent al cargar la landing
- *
- * Para trackear clicks a WhatsApp, usa trackWhatsAppClick()
- * exportada abajo.
- */
 export function MetaPixel() {
   const pathname = usePathname();
 
-  // Trackear PageView en cada navegacion
   useEffect(() => {
     if (typeof window.fbq === "function") {
       window.fbq("track", "PageView");
     }
   }, [pathname]);
-
-  // Si no hay Pixel ID, no renderizar nada
-  if (!PIXEL_ID || PIXEL_ID === "1419051696174763") {
-    return null;
-  }
 
   return (
     <>
@@ -73,19 +55,8 @@ export function MetaPixel() {
   );
 }
 
-// ═══════════════════════════════════════════
-// FUNCIONES DE TRACKING PARA USAR EN BOTONES
-// ═══════════════════════════════════════════
-
-/**
- * Trackea click a WhatsApp como evento Lead.
- * Llamar esta funcion en el onClick de cada boton CTA de WhatsApp.
- *
- * @param source - Identificador de donde viene el click (ej: "hero", "services", "coaching")
- */
 export function trackWhatsAppClick(source: string = "general") {
   if (typeof window.fbq === "function") {
-    // Evento estandar Lead - es el que Meta optimiza mejor para campanas de conversion
     window.fbq("track", "Lead", {
       content_name: `whatsapp_click_${source}`,
       content_category: "whatsapp_lead",
@@ -93,10 +64,6 @@ export function trackWhatsAppClick(source: string = "general") {
   }
 }
 
-/**
- * Trackea cuando alguien ve la seccion de servicios/precios.
- * Util para crear audiencias de remarketing.
- */
 export function trackViewContent(contentName: string) {
   if (typeof window.fbq === "function") {
     window.fbq("track", "ViewContent", {
@@ -105,10 +72,6 @@ export function trackViewContent(contentName: string) {
   }
 }
 
-/**
- * Trackea cuando alguien hace scroll hasta el final (alto interes).
- * Usar con IntersectionObserver en la seccion FinalCta.
- */
 export function trackCompleteRegistration() {
   if (typeof window.fbq === "function") {
     window.fbq("track", "CompleteRegistration", {
