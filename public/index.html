@@ -414,23 +414,184 @@ nav.scrolled { background: rgba(5,5,8,0.88); backdrop-filter: blur(20px); border
 @keyframes waPulse { 0%,100% { box-shadow: 0 4px 20px rgba(37,211,102,0.35); } 50% { box-shadow: 0 0 0 10px rgba(37,211,102,0.08), 0 4px 20px rgba(37,211,102,0.35); } }
 
 /* ═══ RESPONSIVE ═══ */
+
+/* --- TABLET (1024px) --- */
 @media (max-width: 1024px) {
-  .hero { grid-template-columns: 1fr; padding: 80px 24px 40px; }
-  .hero-right { height: auto; padding: 60px 0 80px; }
-  .hero-h1 { font-size: clamp(36px,8vw,52px); }
-  .float-badge { display: none; }
-  .pain-grid { grid-template-columns: 1fr 1fr; }
-  nav { padding: 16px 24px; }
-  .nav-links { display: none; }
-  .section { padding: 80px 24px; }
-  .pain-cost { flex-direction: column; text-align: center; gap: 14px; }
   body { cursor: auto; }
   .cursor { display: none; }
+  .btn-primary, .btn-ghost, .nav-cta, .plan-cta { cursor: pointer; }
+
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  .nav-cta { font-size: 10px; padding: 8px 16px; }
+
+  .hero { grid-template-columns: 1fr; padding: 100px 24px 40px; min-height: auto; }
+  .hero-left { padding-top: 20px; }
+  .hero-h1 { font-size: clamp(38px,7vw,56px); letter-spacing: -2px; }
+  .hero-sub { font-size: 15px; max-width: 100%; }
+  .hero-right { height: auto; padding: 40px 0 60px; perspective: 800px; }
+  .mockup-stage { width: 320px; height: 400px; }
+  .float-badge { display: none; }
+  .hero-stats { gap: 28px; margin-top: 40px; }
+
+  .section { padding: 72px 24px; }
+  .section-h2 { font-size: clamp(28px,5vw,42px); letter-spacing: -1.5px; }
+  .section-sub { font-size: 14px; }
+
+  .pain-grid { grid-template-columns: 1fr 1fr; }
+  .pain-card { padding: 24px; }
+  .pain-cost { flex-direction: column; text-align: center; gap: 14px; padding: 20px 24px; }
+  .pain-cost-num { font-size: 28px; }
+
+  .cta-section { padding: 80px 24px; }
+  .cta-h2 { font-size: clamp(36px,5vw,56px); letter-spacing: -2px; }
+  .cta-sub { font-size: 15px; }
+
+  .wa-float { width: 52px; height: 52px; bottom: 20px; right: 20px; }
 }
-@media (max-width: 600px) {
+
+/* --- LARGE MOBILE (768px) --- */
+@media (max-width: 768px) {
+  nav.scrolled { padding: 12px 20px; }
+  .nav-cta { padding: 8px 14px; font-size: 10px; }
+
+  .hero { padding: 90px 20px 32px; gap: 0; }
+  .hero-left { padding-top: 12px; }
+  .hero-h1 { font-size: clamp(34px,9vw,48px); margin-bottom: 20px; }
+  .hero-sub { font-size: 14px; margin-bottom: 28px; }
+  .hero-actions { flex-direction: column; gap: 10px; align-items: stretch; }
+  .hero-actions .btn-primary, .hero-actions .btn-ghost { text-align: center; width: 100%; padding: 14px 20px; }
+  .hero-subtext { text-align: center; }
+  .hero-stats { justify-content: center; gap: 24px; margin-top: 32px; }
+  .hero-right { padding: 32px 0 48px; }
+  .mockup-stage { width: 280px; height: 360px; }
+  .mockup-label { font-size: 9px; top: -28px; }
+  .mockup-indicators { bottom: -24px; }
+
+  .marquee-section { padding: 24px 0; }
+  .marquee-item { padding: 0 24px; font-size: 11px; }
+
+  .section { padding: 60px 20px; }
+  .section-h2 { font-size: clamp(26px,6vw,36px); }
+
   .pain-grid { grid-template-columns: 1fr; }
-  .hero-stats { gap: 24px; }
-  .hero-stats .stat-num { font-size: 26px; }
+  .pain-card { padding: 24px 20px; }
+  .pain-icon { font-size: 24px; margin-bottom: 10px; }
+  .pain-title { font-size: 15px; }
+  .pain-bridge { margin-top: 28px; }
+
+  .diff-grid { grid-template-columns: 1fr 1fr; }
+  .diff-card { padding: 24px 20px; }
+  .diff-proof { flex-direction: column; text-align: center; font-size: 13px; padding: 14px 18px; }
+
+  .services-grid { grid-template-columns: 1fr; }
+  .service-card { padding: 28px 24px; }
+  .service-title { font-size: 17px; }
+  .service-price { font-size: 15px; }
+
+  .process-steps { grid-template-columns: 1fr 1fr; gap: 28px; }
+  .process-steps::before { display: none; }
+  .step-circle { width: 42px; height: 42px; font-size: 12px; margin-bottom: 14px; }
+  .step-title { font-size: 15px; }
+
+  .testi-grid { grid-template-columns: 1fr; }
+  .testi-card { padding: 24px 20px; }
+  .testi-text { font-size: 13px; }
+
+  .coach-credentials { flex-direction: column; align-items: stretch; gap: 8px; margin-top: 24px; }
+  .coach-cred { font-size: 12px; justify-content: center; padding: 10px 14px; }
+  .coach-plans { grid-template-columns: 1fr; }
+  .coach-plan { padding: 28px 24px; }
+  .plan-price { font-size: 24px; }
+  .plan-name { font-size: 16px; }
+
+  .risk-box { padding: 32px 24px; }
+  .risk-grid { grid-template-columns: 1fr; }
+  .risk-item { font-size: 13px; padding: 10px 12px; }
+
+  .cta-section { padding: 64px 20px; }
+  .cta-h2 { font-size: clamp(32px,8vw,48px); letter-spacing: -1.5px; }
+  .cta-sub { font-size: 14px; margin-bottom: 28px; }
+
+  footer { padding: 28px 20px; flex-direction: column; gap: 12px; text-align: center; }
+}
+
+/* --- SMALL MOBILE (480px) --- */
+@media (max-width: 480px) {
+  nav { padding: 14px 16px; }
+  nav.scrolled { padding: 10px 16px; }
+  .nav-logo { font-size: 16px; }
+  .nav-cta { padding: 7px 12px; font-size: 9px; }
+
+  .hero { padding: 80px 16px 24px; }
+  .hero-tag { font-size: 10px; margin-bottom: 20px; }
+  .hero-h1 { font-size: 32px; letter-spacing: -1.5px; line-height: 1; margin-bottom: 16px; }
+  .hero-h1 br { display: none; }
+  .hero-sub { font-size: 13px; line-height: 1.6; margin-bottom: 24px; }
+  .hero-actions .btn-primary, .hero-actions .btn-ghost { font-size: 13px; padding: 13px 16px; }
+  .hero-stats { flex-wrap: wrap; gap: 16px; justify-content: space-between; margin-top: 28px; }
+  .stat-num { font-size: 24px; }
+  .stat-label { font-size: 9px; }
+
+  .hero-right { padding: 24px 0 40px; }
+  .mockup-stage { width: 260px; height: 330px; }
+  .mock-header { height: 36px; padding: 0 10px; gap: 5px; }
+  .mock-dot { width: 7px; height: 7px; }
+  .mock-title { font-size: 9px; }
+
+  .marquee-item { padding: 0 18px; font-size: 10px; gap: 10px; }
+
+  .section { padding: 48px 16px; }
+  .section-tag { font-size: 10px; margin-bottom: 12px; }
+  .section-h2 { font-size: 26px; letter-spacing: -1px; margin-bottom: 8px; }
+  .section-sub { font-size: 13px; margin-bottom: 32px; }
+
+  .pain-card { padding: 20px 16px; }
+  .pain-num { font-size: 9px; margin-bottom: 14px; }
+  .pain-icon { font-size: 22px; }
+  .pain-title { font-size: 14px; }
+  .pain-desc { font-size: 12px; }
+  .pain-cost { padding: 16px; }
+  .pain-cost-num { font-size: 24px; }
+  .pain-cost-desc { font-size: 12px; }
+  .pain-bridge-text { font-size: 14px; }
+
+  .diff-grid { grid-template-columns: 1fr; }
+  .diff-card { padding: 20px 16px; }
+  .diff-icon { font-size: 24px; }
+  .diff-title { font-size: 15px; }
+
+  .service-card { padding: 24px 18px; }
+  .service-icon { font-size: 26px; margin-bottom: 12px; }
+  .service-title { font-size: 16px; }
+  .service-desc { font-size: 12px; }
+
+  .process-steps { grid-template-columns: 1fr; gap: 24px; }
+  .step-desc { font-size: 12px; }
+
+  .testi-card { padding: 20px 16px; }
+
+  .coach-plan { padding: 24px 18px; }
+  .plan-price { font-size: 22px; }
+  .plan-desc { font-size: 12px; }
+  .plan-features li { font-size: 11px; }
+  .plan-cta { font-size: 12px; padding: 11px; }
+
+  .risk-box { padding: 24px 16px; border-radius: 14px; }
+  .risk-box h2 { font-size: 28px !important; }
+  .risk-item { font-size: 12px; gap: 8px; padding: 9px 10px; }
+
+  .cta-section { padding: 48px 16px; }
+  .cta-h2 { font-size: 28px; letter-spacing: -1px; }
+  .cta-sub { font-size: 13px; }
+  .cta-section .btn-primary, .cta-section .btn-ghost { font-size: 13px !important; padding: 14px 20px !important; width: 100%; text-align: center; }
+
+  .wa-float { width: 48px; height: 48px; bottom: 16px; right: 16px; }
+  .wa-float svg { width: 22px; height: 22px; }
+
+  footer { padding: 24px 16px; }
+  .footer-logo { font-size: 14px; }
+  .footer-links { gap: 14px; }
 }
 /* ═══ DIFFERENTIATOR ═══ */
 .diff-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-top: 48px; }
@@ -527,23 +688,7 @@ footer { padding: 36px 48px; border-top: 1px solid var(--border); display: flex;
 .footer-links a { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); text-decoration: none; transition: color 0.2s; }
 .footer-links a:hover { color: var(--fg); }
 
-/* ═══ RESPONSIVE PART 2 ═══ */
-@media (max-width: 1024px) {
-  .diff-grid { grid-template-columns: 1fr 1fr; }
-  .services-grid { grid-template-columns: 1fr; }
-  .process-steps { grid-template-columns: 1fr 1fr; gap: 32px; }
-  .process-steps::before { display: none; }
-  .testi-grid { grid-template-columns: 1fr; }
-  .coach-plans { grid-template-columns: 1fr; }
-  .coach-credentials { justify-content: center; }
-  .risk-grid { grid-template-columns: 1fr; }
-  footer { flex-direction: column; gap: 14px; text-align: center; }
-}
-@media (max-width: 600px) {
-  .diff-grid { grid-template-columns: 1fr; }
-  .process-steps { grid-template-columns: 1fr; }
-  .cta-h2 { font-size: 36px; letter-spacing: -1.5px; }
-}
+
 
 </style>
 </head>
