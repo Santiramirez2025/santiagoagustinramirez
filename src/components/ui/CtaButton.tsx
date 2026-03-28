@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { trackWhatsAppClick } from "@/components/ui/MetaPixel";
 
 interface CtaButtonProps {
   href: string;
@@ -11,6 +12,8 @@ interface CtaButtonProps {
   external?: boolean;
   style?: React.CSSProperties;
   onClick?: () => void;
+  /** Identificador para tracking (ej: "hero", "services", "coaching") */
+  trackingSource?: string;
 }
 
 export function CtaButton({
@@ -21,8 +24,19 @@ export function CtaButton({
   external = true,
   style,
   onClick,
+  trackingSource,
 }: CtaButtonProps) {
   const isPrimary = variant === "primary";
+  const isWhatsApp = href.includes("wa.me");
+
+  const handleClick = () => {
+    // Trackear click a WhatsApp como evento Lead en Meta Pixel
+    if (isWhatsApp) {
+      trackWhatsAppClick(trackingSource || "general");
+    }
+    // Ejecutar onClick adicional si se paso
+    onClick?.();
+  };
 
   return (
     <motion.a
@@ -31,7 +45,7 @@ export function CtaButton({
       rel={external ? "noopener noreferrer" : undefined}
       whileHover={{ y: -2, scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      onClick={onClick}
+      onClick={handleClick}
       style={style}
       className={cn(
         "inline-flex items-center gap-2 rounded-[14px] font-bold text-[15px] no-underline transition-shadow duration-200",

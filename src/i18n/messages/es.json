@@ -1,163 +1,163 @@
 {
   "meta": {
-    "title": "Santiago Ramírez · Apps, coaching y estrategia digital para tu negocio",
-    "description": "Transformo negocios manuales en plataformas digitales. Coach Profesional Certificado y Lic. en Marketing. Demo funcional en 48hs. App lista en 15 días.",
-    "ogTitle": "Tu negocio pierde clientes cada día sin sistema",
-    "ogDescription": "Apps, marketplaces, e-commerce y sistemas a medida. Demo gratis antes de pagar. Entrega en 15 días."
+    "title": "Santiago Ramírez · Desarrollo de apps, coaching y marketing digital",
+    "description": "Te armo la app, el sistema o el e-commerce que tu negocio necesita. Demo en 48hs, entrega en 15 días. Villa María, Córdoba.",
+    "ogTitle": "¿Tu negocio necesita un sistema? Te lo armo en 15 días.",
+    "ogDescription": "Apps, e-commerce, marketplaces y sistemas a medida. Demo gratis antes de pagar."
   },
   "nav": {
     "process": "Proceso",
     "projects": "Proyectos",
     "coaching": "Coaching",
-    "cta": "Agendar llamada gratis →"
+    "cta": "Hablemos →"
   },
   "hero": {
-    "badge": "Solo 2 cupos disponibles este mes",
-    "title1": "Tu negocio pierde clientes",
-    "titleHighlight": "cada día sin sistema",
-    "subtitle": "Transformo negocios manuales en {highlight} En 15 días, con demo funcional antes de pagar.",
-    "subtitleHighlight": "plataformas digitales que generan clientes, automatizan procesos y te devuelven tiempo.",
-    "trustLine": "Clientes reales en Villa María y exterior",
-    "cta": "Quiero mi demo gratis →",
-    "ctaSecondary": "Ver resultados reales ↓",
-    "ctaSubtext": "Sin compromiso · Respuesta en menos de 2 horas",
-    "floatingSpeed": "App lista en 15 días",
-    "floatingSpeedSub": "Entrega garantizada",
-    "floatingRisk": "Demo gratis antes de pagar",
-    "floatingRiskSub": "Cero riesgo para vos",
+    "badge": "2 cupos disponibles en abril",
+    "title1": "Tu negocio necesita",
+    "titleHighlight": "un sistema que trabaje por vos",
+    "subtitle": "Te armo {highlight} Demo en tu celular en 48 horas, app lista en 15 días.",
+    "subtitleHighlight": "la app, el e-commerce o el sistema que te falta para dejar de hacer todo manual.",
+    "trustLine": "Clientes en Villa María, Córdoba y exterior",
+    "cta": "Pedí tu demo gratis →",
+    "ctaSecondary": "Ver proyectos ↓",
+    "ctaSubtext": "Sin compromiso · Te respondo en el día",
+    "floatingSpeed": "Entrega en 15 días",
+    "floatingSpeedSub": "Con precio fijo",
+    "floatingRisk": "Demo antes de pagar",
+    "floatingRiskSub": "Sin riesgo",
     "stats": {
-      "businesses": "Negocios transformados",
+      "businesses": "Proyectos entregados",
       "delivery": "Días de entrega",
-      "demo": "Demo personalizada"
+      "demo": "Horas para tu demo"
     }
   },
   "pain": {
     "label": "¿Te pasa esto?",
-    "title": "Estos problemas te están costando plata todos los días",
-    "subtitle": "Si te identificás con al menos uno, tu negocio necesita un sistema. No mañana — ahora.",
+    "title": "Si algo de esto te suena, necesitás un sistema",
+    "subtitle": "No es culpa tuya. Pero sí es tu problema.",
     "items": [
       {
-        "icon": "😩",
-        "title": "¿Perdés clientes porque no te encuentran?",
-        "desc": "Mientras vos no aparecés en Google, tu competencia se queda con los clientes que te estaban buscando."
+        "icon": "📱",
+        "title": "Tus clientes no te encuentran",
+        "desc": "No tenés presencia digital o la que tenés no genera consultas. Tu competencia sí aparece."
       },
       {
         "icon": "📋",
-        "title": "¿Gestionás todo por WhatsApp y Excel?",
-        "desc": "Errores, olvidos, datos perdidos. Tu negocio crece, pero tu forma de trabajar se quedó en 2015."
+        "title": "Hacés todo por WhatsApp y Excel",
+        "desc": "Presupuestos a mano, datos dispersos, cosas que se pierden. Funciona hasta que no funciona."
       },
       {
         "icon": "⏰",
-        "title": "¿No te da el tiempo para todo?",
-        "desc": "Contestar consultas, hacer presupuestos, seguir clientes... todo manual, todo lento. Y vos, quemado."
+        "title": "No te dan las horas",
+        "desc": "Atender, cotizar, cobrar, seguir clientes. Todo vos, todo el día. No escala."
       },
       {
         "icon": "💸",
-        "title": "¿Ya pagaste por algo que no funcionó?",
-        "desc": "Una web que no vende, un sistema que nadie usa, un \"sobrino\" que desapareció. Plata tirada."
+        "title": "Ya pagaste y no sirvió",
+        "desc": "Una web que nadie usa, un sistema a medio hacer, alguien que dejó de responder."
       }
     ],
     "costLabel": "Estimado perdido / mes",
-    "costDesc": "Entre clientes que no llegan, tiempo desperdiciado y errores manuales — esto es lo que un negocio promedio pierde por no tener un sistema digital.",
-    "bridge": "La buena noticia: esto se resuelve. Y más rápido de lo que pensás.",
-    "cta": "Quiero resolver esto →"
+    "costDesc": "Clientes que no llegan, tiempo perdido y errores evitables. Esto es lo que cuesta no tener un sistema.",
+    "bridge": "Todo esto se resuelve. Y más rápido de lo que pensás.",
+    "cta": "Hablemos →"
   },
   "differentiator": {
-    "label": "Diferencial único",
-    "title": "Probá tu app antes de pagar un solo peso",
-    "subtitle": "No te pido que confíes a ciegas. En 48 horas te mando una demo funcional y personalizada para que la veas en tu celular. Si no te convence, no pagás.",
+    "label": "Mi diferencial",
+    "title": "Primero probás, después decidís",
+    "subtitle": "En 48 horas te mando una demo funcional con tu marca y tu lógica. La abrís en tu celular. Si no te convence, no pagás nada.",
     "features": [
-      { "icon": "🎨", "title": "Con tu marca", "desc": "Tu logo, tus colores, tu identidad. No es un template genérico." },
-      { "icon": "📱", "title": "En tu celular", "desc": "Abrí el link y probala. Funciona como app real desde el navegador." },
-      { "icon": "⚙️", "title": "Con tu lógica", "desc": "Simulamos el flujo real de tu negocio. Ves cómo funciona de verdad." },
-      { "icon": "🚫", "title": "Sin compromiso", "desc": "Si no te gusta o no es lo que esperabas, no hay costo. Así de simple." }
+      { "icon": "🎨", "title": "Con tu marca", "desc": "Tu logo, tus colores. No es un template." },
+      { "icon": "📱", "title": "En tu celular", "desc": "Abrís un link y la probás como app real." },
+      { "icon": "⚙️", "title": "Con tu lógica", "desc": "Simula el flujo real de tu negocio." },
+      { "icon": "🚫", "title": "Sin compromiso", "desc": "No te gustó, no pagás. Así de simple." }
     ],
-    "proof": "El 90% de mis clientes aprueban el proyecto después de ver la demo.",
-    "cta": "Quiero mi demo personalizada →"
+    "proof": "9 de cada 10 clientes aprueban el proyecto después de ver la demo.",
+    "cta": "Pedí tu demo →"
   },
   "testimonials": {
-    "label": "Resultados reales",
-    "title": "Negocios que ya se transformaron",
+    "label": "Dicen de mí",
+    "title": "Gente real, resultados reales",
     "items": [
-      { "name": "Martín L.", "role": "Comercio, Villa María", "text": "Nos armó el sistema de gestión en 2 semanas. Lo usamos todos los días y ya no se nos pierde nada." },
-      { "name": "Claudia R.", "role": "Instituto educativo", "text": "La plataforma quedó tal cual la pedimos. Cumplió tiempos y siempre estuvo disponible para ajustes." },
-      { "name": "Roberto S.", "role": "Retail", "text": "Hacíamos presupuestos en 30 minutos, ahora en 2. El e-commerce nos cambió la forma de trabajar." }
+      { "name": "Martín L.", "role": "Comercio, Villa María", "text": "Nos armó el sistema en 2 semanas. Lo usamos todos los días." },
+      { "name": "Claudia R.", "role": "Instituto educativo", "text": "Cumplió los tiempos y la plataforma quedó tal cual la pedimos." },
+      { "name": "Roberto S.", "role": "Retail", "text": "Antes tardábamos 30 minutos en un presupuesto. Ahora 2." }
     ]
   },
   "projects": {
-    "label": "Casos reales",
-    "title": "No son mockups. Son negocios funcionando.",
-    "subtitle": "Cada proyecto resolvió un problema real y generó resultados medibles.",
-    "cta": "Quiero resultados así para mi negocio →",
+    "label": "Proyectos",
+    "title": "Esto ya está funcionando",
+    "subtitle": "Proyectos reales con resultados medibles.",
+    "cta": "Quiero algo así →",
     "liveTag": "EN VIVO",
     "problemLabel": "Problema",
     "solutionLabel": "Solución",
-    "disclaimer": "Por acuerdos de confidencialidad, no divulgamos nombres comerciales, dominios ni datos identificatorios de nuestros clientes. Los resultados son reales y verificables."
+    "disclaimer": "Por confidencialidad no publicamos nombres ni dominios de clientes. Los resultados son reales y verificables."
   },
   "process": {
-    "label": "Proceso simple",
+    "label": "Cómo trabajo",
     "title": "De idea a app en 15 días",
-    "subtitle": "Sin sorpresas. Precio fijo desde el día uno. Sin letra chica.",
+    "subtitle": "Precio fijo. Sin sorpresas. Sin letra chica.",
     "steps": [
-      { "step": "01", "icon": "📞", "title": "Hablamos", "time": "30 min · gratis", "desc": "Me contás tu negocio, qué problema querés resolver. Sin compromiso, sin letra chica." },
-      { "step": "02", "icon": "📲", "title": "Tu demo en 48hs", "time": "Personalizada", "desc": "Te mando una demo real con tu logo, tus colores y la lógica de tu negocio. La ves en tu celular." },
-      { "step": "03", "icon": "⚡", "title": "Desarrollo", "time": "5 a 10 días", "desc": "Avance visible cada 2-3 días. Nada de cajas negras. Ves cómo crece tu proyecto en tiempo real." },
-      { "step": "04", "icon": "✅", "title": "Entrega + Soporte", "time": "Día 15 + 30 días", "desc": "Tu app en producción, documentada y con 30 días de soporte incluido para ajustes y dudas." }
+      { "step": "01", "icon": "📞", "title": "Hablamos", "time": "30 min · gratis", "desc": "Me contás qué necesitás. Te digo si puedo ayudarte y cómo." },
+      { "step": "02", "icon": "📲", "title": "Demo en 48hs", "time": "Personalizada", "desc": "Te mando una demo con tu marca para que la veas en tu celular." },
+      { "step": "03", "icon": "⚡", "title": "Desarrollo", "time": "5 a 10 días", "desc": "Avance visible cada 2-3 días. Ves cómo crece tu proyecto." },
+      { "step": "04", "icon": "✅", "title": "Entrega", "time": "Día 15 + soporte", "desc": "Tu app funcionando, documentada, con 30 días de soporte." }
     ],
-    "timeline": ["Día 0 → Llamada gratis", "Día 2 → Demo en tu celular", "Día 5-10 → Desarrollo visible", "Día 15 → Tu app en vivo"]
+    "timeline": ["Día 0 → Llamada", "Día 2 → Demo", "Día 5-10 → Desarrollo", "Día 15 → Entrega"]
   },
   "automation": {
-    "label": "Tu negocio en piloto automático",
-    "title": "Dejá de hacer todo vos",
-    "subtitle": "Tu plataforma trabaja por vos: responde, gestiona, vende y notifica. Sin que toques un botón.",
+    "label": "Automatización",
+    "title": "Que tu negocio labure solo",
+    "subtitle": "Tu sistema responde, gestiona, vende y avisa. Vos te enfocás en lo importante.",
     "features": [
-      { "icon": "🤖", "title": "Respuestas automáticas", "desc": "Tu app contesta consultas mientras dormís. Tus clientes reciben respuesta al instante." },
-      { "icon": "📊", "title": "Gestión de clientes", "desc": "Historial, seguimiento, estados. Todo en un panel que reemplaza tus 15 planillas de Excel." },
-      { "icon": "🔔", "title": "Notificaciones inteligentes", "desc": "WhatsApp, email o push automáticos. Tus clientes nunca se olvidan de vos." },
-      { "icon": "💰", "title": "Ventas sin intervención", "desc": "Catálogo, carrito, pagos. Tu negocio genera ingresos incluso cuando no estás." }
+      { "icon": "🤖", "title": "Respuestas automáticas", "desc": "Tus clientes reciben respuesta al instante, a cualquier hora." },
+      { "icon": "📊", "title": "Gestión ordenada", "desc": "Clientes, estados, historial. Todo en un panel, sin planillas." },
+      { "icon": "🔔", "title": "Avisos automáticos", "desc": "WhatsApp, email o notificaciones. Nadie se olvida de nada." },
+      { "icon": "💰", "title": "Ventas sin estar", "desc": "Catálogo, carrito, pagos. Tu negocio vende incluso cuando no estás." }
     ],
-    "cta": "Quiero automatizar mi negocio →"
+    "cta": "Quiero automatizar →"
   },
   "services": {
-    "label": "Soluciones",
-    "title": "Elegí lo que tu negocio necesita",
-    "subtitle": "Cada servicio está pensado para generar resultados, no solo entregar código.",
+    "label": "Servicios",
+    "title": "¿Qué necesita tu negocio?",
+    "subtitle": "Cada servicio apunta a un resultado concreto.",
     "items": [
-      { "icon": "📱", "name": "App móvil PWA", "desc": "Tu negocio en el celular de tus clientes. Se instala sin pasar por stores. Diseño custom, notificaciones push, offline.", "result": "Más alcance, más ventas", "from": "1.800" },
-      { "icon": "🏪", "name": "Marketplace", "desc": "Conectá oferta con demanda. Perfiles verificados, búsqueda avanzada, reseñas, pagos integrados y panel admin.", "result": "Negocio que escala solo", "from": "4.500" },
-      { "icon": "🛒", "name": "E-commerce + Admin", "desc": "Vendé online con catálogo, carrito, checkout, pagos y panel completo para gestionar productos, pedidos y clientes.", "result": "Ventas 24/7 sin intervención", "from": "2.800" },
-      { "icon": "🚀", "name": "Landing de ventas", "desc": "Página de alto impacto optimizada para conversión. SEO, copywriting, integración con WhatsApp y analytics.", "result": "Más consultas, más cierres", "from": "900" },
-      { "icon": "⚙️", "name": "Sistema a medida", "desc": "Turnos, inventario, CRM, facturación, automatización de procesos — digitalizo lo que te frena.", "result": "Horas ahorradas por semana", "from": "3.500" }
+      { "icon": "📱", "name": "App móvil", "desc": "Tu negocio en el celular de tus clientes. Se instala sin stores.", "result": "Más alcance", "from": "1.800" },
+      { "icon": "🏪", "name": "Marketplace", "desc": "Conectá oferta con demanda. Perfiles, búsqueda, pagos, panel admin.", "result": "Escala solo", "from": "4.500" },
+      { "icon": "🛒", "name": "E-commerce", "desc": "Tienda online con catálogo, carrito, pagos y panel de gestión.", "result": "Vendés 24/7", "from": "2.800" },
+      { "icon": "🚀", "name": "Landing", "desc": "Página que convierte visitas en consultas. SEO, WhatsApp, analytics.", "result": "Más consultas", "from": "900" },
+      { "icon": "⚙️", "name": "Sistema a medida", "desc": "Turnos, stock, CRM, facturación. Lo que tu negocio necesite.", "result": "Menos trabajo manual", "from": "3.500" }
     ],
     "help": "¿No sabés cuál necesitás?",
-    "helpLink": "Hablemos y te asesoro gratis"
+    "helpLink": "Hablemos y te oriento"
   },
   "risk": {
-    "title": "Cero riesgo. En serio.",
+    "title": "Sin riesgo",
     "items": [
       "Demo gratis antes de pagar",
-      "Precio fijo — sin sorpresas",
+      "Precio fijo, sin sorpresas",
       "30 días de soporte incluido",
-      "El código es 100% tuyo"
+      "El código es tuyo"
     ],
     "cta": "Agendar llamada gratis →"
   },
   "finalCta": {
-    "title1": "Cada día sin sistema",
-    "titleHighlight": "es plata que perdés.",
-    "subtitle": "La llamada dura 30 minutos, es gratis, y al día siguiente ya tenés una demo con tu marca funcionando en tu celular.",
-    "cta": "Quiero mi demo gratis →",
+    "title1": "¿Arrancamos?",
+    "titleHighlight": "La llamada es gratis.",
+    "subtitle": "Me contás tu negocio, te digo cómo puedo ayudarte. Al día siguiente ya tenés una demo en tu celular.",
+    "cta": "Escribime por WhatsApp →",
     "ctaSecondary": "Agendar llamada",
-    "trustLine": "Sin compromiso · Respuesta en menos de 2 horas",
-    "location": "Villa María, Córdoba · Trabajo con Argentina y exterior"
+    "trustLine": "Sin compromiso · Te respondo en el día",
+    "location": "Villa María, Córdoba · Argentina y exterior"
   },
   "footer": {
-    "copy": "© 2026 Santiago Ramírez · Desarrollo de apps, coaching y estrategia digital"
+    "copy": "© 2026 Santiago Ramírez"
   },
   "coaching": {
-    "label": "Coaching & Mentoría",
-    "title": "No solo te construyo la herramienta. Te ayudo a usarla para crecer.",
-    "subtitle": "Certificado en Coaching Profesional y Desarrollo Personal (180 hs) y Licenciado en Marketing. Combino tecnología, estrategia y mentoría para que tu negocio escale de verdad — no solo en código, sino en resultados.",
+    "label": "Coaching y mentoría",
+    "title": "No solo te armo la herramienta. Te ayudo a hacer crecer tu negocio.",
+    "subtitle": "Coach Profesional Certificado (180 hs), Licenciado en Marketing y desarrollador. Junto las tres cosas para que tu negocio avance de verdad.",
     "popularBadge": "MÁS ELEGIDO",
     "credentials": {
       "coach": "Coaching Profesional y Desarrollo Personal (180 hs)",
@@ -166,28 +166,28 @@
     },
     "verifyLabel": "Verificar certificado →",
     "verifyUrl": "https://app.edutin.com/verify/17603487",
-    "certIssuer": "Edutin Academy · Marzo 2026",
+    "certIssuer": "Edutin Academy · 2026",
     "forWho": {
-      "title": "¿Para quién es esto?",
+      "title": "¿Es para vos?",
       "items": [
-        "Dueños de negocios que quieren escalar pero no saben por dónde empezar",
-        "Emprendedores que necesitan una estrategia digital clara y ejecutable",
-        "Profesionales que quieren ordenar su negocio y dejar de apagar incendios",
-        "Personas que ya tienen una app o web y no están sacándole el jugo"
+        "Tenés un negocio y querés escalar pero no sabés por dónde",
+        "Necesitás una estrategia digital y que alguien te acompañe a ejecutarla",
+        "Querés dejar de apagar incendios y empezar a ordenar",
+        "Ya tenés una web o app pero no le estás sacando resultados"
       ]
     },
     "plans": {
       "starter": {
         "name": "Sesión Estratégica",
         "price": "$75",
-        "period": "USD / sesión",
-        "desc": "Una sesión profunda de 90 minutos para destrabar tu situación actual y salir con un plan de acción concreto.",
+        "period": "USD",
+        "desc": "90 minutos para analizar tu situación y armar un plan de acción concreto.",
         "features": [
-          "Sesión 1:1 de 90 minutos por videollamada",
-          "Diagnóstico de tu negocio o proyecto",
-          "Plan de acción personalizado por escrito",
-          "Grabación de la sesión incluida",
-          "Seguimiento por WhatsApp por 7 días"
+          "Videollamada 1:1 de 90 minutos",
+          "Diagnóstico de tu negocio",
+          "Plan de acción por escrito",
+          "Grabación de la sesión",
+          "7 días de seguimiento por WhatsApp"
         ],
         "cta": "Agendar sesión →"
       },
@@ -195,31 +195,31 @@
         "name": "Mentoría Mensual",
         "price": "$249",
         "period": "USD / mes",
-        "desc": "Acompañamiento continuo para transformar tu negocio. Estrategia + ejecución + accountability.",
+        "desc": "Acompañamiento semanal. Estrategia, ejecución y seguimiento.",
         "features": [
-          "4 sesiones mensuales de 60 min (1 por semana)",
-          "Estrategia de marketing digital personalizada",
-          "Revisión de métricas y ajustes semanales",
-          "Acceso directo por WhatsApp ilimitado",
-          "Prioridad si necesitás desarrollo técnico"
+          "4 sesiones de 60 min por mes",
+          "Estrategia de marketing personalizada",
+          "Revisión semanal de métricas",
+          "WhatsApp directo ilimitado",
+          "Prioridad para desarrollo técnico"
         ],
-        "cta": "Empezar mentoría →"
+        "cta": "Empezar →"
       },
       "vip": {
         "name": "VIP Integral",
         "price": "$449",
         "period": "USD / mes",
-        "desc": "Coaching + estrategia + implementación técnica. Tu equipo externo completo en una persona.",
+        "desc": "Coaching + estrategia + implementación. Tu equipo externo completo.",
         "features": [
-          "Todo lo del plan Mentoría Mensual",
-          "Auditoría completa de presencia digital",
-          "Implementación técnica incluida (landing, ajustes, automatizaciones)",
-          "Estrategia de contenidos y pauta digital",
-          "Reportes mensuales de resultados"
+          "Todo lo del plan Mentoría",
+          "Auditoría de presencia digital",
+          "Implementación técnica incluida",
+          "Estrategia de contenidos y pauta",
+          "Reportes mensuales"
         ],
-        "cta": "Quiero el plan VIP →"
+        "cta": "Quiero el VIP →"
       }
     },
-    "note": "Todos los planes se pueden cancelar en cualquier momento. Primera sesión con garantía: si no te sirvió, te devuelvo el 100%."
+    "note": "Cancelás cuando quieras. Primera sesión con garantía: si no te sirvió, te devuelvo el 100%."
   }
 }
