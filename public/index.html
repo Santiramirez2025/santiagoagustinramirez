@@ -61,10 +61,11 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; }
   position: fixed; top: 0; left: 0; right: 0; z-index: 101;
   background: linear-gradient(90deg, rgba(0,255,135,0.08), rgba(124,92,255,0.08));
   border-bottom: 1px solid rgba(0,255,135,0.12);
-  padding: 6px 0; text-align: center;
+  padding: 7px 16px; text-align: center;
   font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent);
   letter-spacing: 0.05em;
   transform: translateY(-100%); animation: liveSlide 0.6s 2s forwards;
+  padding-top: calc(7px + env(safe-area-inset-top, 0px));
 }
 .live-bar .live-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin-right: 6px; animation: livePulse 1.5s ease-in-out infinite; }
 @keyframes liveSlide { to { transform: translateY(0); } }
@@ -92,8 +93,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 .scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); z-index: 102; width: 0%; transition: width 0.1s; }
 
 /* Adjust nav for live bar */
-nav { top: 28px; transition: top 0.3s, border-color 0.4s, background 0.4s, padding 0.3s; }
-.live-bar-visible nav { top: 28px; }
+nav { top: calc(32px + env(safe-area-inset-top, 0px)); transition: top 0.3s, border-color 0.4s, background 0.4s, padding 0.3s; }
 nav.scrolled { top: 0; }
 
 body {
@@ -609,10 +609,12 @@ footer { padding: 36px 48px; border-top: 1px solid var(--border); display: flex;
 
 /* --- LARGE MOBILE (768px) --- */
 @media (max-width: 768px) {
-  nav.scrolled { padding: 12px 20px; }
+  .live-bar { font-size: 9px; padding: 6px 12px; padding-top: calc(6px + env(safe-area-inset-top, 0px)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  nav { top: calc(30px + env(safe-area-inset-top, 0px)); }
+  nav.scrolled { padding: 12px 20px; top: 0; }
   .nav-cta { padding: 8px 14px; font-size: 10px; }
 
-  .hero { padding: 90px 20px 32px; gap: 0; }
+  .hero { padding: 110px 20px 32px; gap: 0; }
   .hero-left { padding-top: 12px; }
   .hero-h1 { font-size: clamp(34px,9vw,48px); margin-bottom: 20px; }
   .hero-sub { font-size: 14px; margin-bottom: 28px; }
@@ -675,12 +677,14 @@ footer { padding: 36px 48px; border-top: 1px solid var(--border); display: flex;
 
 /* --- SMALL MOBILE (480px) --- */
 @media (max-width: 480px) {
-  nav { padding: 14px 16px; }
-  nav.scrolled { padding: 10px 16px; }
+  .live-bar { font-size: 8px; padding: 5px 10px; padding-top: calc(5px + env(safe-area-inset-top, 0px)); letter-spacing: 0; }
+  .live-bar a { font-size: 8px; }
+  nav { padding: 14px 16px; top: calc(28px + env(safe-area-inset-top, 0px)); }
+  nav.scrolled { padding: 10px 16px; top: 0; }
   .nav-logo { font-size: 16px; }
   .nav-cta { padding: 7px 12px; font-size: 9px; }
 
-  .hero { padding: 80px 16px 24px; }
+  .hero { padding: 100px 16px 24px; }
   .hero-tag { font-size: 10px; margin-bottom: 20px; }
   .hero-h1 { font-size: 32px; letter-spacing: -1.5px; line-height: 1; margin-bottom: 16px; }
   .hero-h1 br { display: none; }
@@ -1137,7 +1141,7 @@ footer { padding: 36px 48px; border-top: 1px solid var(--border); display: flex;
 <!-- ═══════════════════════════════════════════════════ -->
 <footer>
   <div class="footer-logo">Santiago Ramírez<span>.</span></div>
-  <div class="footer-copy">© 2026 — Córdoba, AR</div>
+  <div class="footer-copy">© 2026 — Villa María, Córdoba, AR</div>
   <div class="footer-links">
     <a href="https://santiagoagustinramirez.com" target="_blank">Website</a>
     <a href="https://linkedin.com" target="_blank">LinkedIn</a>
