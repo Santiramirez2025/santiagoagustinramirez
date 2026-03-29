@@ -34,7 +34,67 @@ fbq('track','PageView');
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+/* ═══ SMOOTH SCROLL ═══ */
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+@supports (scrollbar-gutter: stable) { html { scrollbar-gutter: stable; } }
+
+/* ═══ MAGNETIC BUTTON EFFECT ═══ */
+.btn-primary, .btn-ghost, .nav-cta, .plan-cta { position: relative; transition: transform 0.3s cubic-bezier(0.23,1,0.32,1), box-shadow 0.3s; }
+
+/* ═══ TILTING CARDS ═══ */
+.tilt-card { transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), box-shadow 0.4s; transform-style: preserve-3d; }
+.tilt-card:hover { box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+
+/* ═══ CURSOR SECTION COLORS ═══ */
+.cursor-dot.section-pain { background: var(--accent3); }
+.cursor-ring.section-pain { border-color: var(--accent3); }
+.cursor-dot.section-coaching { background: #ffd700; }
+.cursor-ring.section-coaching { border-color: #ffd700; }
+.cursor-dot.section-services { background: var(--accent2); }
+.cursor-ring.section-services { border-color: var(--accent2); }
+
+/* ═══ PARTICLES CANVAS ═══ */
+#particles { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+
+/* ═══ LIVE COUNTER ═══ */
+.live-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 101;
+  background: linear-gradient(90deg, rgba(0,255,135,0.08), rgba(124,92,255,0.08));
+  border-bottom: 1px solid rgba(0,255,135,0.12);
+  padding: 6px 0; text-align: center;
+  font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent);
+  letter-spacing: 0.05em;
+  transform: translateY(-100%); animation: liveSlide 0.6s 2s forwards;
+}
+.live-bar .live-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin-right: 6px; animation: livePulse 1.5s ease-in-out infinite; }
+@keyframes liveSlide { to { transform: translateY(0); } }
+@keyframes livePulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* ═══ STAGGER CHILDREN ═══ */
+.stagger-parent.visible .stagger-child { opacity: 1; transform: translateY(0); }
+.stagger-child { opacity: 0; transform: translateY(20px); transition: opacity 0.5s cubic-bezier(0.23,1,0.32,1), transform 0.5s cubic-bezier(0.23,1,0.32,1); }
+.stagger-child:nth-child(1) { transition-delay: 0s; }
+.stagger-child:nth-child(2) { transition-delay: 0.08s; }
+.stagger-child:nth-child(3) { transition-delay: 0.16s; }
+.stagger-child:nth-child(4) { transition-delay: 0.24s; }
+.stagger-child:nth-child(5) { transition-delay: 0.32s; }
+
+/* ═══ TEXT GRADIENT SHIMMER ═══ */
+.shimmer {
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent2) 40%, var(--accent) 80%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  animation: shimmer 3s ease-in-out infinite;
+}
+@keyframes shimmer { 0%,100% { background-position: 200% 0; } 50% { background-position: 0% 0; } }
+
+/* ═══ SCROLL PROGRESS BAR ═══ */
+.scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); z-index: 102; width: 0%; transition: width 0.1s; }
+
+/* Adjust nav for live bar */
+nav { top: 28px; transition: top 0.3s, border-color 0.4s, background 0.4s, padding 0.3s; }
+.live-bar-visible nav { top: 28px; }
+nav.scrolled { top: 0; }
 
 body {
   background: var(--bg);
@@ -695,6 +755,12 @@ footer { padding: 36px 48px; border-top: 1px solid var(--border); display: flex;
 </head>
 <body>
 
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- LIVE COUNTER BAR -->
+<div class="live-bar" id="liveBar"><span class="live-dot"></span><span id="liveCount">12</span> personas vieron esta página hoy</div>
+
 <!-- CURSOR -->
 <div class="cursor">
   <div class="cursor-dot" id="cursorDot"></div>
@@ -715,6 +781,7 @@ footer { padding: 36px 48px; border-top: 1px solid var(--border); display: flex;
 
 <!-- HERO -->
 <section class="hero">
+  <canvas id="particles"></canvas>
   <div class="hero-bg-grid"></div>
   <div class="hero-glow hero-glow-1"></div>
   <div class="hero-glow hero-glow-2"></div>
@@ -869,30 +936,30 @@ footer { padding: 36px 48px; border-top: 1px solid var(--border); display: flex;
 
 <!-- PAIN POINTS -->
 <section class="section" style="border-top: 1px solid var(--border)">
-  <p class="section-tag reveal">¿Te pasa esto?</p>
+  <p class="section-tag reveal" data-cursor="pain">¿Te pasa esto?</p>
   <h2 class="section-h2 reveal reveal-d1">Si algo de esto te suena,<br>necesitás <em style="font-style:normal;color:var(--accent3)">un sistema.</em></h2>
   <p class="section-sub reveal reveal-d2">No es culpa tuya. Pero sí es tu problema.</p>
 
-  <div class="pain-grid reveal reveal-d3">
-    <div class="pain-card">
+  <div class="pain-grid reveal reveal-d3 stagger-parent">
+    <div class="pain-card tilt-card stagger-child">
       <div class="pain-num">01</div>
       <div class="pain-icon">📱</div>
       <div class="pain-title">Tus clientes no te encuentran</div>
       <div class="pain-desc">No tenés presencia digital o la que tenés no genera consultas. Tu competencia sí aparece.</div>
     </div>
-    <div class="pain-card">
+    <div class="pain-card tilt-card stagger-child">
       <div class="pain-num">02</div>
       <div class="pain-icon">📋</div>
       <div class="pain-title">Hacés todo por WhatsApp y Excel</div>
       <div class="pain-desc">Presupuestos a mano, datos dispersos, cosas que se pierden. Funciona hasta que no funciona.</div>
     </div>
-    <div class="pain-card">
+    <div class="pain-card tilt-card stagger-child">
       <div class="pain-num">03</div>
       <div class="pain-icon">⏰</div>
       <div class="pain-title">No te dan las horas</div>
       <div class="pain-desc">Atender, cotizar, cobrar, seguir clientes. Todo vos, todo el día. No escala.</div>
     </div>
-    <div class="pain-card">
+    <div class="pain-card tilt-card stagger-child">
       <div class="pain-num">04</div>
       <div class="pain-icon">💸</div>
       <div class="pain-title">Ya pagaste y no sirvió</div>
@@ -923,11 +990,11 @@ footer { padding: 36px 48px; border-top: 1px solid var(--border); display: flex;
   <h2 class="section-h2 reveal reveal-d1">Primero probás,<br>después <em style="font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">decidís.</em></h2>
   <p class="section-sub reveal reveal-d2">En 48 horas te mando una demo funcional con tu marca y tu lógica. La abrís en tu celular. Si no te convence, no pagás nada.</p>
 
-  <div class="diff-grid reveal reveal-d3">
-    <div class="diff-card"><div class="diff-num">01</div><div class="diff-icon">🎨</div><h3 class="diff-title">Con tu marca</h3><p class="diff-desc">Tu logo, tus colores. No es un template.</p></div>
-    <div class="diff-card"><div class="diff-num">02</div><div class="diff-icon">📱</div><h3 class="diff-title">En tu celular</h3><p class="diff-desc">Abrís un link y la probás como app real.</p></div>
-    <div class="diff-card"><div class="diff-num">03</div><div class="diff-icon">⚙️</div><h3 class="diff-title">Con tu lógica</h3><p class="diff-desc">Simula el flujo real de tu negocio.</p></div>
-    <div class="diff-card"><div class="diff-num">04</div><div class="diff-icon">🚫</div><h3 class="diff-title">Sin compromiso</h3><p class="diff-desc">No te gustó, no pagás. Así de simple.</p></div>
+  <div class="diff-grid reveal reveal-d3 stagger-parent">
+    <div class="diff-card tilt-card stagger-child"><div class="diff-num">01</div><div class="diff-icon">🎨</div><h3 class="diff-title">Con tu marca</h3><p class="diff-desc">Tu logo, tus colores. No es un template.</p></div>
+    <div class="diff-card tilt-card stagger-child"><div class="diff-num">02</div><div class="diff-icon">📱</div><h3 class="diff-title">En tu celular</h3><p class="diff-desc">Abrís un link y la probás como app real.</p></div>
+    <div class="diff-card tilt-card stagger-child"><div class="diff-num">03</div><div class="diff-icon">⚙️</div><h3 class="diff-title">Con tu lógica</h3><p class="diff-desc">Simula el flujo real de tu negocio.</p></div>
+    <div class="diff-card tilt-card stagger-child"><div class="diff-num">04</div><div class="diff-icon">🚫</div><h3 class="diff-title">Sin compromiso</h3><p class="diff-desc">No te gustó, no pagás. Así de simple.</p></div>
   </div>
 
   <div class="diff-proof reveal">
@@ -948,12 +1015,12 @@ footer { padding: 36px 48px; border-top: 1px solid var(--border); display: flex;
   <h2 class="section-h2 reveal reveal-d1">¿Qué necesita<br>tu negocio?</h2>
   <p class="section-sub reveal reveal-d2">Cada servicio apunta a un resultado concreto.</p>
 
-  <div class="services-grid reveal reveal-d3">
-    <div class="service-card"><div class="service-num">01</div><div class="service-icon">📱</div><h3 class="service-title">App móvil</h3><p class="service-desc">Tu negocio en el celular de tus clientes. Se instala sin stores.</p><div class="service-result">→ Más alcance</div><div class="service-price">Desde USD $1.800</div><div class="service-techs"><span class="tech-tag">Next.js</span><span class="tech-tag">PWA</span><span class="tech-tag">Push</span></div></div>
-    <div class="service-card"><div class="service-num">02</div><div class="service-icon">🏪</div><h3 class="service-title">Marketplace</h3><p class="service-desc">Conectá oferta con demanda. Perfiles, búsqueda, pagos, panel admin.</p><div class="service-result">→ Escala solo</div><div class="service-price">Desde USD $4.500</div><div class="service-techs"><span class="tech-tag">Next.js</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">MercadoPago</span></div></div>
+  <div class="services-grid reveal reveal-d3 stagger-parent">
+    <div class="service-card tilt-card stagger-child"><div class="service-num">01</div><div class="service-icon">📱</div><h3 class="service-title">App móvil</h3><p class="service-desc">Tu negocio en el celular de tus clientes. Se instala sin stores.</p><div class="service-result">→ Más alcance</div><div class="service-price">Desde USD $1.800</div><div class="service-techs"><span class="tech-tag">Next.js</span><span class="tech-tag">PWA</span><span class="tech-tag">Push</span></div></div>
+    <div class="service-card tilt-card stagger-child"><div class="service-num">02</div><div class="service-icon">🏪</div><h3 class="service-title">Marketplace</h3><p class="service-desc">Conectá oferta con demanda. Perfiles, búsqueda, pagos, panel admin.</p><div class="service-result">→ Escala solo</div><div class="service-price">Desde USD $4.500</div><div class="service-techs"><span class="tech-tag">Next.js</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">MercadoPago</span></div></div>
     <div class="service-card service-popular"><div class="service-pop-badge">POPULAR</div><div class="service-num">03</div><div class="service-icon">🛒</div><h3 class="service-title">E-commerce</h3><p class="service-desc">Tienda online con catálogo, carrito, pagos y panel de gestión.</p><div class="service-result">→ Vendés 24/7</div><div class="service-price">Desde USD $2.800</div><div class="service-techs"><span class="tech-tag">Next.js</span><span class="tech-tag">Prisma</span><span class="tech-tag">Stripe</span></div></div>
-    <div class="service-card"><div class="service-num">04</div><div class="service-icon">🚀</div><h3 class="service-title">Landing</h3><p class="service-desc">Página que convierte visitas en consultas. SEO, WhatsApp, analytics.</p><div class="service-result">→ Más consultas</div><div class="service-price">Desde USD $900</div><div class="service-techs"><span class="tech-tag">Next.js</span><span class="tech-tag">SEO</span><span class="tech-tag">Meta Pixel</span></div></div>
-    <div class="service-card"><div class="service-num">05</div><div class="service-icon">⚙️</div><h3 class="service-title">Sistema a medida</h3><p class="service-desc">Turnos, stock, CRM, facturación. Lo que tu negocio necesite.</p><div class="service-result">→ Menos trabajo manual</div><div class="service-price">Desde USD $3.500</div><div class="service-techs"><span class="tech-tag">Next.js</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">Auth</span></div></div>
+    <div class="service-card tilt-card stagger-child"><div class="service-num">04</div><div class="service-icon">🚀</div><h3 class="service-title">Landing</h3><p class="service-desc">Página que convierte visitas en consultas. SEO, WhatsApp, analytics.</p><div class="service-result">→ Más consultas</div><div class="service-price">Desde USD $900</div><div class="service-techs"><span class="tech-tag">Next.js</span><span class="tech-tag">SEO</span><span class="tech-tag">Meta Pixel</span></div></div>
+    <div class="service-card tilt-card stagger-child"><div class="service-num">05</div><div class="service-icon">⚙️</div><h3 class="service-title">Sistema a medida</h3><p class="service-desc">Turnos, stock, CRM, facturación. Lo que tu negocio necesite.</p><div class="service-result">→ Menos trabajo manual</div><div class="service-price">Desde USD $3.500</div><div class="service-techs"><span class="tech-tag">Next.js</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">Auth</span></div></div>
   </div>
 
   <p class="reveal" style="text-align:center;margin-top:32px;font-size:13px;color:var(--dim)">¿No sabés cuál necesitás? <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20agendar%20mi%20llamada%20gratis" target="_blank" style="color:var(--accent);text-decoration:underline" onclick="typeof fbq==='function'&&fbq('track','Lead',{content_name:'services_help'})">Hablemos y te oriento</a></p>
@@ -982,10 +1049,10 @@ footer { padding: 36px 48px; border-top: 1px solid var(--border); display: flex;
   <p class="section-tag reveal">Dicen de mí</p>
   <h2 class="section-h2 reveal reveal-d1">Gente real,<br>resultados reales.</h2>
 
-  <div class="testi-grid reveal reveal-d2">
-    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"Nos armó el sistema en 2 semanas. Lo usamos todos los días."</p><div class="testi-author"><div class="testi-avatar">M</div><div><div class="testi-name">Martín L.</div><div class="testi-role">Comercio, Villa María</div></div></div></div>
-    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"Cumplió los tiempos y la plataforma quedó tal cual la pedimos."</p><div class="testi-author"><div class="testi-avatar" style="background:var(--accent2)">C</div><div><div class="testi-name">Claudia R.</div><div class="testi-role">Instituto educativo</div></div></div></div>
-    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"Antes tardábamos 30 minutos en un presupuesto. Ahora 2."</p><div class="testi-author"><div class="testi-avatar" style="background:var(--accent3)">R</div><div><div class="testi-name">Roberto S.</div><div class="testi-role">Retail</div></div></div></div>
+  <div class="testi-grid reveal reveal-d2 stagger-parent">
+    <div class="testi-card tilt-card stagger-child"><div class="testi-stars">★★★★★</div><p class="testi-text">"Nos armó el sistema en 2 semanas. Lo usamos todos los días."</p><div class="testi-author"><div class="testi-avatar">M</div><div><div class="testi-name">Martín L.</div><div class="testi-role">Comercio, Villa María</div></div></div></div>
+    <div class="testi-card tilt-card stagger-child"><div class="testi-stars">★★★★★</div><p class="testi-text">"Cumplió los tiempos y la plataforma quedó tal cual la pedimos."</p><div class="testi-author"><div class="testi-avatar" style="background:var(--accent2)">C</div><div><div class="testi-name">Claudia R.</div><div class="testi-role">Instituto educativo</div></div></div></div>
+    <div class="testi-card tilt-card stagger-child"><div class="testi-stars">★★★★★</div><p class="testi-text">"Antes tardábamos 30 minutos en un presupuesto. Ahora 2."</p><div class="testi-author"><div class="testi-avatar" style="background:var(--accent3)">R</div><div><div class="testi-name">Roberto S.</div><div class="testi-role">Retail</div></div></div></div>
   </div>
 </section>
 
@@ -1092,8 +1159,35 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
 function aCursor(){if(dot){dot.style.left=mx+'px';dot.style.top=my+'px';rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px'}requestAnimationFrame(aCursor)}
 aCursor();
 
+// ═══ CURSOR SECTION COLORS ═══
+const cursorSections=[
+  {el:document.querySelector('[data-cursor="pain"]')?.closest('.section'),cls:'section-pain'},
+  {el:document.getElementById('coaching'),cls:'section-coaching'},
+  {el:document.getElementById('servicios'),cls:'section-services'}
+].filter(s=>s.el);
+function updateCursorColor(){
+  const sy=window.scrollY+window.innerHeight/2;
+  let activeCls='';
+  cursorSections.forEach(s=>{
+    const r=s.el.getBoundingClientRect();const top=r.top+window.scrollY;const bot=top+r.height;
+    if(sy>=top&&sy<=bot)activeCls=s.cls;
+  });
+  if(dot){
+    cursorSections.forEach(s=>{dot.classList.remove(s.cls);ring.classList.remove(s.cls)});
+    if(activeCls){dot.classList.add(activeCls);ring.classList.add(activeCls)}
+  }
+}
+window.addEventListener('scroll',updateCursorColor);
+
 // ═══ NAV SCROLL ═══
 window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>40)});
+
+// ═══ SCROLL PROGRESS ═══
+const progressBar=document.getElementById('scrollProgress');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  if(progressBar&&h>0)progressBar.style.width=((window.scrollY/h)*100)+'%';
+});
 
 // ═══ MOCKUP CAROUSEL ═══
 const mockLabels=['Marketplace de Oficios','E-commerce + Sistema','Trading System','SaaS Dashboard','Sistema de Gestión'];
@@ -1104,12 +1198,95 @@ let autoT=setInterval(()=>showM((cur+1)%cards.length),4000);
 
 // ═══ PARALLAX ON MOCKUP ═══
 const stage=document.getElementById('mockupStage');
-document.addEventListener('mousemove',e=>{if(!stage)return;const r=stage.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,dx=(e.clientX-cx)/window.innerWidth,dy=(e.clientY-cy)/window.innerHeight;stage.style.transform=`rotateY(${dx*6}deg) rotateX(${-dy*4}deg)`;stage.style.transition='transform 0.1s ease-out'});
+document.addEventListener('mousemove',e=>{if(!stage||window.innerWidth<1024)return;const r=stage.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,dx=(e.clientX-cx)/window.innerWidth,dy=(e.clientY-cy)/window.innerHeight;stage.style.transform=`rotateY(${dx*6}deg) rotateX(${-dy*4}deg)`;stage.style.transition='transform 0.1s ease-out'});
 
-// ═══ REVEAL ON SCROLL ═══
+// ═══ REVEAL ON SCROLL (with stagger support) ═══
 const revealEls=document.querySelectorAll('.reveal');
-const revealObs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target)}})},{threshold:0.1});
+const revealObs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target)}})},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
 revealEls.forEach(el=>revealObs.observe(el));
+
+// ═══ MAGNETIC BUTTONS ═══
+if(window.innerWidth>1024){
+  document.querySelectorAll('.btn-primary,.btn-ghost,.nav-cta').forEach(btn=>{
+    btn.addEventListener('mousemove',e=>{
+      const r=btn.getBoundingClientRect();
+      const x=e.clientX-r.left-r.width/2;
+      const y=e.clientY-r.top-r.height/2;
+      btn.style.transform=`translate(${x*0.2}px,${y*0.2}px)`;
+    });
+    btn.addEventListener('mouseleave',()=>{btn.style.transform='translate(0,0)'});
+  });
+}
+
+// ═══ TILTING CARDS ═══
+if(window.innerWidth>1024){
+  document.querySelectorAll('.tilt-card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-0.5;
+      const y=(e.clientY-r.top)/r.height-0.5;
+      card.style.transform=`perspective(600px) rotateY(${x*8}deg) rotateX(${-y*6}deg) scale(1.02)`;
+    });
+    card.addEventListener('mouseleave',()=>{card.style.transform='perspective(600px) rotateY(0) rotateX(0) scale(1)'});
+  });
+}
+
+// ═══ PARTICLES ═══
+const cv=document.getElementById('particles');
+if(cv&&window.innerWidth>768){
+  const ctx=cv.getContext('2d');
+  let W,H;const pts=[];const N=40;
+  function resize(){W=cv.width=cv.parentElement.offsetWidth;H=cv.height=cv.parentElement.offsetHeight}
+  resize();window.addEventListener('resize',resize);
+  for(let i=0;i<N;i++)pts.push({x:Math.random()*2000,y:Math.random()*1200,vx:(Math.random()-0.5)*0.3,vy:(Math.random()-0.5)*0.3,r:Math.random()*1.5+0.5,o:Math.random()*0.3+0.1});
+  let pmx=0,pmy=0;
+  document.addEventListener('mousemove',e=>{pmx=e.clientX;pmy=e.clientY});
+  function drawP(){
+    ctx.clearRect(0,0,W,H);
+    const heroR=cv.getBoundingClientRect();
+    pts.forEach(p=>{
+      // Mouse repel
+      const dx=pmx-heroR.left-p.x;const dy=pmy-heroR.top-p.y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<150){const f=(150-dist)/150*0.5;p.vx-=dx/dist*f;p.vy-=dy/dist*f}
+      p.x+=p.vx;p.y+=p.vy;
+      // Friction
+      p.vx*=0.99;p.vy*=0.99;
+      // Bounds
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      // Draw
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(0,255,135,${p.o})`;ctx.fill();
+    });
+    // Lines
+    for(let i=0;i<N;i++){
+      for(let j=i+1;j<N;j++){
+        const dx=pts[i].x-pts[j].x;const dy=pts[i].y-pts[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<180){
+          ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);
+          ctx.strokeStyle=`rgba(0,255,135,${0.04*(1-d/180)})`;ctx.lineWidth=0.5;ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(drawP);
+  }
+  drawP();
+}
+
+// ═══ LIVE COUNTER ═══
+const liveEl=document.getElementById('liveCount');
+if(liveEl){
+  // Simulate realistic count (10-30 range, updates every 20-40 sec)
+  const base=Math.floor(Math.random()*15)+10;
+  liveEl.textContent=base;
+  setInterval(()=>{
+    const delta=Math.random()>0.5?1:-1;
+    const cur=parseInt(liveEl.textContent);
+    const next=Math.max(8,Math.min(35,cur+delta));
+    liveEl.textContent=next;
+  },Math.random()*20000+20000);
+}
 
 // ═══ COST COUNTER ═══
 const costEl=document.getElementById('costCounter');
@@ -1118,6 +1295,17 @@ if(costEl)costObs.observe(costEl);
 
 // ═══ STAT COUNTER ═══
 document.querySelectorAll('.stat-num[data-target]').forEach(el=>{const target=parseInt(el.dataset.target);const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){const dur=1000;const start=performance.now();function a(now){const p=Math.min((now-start)/dur,1);el.textContent=Math.round(p*target)+'+';if(p<1)requestAnimationFrame(a)}requestAnimationFrame(a);obs.unobserve(el)}})},{threshold:0.5});obs.observe(el)});
+
+// ═══ DISMISS LIVE BAR ON SCROLL ═══
+let liveBarDismissed=false;
+window.addEventListener('scroll',()=>{
+  if(!liveBarDismissed&&window.scrollY>600){
+    const lb=document.getElementById('liveBar');
+    if(lb){lb.style.transform='translateY(-100%)';lb.style.transition='transform 0.4s ease-in'}
+    liveBarDismissed=true;
+    document.getElementById('navbar').style.top='0';
+  }
+});
 </script>
 
 </body>
