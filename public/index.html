@@ -304,6 +304,62 @@ a { color: inherit; }
 .plan-cta-accent { background: var(--violet); border-color: var(--violet); color: #fff; }
 .plan-cta-accent:hover { background: #7c4edb; border-color: #7c4edb; }
 
+/* ═══ SRM TEASER ═══ */
+.srm-teaser {
+  margin: 40px 0 32px;
+  padding: 28px;
+  background: linear-gradient(135deg, rgba(245,158,11,0.06), rgba(245,158,11,0.02));
+  border: 1px solid rgba(245,158,11,0.18);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  transition: border-color var(--transition);
+}
+.srm-teaser:hover { border-color: rgba(245,158,11,0.35); }
+@media (min-width: 768px) {
+  .srm-teaser { flex-direction: row; align-items: center; gap: 32px; padding: 32px 36px; }
+}
+.srm-teaser-main { flex: 1; }
+.srm-teaser-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.srm-teaser-title {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+.srm-teaser-desc {
+  font-size: 13px;
+  color: var(--fg-muted);
+  line-height: 1.6;
+  max-width: 560px;
+}
+.srm-teaser-cta {
+  flex-shrink: 0;
+  padding: 12px 22px;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+.srm-teaser-cta:hover { background: var(--gold); color: var(--bg); }
+
 /* ═══ RISK REVERSAL ═══ */
 .risk-box { max-width: 640px; margin: 0 auto; padding: 48px 36px; background: var(--violet-muted); border: 1px solid rgba(139,92,246,0.15); border-radius: var(--radius-lg); text-align: center; }
 .risk-box h2 { font-size: clamp(24px, 3.5vw, 36px); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; }
@@ -433,7 +489,6 @@ a { color: inherit; }
     <div class="proof-bar-item"><span class="proof-bar-dot"></span>PWA</div>
     <div class="proof-bar-item"><span class="proof-bar-dot"></span>Meta Ads</div>
     <div class="proof-bar-item"><span class="proof-bar-dot"></span>WhatsApp API</div>
-    <!-- repeat -->
     <div class="proof-bar-item"><span class="proof-bar-dot"></span>Next.js 15</div>
     <div class="proof-bar-item"><span class="proof-bar-dot"></span>TypeScript</div>
     <div class="proof-bar-item"><span class="proof-bar-dot"></span>React</div>
@@ -682,6 +737,18 @@ a { color: inherit; }
     </div>
     <div class="coach-verify fade-up">Edutin Academy · 2026 · <a href="https://app.edutin.com/verify/17603487" target="_blank" rel="noopener">Verificar certificado →</a></div>
 
+    <!-- ═══ MÉTODO SRM · HERRAMIENTA EXTRA ═══ -->
+    <div class="srm-teaser fade-up">
+      <div class="srm-teaser-main">
+        <div class="srm-teaser-tag">HERRAMIENTA GRATIS · 6 MÓDULOS INTERACTIVOS</div>
+        <h3 class="srm-teaser-title">¿Querés probar antes de hablar? Hacé el Método SRM.</h3>
+        <p class="srm-teaser-desc">
+          Diagnóstico interactivo para ordenar tu cabeza antes de vender: mindset, nicho, especialista, oferta, ejecución y entorno. 6 módulos, sin registro, sin mail. Lo armé con lo que aprendí coacheando y vendiendo durante años.
+        </p>
+      </div>
+      <a href="/modulo-1" class="srm-teaser-cta" data-track="srm_teaser">Empezar el método →</a>
+    </div>
+
     <div class="plans-grid">
       <div class="plan-card fade-up">
         <div class="plan-name">Sesión Estratégica</div>
@@ -803,7 +870,7 @@ a { color: inherit; }
     <div class="footer-logo">Santiago Ramírez<span>.</span></div>
     <div class="footer-copy">© 2026 · Villa María, Córdoba, AR</div>
     <div class="footer-links">
-      <a href="https://santiagoagustinramirez.com" target="_blank" rel="noopener">Website</a>
+      <a href="/modulo-1">Método SRM</a>
       <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
     </div>
