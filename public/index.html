@@ -232,10 +232,6 @@ a { color: inherit; }
 .diff-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
 .diff-desc { font-size: 13px; color: var(--fg-muted); line-height: 1.5; }
 
-.diff-stat { margin-top: 32px; display: inline-flex; align-items: center; gap: 12px; padding: 14px 24px; border: 1px solid rgba(0,230,118,0.12); border-radius: var(--radius-sm); background: var(--accent-glow); }
-.diff-stat-icon { font-size: 18px; }
-.diff-stat-text { font-size: 14px; font-weight: 600; color: rgba(0,230,118,0.85); }
-
 /* ═══ SERVICES ═══ */
 .services-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
 @media (min-width: 640px) { .services-grid { grid-template-columns: 1fr 1fr; } }
@@ -266,19 +262,6 @@ a { color: inherit; }
 .step-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
 .step-time { font-family: var(--mono); font-size: 11px; color: var(--accent); margin-bottom: 8px; }
 .step-desc { font-size: 13px; color: var(--fg-muted); line-height: 1.55; }
-
-/* ═══ TESTIMONIALS ═══ */
-.testi-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-@media (min-width: 768px) { .testi-grid { grid-template-columns: repeat(3, 1fr); } }
-
-.testi-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; transition: border-color var(--transition); }
-.testi-card:hover { border-color: var(--border-hover); }
-.testi-stars { color: #fbbf24; font-size: 12px; letter-spacing: 2px; margin-bottom: 14px; }
-.testi-text { font-size: 14px; color: var(--fg-muted); line-height: 1.65; font-style: italic; margin-bottom: 18px; }
-.testi-author { display: flex; align-items: center; gap: 10px; }
-.testi-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
-.testi-name { font-size: 13px; font-weight: 600; }
-.testi-role { font-size: 11px; color: var(--fg-dim); font-family: var(--mono); }
 
 /* ═══ COACHING ═══ */
 .coach-creds { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; margin-bottom: 8px; }
@@ -411,6 +394,53 @@ a { color: inherit; }
   .sticky-cta .btn { flex: 1; padding: 12px; font-size: 13px; }
   .wa-float { bottom: 80px; }
 }
+
+/* ═══ MOBILE BURGER + MENU ═══ */
+.nav-burger { display: none; width: 40px; height: 40px; flex-direction: column; justify-content: center; align-items: center; gap: 5px; background: transparent; border: none; cursor: pointer; padding: 0; margin-left: 8px; }
+.nav-burger span { display: block; width: 22px; height: 1.5px; background: var(--fg); border-radius: 2px; transition: transform 0.3s, opacity 0.2s; }
+.nav-burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+@media (max-width: 767px) { .nav-burger { display: flex; } .nav-cta { display: none; } }
+
+.mobile-menu { position: fixed; inset: 0; z-index: 99; background: rgba(10,10,15,0.96); backdrop-filter: blur(24px); opacity: 0; pointer-events: none; transition: opacity 0.3s; display: flex; align-items: center; justify-content: center; }
+.mobile-menu[aria-hidden="false"] { opacity: 1; pointer-events: auto; }
+.mobile-menu-inner { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 320px; padding: 0 24px; }
+.mobile-menu-link { font-size: 22px; font-weight: 600; letter-spacing: -0.5px; color: var(--fg); text-decoration: none; padding: 14px 0; border-bottom: 1px solid var(--border); transition: color 0.2s, padding-left 0.2s; opacity: 0; transform: translateY(8px); }
+.mobile-menu[aria-hidden="false"] .mobile-menu-link { animation: menuIn 0.4s var(--transition) forwards; }
+.mobile-menu[aria-hidden="false"] .mobile-menu-link:nth-child(1) { animation-delay: 0.05s; }
+.mobile-menu[aria-hidden="false"] .mobile-menu-link:nth-child(2) { animation-delay: 0.1s; }
+.mobile-menu[aria-hidden="false"] .mobile-menu-link:nth-child(3) { animation-delay: 0.15s; }
+.mobile-menu[aria-hidden="false"] .mobile-menu-link:nth-child(4) { animation-delay: 0.2s; }
+.mobile-menu[aria-hidden="false"] .mobile-menu-link:nth-child(5) { animation-delay: 0.25s; }
+.mobile-menu[aria-hidden="false"] .mobile-menu-cta { animation: menuIn 0.4s 0.3s var(--transition) forwards; }
+.mobile-menu-link:hover { color: var(--accent); padding-left: 8px; }
+.mobile-menu-cta { margin-top: 18px; opacity: 0; transform: translateY(8px); }
+@keyframes menuIn { to { opacity: 1; transform: translateY(0); } }
+body.menu-open { overflow: hidden; }
+
+/* ═══ SERVICE CARD ANCHOR + HOVER CTA ═══ */
+a.service-card { text-decoration: none; color: inherit; display: block; }
+.service-card { position: relative; }
+.service-cta { position: absolute; bottom: 18px; right: 24px; font-family: var(--mono); font-size: 11px; color: var(--fg-dim); letter-spacing: 0.04em; opacity: 0; transform: translateX(-4px); transition: opacity 0.25s, transform 0.25s, color 0.25s; }
+.service-card:hover .service-cta { opacity: 1; transform: translateX(0); color: var(--accent); }
+@media (max-width: 767px) { .service-cta { opacity: 1; color: var(--fg-dim); transform: none; position: static; margin-top: 10px; display: block; } }
+
+/* ═══ PROCESS TIMELINE PROGRESS ═══ */
+.process-grid { position: relative; }
+@media (min-width: 1024px) {
+  .process-grid::before { content: ''; position: absolute; top: 46px; left: 12.5%; right: 12.5%; height: 1px; background: var(--border); z-index: 0; }
+  .process-progress { position: absolute; top: 46px; left: 12.5%; height: 1px; background: linear-gradient(90deg, var(--accent), var(--violet)); z-index: 1; transition: width 0.15s linear; will-change: width; }
+  .process-step { position: relative; z-index: 2; }
+  .step-num { background: var(--bg); }
+}
+.process-progress { display: none; }
+@media (min-width: 1024px) { .process-progress { display: block; width: 0; max-width: 75%; } }
+
+/* ═══ DEPLOY BADGE ═══ */
+.deploy-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 10px; color: var(--fg-dim); letter-spacing: 0.04em; padding: 4px 10px; background: var(--accent-glow); border: 1px solid rgba(0,230,118,0.1); border-radius: 100px; }
+.deploy-badge-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); animation: pulse 2.5s infinite; }
+.deploy-badge-empty { display: none; }
 </style>
 </head>
 <body>
@@ -425,12 +455,27 @@ a { color: inherit; }
     <div class="nav-links">
       <a href="#servicios">Servicios</a>
       <a href="#proceso">Proceso</a>
-      <a href="#proyectos">Proyectos</a>
+      <a href="/app">Cotizador</a>
       <a href="#coaching">Coaching</a>
+      <a href="#faq">FAQ</a>
     </div>
-    <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20digitalizar%20mi%20negocio" target="_blank" rel="noopener" class="nav-cta" data-track="nav_cta">Hablemos →</a>
+    <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20digitalizar%20mi%20negocio" target="_blank" rel="noopener" class="nav-cta" data-track="nav_cta" data-event="Contact">Hablemos →</a>
+    <button class="nav-burger" id="navBurger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <div class="mobile-menu-inner">
+    <a href="#servicios" class="mobile-menu-link">Servicios</a>
+    <a href="#proceso" class="mobile-menu-link">Proceso</a>
+    <a href="/app" class="mobile-menu-link">Cotizador</a>
+    <a href="#coaching" class="mobile-menu-link">Coaching</a>
+    <a href="#faq" class="mobile-menu-link">FAQ</a>
+    <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20digitalizar%20mi%20negocio" target="_blank" rel="noopener" class="btn btn-primary mobile-menu-cta" data-track="mobile_menu_cta" data-event="Lead">Hablemos por WhatsApp →</a>
+  </div>
+</div>
 
 <!-- ═══════════════════════ HERO ═══════════════════════ -->
 <section class="hero" id="inicio">
@@ -442,7 +487,7 @@ a { color: inherit; }
     <div class="hero-content">
       <div class="hero-badge">
         <span class="hero-badge-dot"></span>
-        Disponible para proyectos en abril
+        Disponible para proyectos en <span id="heroMonth">este mes</span>
       </div>
 
       <h1>Tu negocio necesita un sistema.<br>Te lo armo en <span class="gradient">15 días.</span></h1>
@@ -452,8 +497,8 @@ a { color: inherit; }
       </p>
 
       <div class="hero-actions">
-        <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20ver%20una%20demo%20personalizada" target="_blank" rel="noopener" class="btn btn-primary" data-track="hero_cta">Pedí tu demo gratis →</a>
-        <a href="#servicios" class="btn btn-secondary">Ver servicios</a>
+        <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20ver%20una%20demo%20personalizada" target="_blank" rel="noopener" class="btn btn-primary" data-track="hero_cta" data-event="Lead">Pedí tu demo gratis →</a>
+        <a href="/app" class="btn btn-secondary" data-track="hero_quote" data-event="Contact">Calculá tu precio →</a>
       </div>
 
       <div class="hero-proof">
@@ -537,7 +582,7 @@ a { color: inherit; }
 
     <div class="pain-bridge fade-up">
       <p>Todo esto se resuelve. Y <strong>más rápido de lo que pensás.</strong></p>
-      <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20agendar%20mi%20llamada%20gratis" target="_blank" rel="noopener" class="btn btn-primary" data-track="pain_cta">Contame tu situación →</a>
+      <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20agendar%20mi%20llamada%20gratis" target="_blank" rel="noopener" class="btn btn-primary" data-track="pain_cta" data-event="Lead">Contame tu situación →</a>
     </div>
   </div>
 </section>
@@ -574,10 +619,6 @@ a { color: inherit; }
       </div>
     </div>
 
-    <div class="diff-stat fade-up">
-      <span class="diff-stat-icon">💡</span>
-      <span class="diff-stat-text">9 de cada 10 aprueban el proyecto después de ver la demo.</span>
-    </div>
   </div>
 </section>
 
@@ -591,16 +632,17 @@ a { color: inherit; }
     </div>
 
     <div class="services-grid">
-      <div class="service-card fade-up">
+      <a href="/app?service=app" class="service-card fade-up" data-track="service_app" data-event="Contact">
         <div class="service-icon">📱</div>
         <h3 class="service-name">App Móvil PWA</h3>
         <p class="service-desc">Tu negocio en el celular de tus clientes. Se instala sin pasar por las stores.</p>
         <div class="service-result">→ Más alcance</div>
         <div class="service-price">Desde USD $1.800</div>
         <div class="service-techs"><span class="tech-tag">Next.js</span><span class="tech-tag">PWA</span><span class="tech-tag">Push</span></div>
-      </div>
+        <span class="service-cta">Cotizar →</span>
+      </a>
 
-      <div class="service-card popular fade-up delay-1">
+      <a href="/app?service=ecommerce" class="service-card popular fade-up delay-1" data-track="service_ecommerce" data-event="Contact">
         <div class="service-pop-badge">POPULAR</div>
         <div class="service-icon">🛒</div>
         <h3 class="service-name">E-commerce</h3>
@@ -608,37 +650,41 @@ a { color: inherit; }
         <div class="service-result">→ Vendés 24/7</div>
         <div class="service-price">Desde USD $2.800</div>
         <div class="service-techs"><span class="tech-tag">Next.js</span><span class="tech-tag">Prisma</span><span class="tech-tag">MercadoPago</span></div>
-      </div>
+        <span class="service-cta">Cotizar →</span>
+      </a>
 
-      <div class="service-card fade-up delay-2">
+      <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20me%20interesa%20armar%20un%20marketplace.%20%C2%BFCu%C3%A1ndo%20podemos%20coordinar%20una%20llamada%3F" target="_blank" rel="noopener" class="service-card fade-up delay-2" data-track="service_marketplace" data-event="Lead">
         <div class="service-icon">🏪</div>
         <h3 class="service-name">Marketplace</h3>
         <p class="service-desc">Conectá oferta con demanda. Perfiles, búsqueda, pagos y panel admin.</p>
         <div class="service-result">→ Escala solo</div>
         <div class="service-price">Desde USD $4.500</div>
         <div class="service-techs"><span class="tech-tag">Next.js</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">Auth</span></div>
-      </div>
+        <span class="service-cta">Hablemos →</span>
+      </a>
 
-      <div class="service-card fade-up delay-3">
+      <a href="/app?service=landing" class="service-card fade-up delay-3" data-track="service_landing" data-event="Contact">
         <div class="service-icon">🚀</div>
         <h3 class="service-name">Landing Page</h3>
         <p class="service-desc">Página que convierte visitas en consultas. SEO, WhatsApp, analytics.</p>
         <div class="service-result">→ Más consultas</div>
         <div class="service-price">Desde USD $900</div>
         <div class="service-techs"><span class="tech-tag">Next.js</span><span class="tech-tag">SEO</span><span class="tech-tag">Meta Pixel</span></div>
-      </div>
+        <span class="service-cta">Cotizar →</span>
+      </a>
 
-      <div class="service-card fade-up delay-4">
+      <a href="/app?service=sistema" class="service-card fade-up delay-4" data-track="service_sistema" data-event="Contact">
         <div class="service-icon">⚙️</div>
         <h3 class="service-name">Sistema a Medida</h3>
         <p class="service-desc">Turnos, stock, CRM, facturación. Lo que tu negocio necesite, hecho a medida.</p>
         <div class="service-result">→ Menos trabajo manual</div>
         <div class="service-price">Desde USD $3.500</div>
         <div class="service-techs"><span class="tech-tag">Next.js</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">Dashboard</span></div>
-      </div>
+        <span class="service-cta">Cotizar →</span>
+      </a>
     </div>
 
-    <p class="service-help fade-up">¿No sabés cuál necesitás? <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20que%20me%20orientes" target="_blank" rel="noopener" data-track="services_help">Hablemos y te oriento →</a></p>
+    <p class="service-help fade-up">¿No sabés cuál necesitás? <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20que%20me%20orientes" target="_blank" rel="noopener" data-track="services_help" data-event="Contact">Hablemos y te oriento →</a></p>
   </div>
 </section>
 
@@ -651,7 +697,8 @@ a { color: inherit; }
       <p>Precio fijo. Sin sorpresas. Sin letra chica.</p>
     </div>
 
-    <div class="process-grid fade-up">
+    <div class="process-grid fade-up" id="processGrid">
+      <div class="process-progress" id="processProgress"></div>
       <div class="process-step">
         <div class="step-num">01</div>
         <h3 class="step-title">Hablamos</h3>
@@ -679,44 +726,7 @@ a { color: inherit; }
     </div>
 
     <div class="fade-up" style="text-align:center;margin-top:48px">
-      <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20agendar%20mi%20llamada%20gratis" target="_blank" rel="noopener" class="btn btn-primary" data-track="process_cta">Agendar llamada gratis →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════ TESTIMONIALS ═══════════════════════ -->
-<section class="section section-border">
-  <div class="container">
-    <div class="section-header fade-up">
-      <div class="tag">Proyectos reales</div>
-      <h2>Resultados que hablan.</h2>
-    </div>
-
-    <div class="testi-grid">
-      <div class="testi-card fade-up">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">"Nos armó el sistema en 2 semanas. Lo usamos todos los días para gestionar clientes y facturación."</p>
-        <div class="testi-author">
-          <div class="testi-avatar" style="background:var(--accent);color:var(--bg)">M</div>
-          <div><div class="testi-name">Martín L.</div><div class="testi-role">Comercio · Villa María</div></div>
-        </div>
-      </div>
-      <div class="testi-card fade-up delay-1">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">"Cumplió los tiempos y la plataforma quedó exactamente como la pedimos. El soporte post-entrega fue clave."</p>
-        <div class="testi-author">
-          <div class="testi-avatar" style="background:var(--violet);color:#fff">C</div>
-          <div><div class="testi-name">Claudia R.</div><div class="testi-role">Instituto educativo</div></div>
-        </div>
-      </div>
-      <div class="testi-card fade-up delay-2">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">"Antes tardábamos 30 minutos por presupuesto. Ahora son 2 minutos. Nos cambió la operación."</p>
-        <div class="testi-author">
-          <div class="testi-avatar" style="background:var(--coral);color:#fff">R</div>
-          <div><div class="testi-name">Roberto S.</div><div class="testi-role">Retail · Córdoba</div></div>
-        </div>
-      </div>
+      <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20agendar%20mi%20llamada%20gratis" target="_blank" rel="noopener" class="btn btn-primary" data-track="process_cta" data-event="Lead">Agendar llamada gratis →</a>
     </div>
   </div>
 </section>
@@ -746,7 +756,7 @@ a { color: inherit; }
           Diagnóstico interactivo para ordenar tu cabeza antes de vender: mindset, nicho, especialista, oferta, ejecución y entorno. 6 módulos, sin registro, sin mail. Lo armé con lo que aprendí coacheando y vendiendo durante años.
         </p>
       </div>
-      <a href="/modulo-1" class="srm-teaser-cta" data-track="srm_teaser">Empezar el método →</a>
+      <a href="/modulo-1" class="srm-teaser-cta" data-track="srm_teaser" data-event="Contact">Empezar el método →</a>
     </div>
 
     <div class="plans-grid">
@@ -761,7 +771,7 @@ a { color: inherit; }
           <li>Grabación de la sesión</li>
           <li>7 días de seguimiento por WhatsApp</li>
         </ul>
-        <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20me%20interesa%20la%20sesi%C3%B3n%20estrat%C3%A9gica" target="_blank" rel="noopener" class="plan-cta" data-track="coaching_starter">Agendar sesión →</a>
+        <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20me%20interesa%20la%20sesi%C3%B3n%20estrat%C3%A9gica" target="_blank" rel="noopener" class="plan-cta" data-track="coaching_starter" data-event="Lead">Agendar sesión →</a>
       </div>
 
       <div class="plan-card featured fade-up delay-1">
@@ -776,7 +786,7 @@ a { color: inherit; }
           <li>WhatsApp directo ilimitado</li>
           <li>Prioridad para desarrollo técnico</li>
         </ul>
-        <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20la%20mentor%C3%ADa%20mensual" target="_blank" rel="noopener" class="plan-cta plan-cta-accent" data-track="coaching_pro">Empezar →</a>
+        <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20la%20mentor%C3%ADa%20mensual" target="_blank" rel="noopener" class="plan-cta plan-cta-accent" data-track="coaching_pro" data-event="Lead">Empezar →</a>
       </div>
 
       <div class="plan-card fade-up delay-2">
@@ -790,7 +800,7 @@ a { color: inherit; }
           <li>Estrategia de contenidos y pauta</li>
           <li>Reportes mensuales</li>
         </ul>
-        <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20el%20plan%20VIP" target="_blank" rel="noopener" class="plan-cta" data-track="coaching_vip">Quiero el VIP →</a>
+        <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20el%20plan%20VIP" target="_blank" rel="noopener" class="plan-cta" data-track="coaching_vip" data-event="Lead">Quiero el VIP →</a>
       </div>
     </div>
 
@@ -810,7 +820,7 @@ a { color: inherit; }
         <div class="risk-item"><span>🔧</span> 30 días de soporte incluido</div>
         <div class="risk-item"><span>📦</span> El código es tuyo</div>
       </div>
-      <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20agendar%20mi%20llamada%20gratis" target="_blank" rel="noopener" class="btn btn-primary" style="margin-top:28px" data-track="risk_cta">Agendar llamada gratis →</a>
+      <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20agendar%20mi%20llamada%20gratis" target="_blank" rel="noopener" class="btn btn-primary" style="margin-top:28px" data-track="risk_cta" data-event="Lead">Agendar llamada gratis →</a>
     </div>
   </div>
 </section>
@@ -825,24 +835,24 @@ a { color: inherit; }
 
     <div class="faq-list fade-up">
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">¿Cuánto tarda en estar lista mi app?</button>
-        <div class="faq-a"><p>En 48 horas tenés una demo funcional en tu celular. El proyecto completo se entrega en 15 días hábiles. Ves avances cada 2–3 días.</p></div>
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-1" id="faq-q-1">¿Cuánto tarda en estar lista mi app?</button>
+        <div class="faq-a" id="faq-1" role="region" aria-labelledby="faq-q-1"><p>En 48 horas tenés una demo funcional en tu celular. El proyecto completo se entrega en 15 días hábiles. Ves avances cada 2–3 días.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">¿Cuánto cuesta desarrollar una app?</button>
-        <div class="faq-a"><p>Las landing pages arrancan en USD $900 y los sistemas a medida desde USD $3.500. El precio es fijo y lo sabés antes de arrancar.</p></div>
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-2" id="faq-q-2">¿Cuánto cuesta desarrollar una app?</button>
+        <div class="faq-a" id="faq-2" role="region" aria-labelledby="faq-q-2"><p>Las landing pages arrancan en USD $900 y los sistemas a medida desde USD $3.500. El precio es fijo y lo sabés antes de arrancar. <a href="/app" style="color:var(--accent);text-decoration:underline">Calculá el tuyo →</a></p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">¿Qué pasa si la demo no me convence?</button>
-        <div class="faq-a"><p>No pagás nada. La demo es gratuita y sin compromiso. La hago para que veas exactamente qué vas a recibir.</p></div>
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-3" id="faq-q-3">¿Qué pasa si la demo no me convence?</button>
+        <div class="faq-a" id="faq-3" role="region" aria-labelledby="faq-q-3"><p>No pagás nada. La demo es gratuita y sin compromiso. La hago para que veas exactamente qué vas a recibir.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">¿El código fuente es mío?</button>
-        <div class="faq-a"><p>Sí. Al terminar el proyecto recibís el código fuente completo, documentado, desplegado, con 30 días de soporte técnico.</p></div>
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-4" id="faq-q-4">¿El código fuente es mío?</button>
+        <div class="faq-a" id="faq-4" role="region" aria-labelledby="faq-q-4"><p>Sí. Al terminar el proyecto recibís el código fuente completo, documentado, desplegado, con 30 días de soporte técnico.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">¿Trabajás solo con negocios de Villa María?</button>
-        <div class="faq-a"><p>No. Trabajo con negocios de toda Argentina y exterior. La comunicación es 100% remota por videollamada y WhatsApp.</p></div>
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-5" id="faq-q-5">¿Trabajás solo con negocios de Villa María?</button>
+        <div class="faq-a" id="faq-5" role="region" aria-labelledby="faq-q-5"><p>No. Trabajo con negocios de toda Argentina y exterior. La comunicación es 100% remota por videollamada y WhatsApp.</p></div>
       </div>
     </div>
   </div>
@@ -856,8 +866,8 @@ a { color: inherit; }
     <h2 class="fade-up delay-1" style="margin-top:16px">La llamada es <span class="gradient">gratis.</span></h2>
     <p class="cta-desc fade-up delay-2">Me contás tu negocio, te digo cómo puedo ayudarte. Al día siguiente ya tenés una demo en tu celular.</p>
     <div class="cta-actions fade-up delay-3">
-      <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20ver%20una%20demo%20personalizada" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:15px;padding:16px 32px" data-track="final_cta">Escribime por WhatsApp →</a>
-      <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20agendar%20mi%20llamada%20gratis" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size:15px;padding:16px 32px">Agendar llamada</a>
+      <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20ver%20una%20demo%20personalizada" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:15px;padding:16px 32px" data-track="final_cta" data-event="Lead">Escribime por WhatsApp →</a>
+      <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20agendar%20mi%20llamada%20gratis" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size:15px;padding:16px 32px" data-track="final_cta_call" data-event="Lead">Agendar llamada</a>
     </div>
     <p class="cta-note fade-up">✓ Sin compromiso · Te respondo en el día</p>
     <p class="cta-location fade-up">Villa María, Córdoba · Argentina y exterior</p>
@@ -868,24 +878,28 @@ a { color: inherit; }
 <footer class="footer">
   <div class="container footer-inner">
     <div class="footer-logo">Santiago Ramírez<span>.</span></div>
-    <div class="footer-copy">© 2026 · Villa María, Córdoba, AR</div>
+    <div class="footer-copy">© <span id="footerYear">2026</span> · Villa María, Córdoba, AR</div>
+    <div class="deploy-badge deploy-badge-empty" id="deployBadge">
+      <span class="deploy-badge-dot"></span>
+      <span id="deployBadgeText">Último deploy: hoy</span>
+    </div>
     <div class="footer-links">
       <a href="/modulo-1">Método SRM</a>
-      <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+      <a href="/app">Cotizador</a>
+      <a href="https://wa.me/5493536561265" target="_blank" rel="noopener">WhatsApp</a>
     </div>
   </div>
 </footer>
 
 <!-- WA FLOAT -->
-<a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20digitalizar%20mi%20negocio" target="_blank" rel="noopener" class="wa-float" data-track="wa_float" aria-label="Contactar por WhatsApp">
+<a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20digitalizar%20mi%20negocio" target="_blank" rel="noopener" class="wa-float" data-track="wa_float" data-event="Contact" aria-label="Contactar por WhatsApp">
   <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
 <!-- STICKY MOBILE CTA -->
 <div class="sticky-cta" id="stickyCta">
-  <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20ver%20una%20demo" target="_blank" rel="noopener" class="btn btn-primary" data-track="sticky_cta">Demo gratis →</a>
-  <a href="tel:+5493536561265" class="btn btn-secondary">Llamar</a>
+  <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20ver%20una%20demo" target="_blank" rel="noopener" class="btn btn-primary" data-track="sticky_cta" data-event="Lead">Demo gratis →</a>
+  <a href="tel:+5493536561265" class="btn btn-secondary" data-track="sticky_call" data-event="Contact">Llamar</a>
 </div>
 
 <!-- META PIXEL (async) -->
@@ -897,6 +911,33 @@ fbq('track','PageView');
 </script>
 
 <script>
+// ═══ DYNAMIC YEAR + MONTH ═══
+const now = new Date();
+const monthEl = document.getElementById('heroMonth');
+if (monthEl) monthEl.textContent = now.toLocaleString('es-AR', { month: 'long' });
+const yearEl = document.getElementById('footerYear');
+if (yearEl) yearEl.textContent = now.getFullYear();
+
+// ═══ DEPLOY BADGE (auto, vía document.lastModified) ═══
+(function () {
+  const badge = document.getElementById('deployBadge');
+  const text = document.getElementById('deployBadgeText');
+  if (!badge || !text) return;
+  const lm = new Date(document.lastModified);
+  if (isNaN(lm.getTime())) return;
+  const diffMs = Date.now() - lm.getTime();
+  const day = 86400000;
+  const days = Math.floor(diffMs / day);
+  let label;
+  if (diffMs < 3600000) label = 'Último deploy: hace minutos';
+  else if (diffMs < day) label = 'Último deploy: hoy';
+  else if (days === 1) label = 'Último deploy: ayer';
+  else if (days < 30) label = `Último deploy: hace ${days} días`;
+  else label = `Último deploy: ${lm.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })}`;
+  text.textContent = label;
+  badge.classList.remove('deploy-badge-empty');
+})();
+
 // ═══ NAV SCROLL ═══
 const nav = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
@@ -924,9 +965,13 @@ document.querySelectorAll('.faq-q').forEach(btn => {
   btn.addEventListener('click', () => {
     const item = btn.closest('.faq-item');
     const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    document.querySelectorAll('.faq-item.open').forEach(i => {
+      i.classList.remove('open');
+      const q = i.querySelector('.faq-q');
+      if (q) q.setAttribute('aria-expanded', 'false');
+    });
     if (!isOpen) item.classList.add('open');
-    btn.setAttribute('aria-expanded', !isOpen);
+    btn.setAttribute('aria-expanded', String(!isOpen));
   });
 });
 
@@ -939,11 +984,52 @@ if (stickyCta) {
   }, { passive: true });
 }
 
-// ═══ TRACKING ═══
+// ═══ MOBILE MENU ═══
+(function () {
+  const burger = document.getElementById('navBurger');
+  const menu = document.getElementById('mobileMenu');
+  if (!burger || !menu) return;
+  const close = () => {
+    burger.setAttribute('aria-expanded', 'false');
+    menu.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('menu-open');
+  };
+  const open = () => {
+    burger.setAttribute('aria-expanded', 'true');
+    menu.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('menu-open');
+  };
+  burger.addEventListener('click', () => {
+    burger.getAttribute('aria-expanded') === 'true' ? close() : open();
+  });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+})();
+
+// ═══ PROCESS TIMELINE PROGRESS ═══
+(function () {
+  const grid = document.getElementById('processGrid');
+  const bar = document.getElementById('processProgress');
+  if (!grid || !bar) return;
+  const update = () => {
+    const r = grid.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const total = r.height + vh * 0.6;
+    const seen = Math.min(Math.max(vh - r.top, 0), total);
+    const pct = Math.min(seen / total, 1);
+    bar.style.width = (pct * 75) + '%';
+  };
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+})();
+
+// ═══ TRACKING (Pixel) ═══
 document.querySelectorAll('[data-track]').forEach(el => {
   el.addEventListener('click', () => {
     const name = el.getAttribute('data-track');
-    if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: name });
+    const event = el.getAttribute('data-event') || 'Contact';
+    if (typeof fbq === 'function') fbq('track', event, { content_name: name });
   });
 });
 </script>

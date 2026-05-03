@@ -2,7 +2,7 @@
   "buildCommand": "",
   "outputDirectory": "public",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/((?!app($|/)).*)", "destination": "/index.html" }
   ],
   "headers": [
     {

@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cotizador — Santiago Ramírez</title>
+<meta name="description" content="Calculá precio y plazo estimado de tu app, e-commerce o sistema a medida. Sin compromiso.">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://santiagoagustinramirez.com/app">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #0a0a0f;
+  --bg-elevated: #111118;
+  --bg-card: rgba(255,255,255,0.025);
+  --fg: #ededef;
+  --fg-muted: rgba(237,237,239,0.5);
+  --fg-dim: rgba(237,237,239,0.3);
+  --accent: #00e676;
+  --accent-muted: rgba(0,230,118,0.12);
+  --accent-glow: rgba(0,230,118,0.06);
+  --violet: #8b5cf6;
+  --border: rgba(255,255,255,0.06);
+  --border-hover: rgba(255,255,255,0.12);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+  --font: 'Instrument Sans', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font); line-height: 1.6; min-height: 100vh; min-height: 100dvh; overflow-x: hidden; }
+::selection { background: rgba(0,230,118,0.2); }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+button { font-family: inherit; cursor: pointer; background: none; border: none; color: inherit; }
+a { color: inherit; text-decoration: none; }
+
+.container { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+@media (min-width: 768px) { .container { padding: 0 32px; } }
+
+.tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); display: inline-flex; align-items: center; gap: 8px; }
+.tag::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+
+.nav { padding: 14px 0; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(10,10,15,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 50; }
+.nav-inner { display: flex; justify-content: space-between; align-items: center; }
+.nav-back { font-family: var(--mono); font-size: 12px; color: var(--fg-muted); transition: color 0.2s; padding: 8px 4px 8px 0; min-height: 44px; display: inline-flex; align-items: center; }
+.nav-back:hover { color: var(--fg); }
+.nav-logo { font-weight: 700; font-size: 16px; letter-spacing: -0.5px; }
+.nav-logo span { color: var(--accent); }
+
+.main { padding: 40px 0 80px; position: relative; }
+.main::before { content: ''; position: absolute; width: 500px; height: 500px; border-radius: 50%; background: rgba(139,92,246,0.06); filter: blur(120px); top: -100px; right: -150px; pointer-events: none; z-index: -1; }
+@media (min-width: 768px) { .main { padding: 56px 0 100px; } }
+
+.header { text-align: center; margin-bottom: 36px; }
+.header .tag { margin-bottom: 16px; }
+.header h1 { font-size: clamp(28px, 6vw, 44px); font-weight: 700; line-height: 1.05; letter-spacing: -1.5px; margin-bottom: 12px; }
+.header h1 .gradient { background: linear-gradient(135deg, var(--accent), var(--violet)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.header p { color: var(--fg-muted); font-size: 14px; max-width: 380px; margin: 0 auto; }
+
+.stepper { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 36px; }
+.step-dot { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 56px; }
+.step-dot span { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border-hover); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; color: var(--fg-muted); transition: all var(--transition); }
+.step-dot.active span { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.step-dot.done span { background: var(--accent-muted); color: var(--accent); border-color: rgba(0,230,118,0.25); }
+.step-dot label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; color: var(--fg-dim); text-transform: uppercase; transition: color 0.2s; }
+.step-dot.active label, .step-dot.done label { color: var(--fg-muted); }
+.step-line { flex: 0 1 32px; height: 1px; background: var(--border); }
+
+.step { animation: fadeUp 0.4s var(--transition); }
+.step.hidden { display: none; }
+.step-title { font-size: clamp(20px, 3.5vw, 26px); font-weight: 600; letter-spacing: -0.5px; margin-bottom: 6px; }
+.step-help { color: var(--fg-muted); font-size: 14px; margin-bottom: 24px; }
+
+.services-grid { display: grid; gap: 10px; margin-top: 16px; }
+.service-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; transition: border-color var(--transition), background var(--transition), transform 0.15s; text-align: left; min-height: 88px; position: relative; display: flex; align-items: center; gap: 14px; width: 100%; }
+.service-card:hover { border-color: var(--border-hover); background: rgba(255,255,255,0.04); }
+.service-card:active { transform: scale(0.99); }
+.service-card.popular { border-color: rgba(139,92,246,0.3); }
+.service-card.popular::after { content: 'POPULAR'; position: absolute; top: -7px; right: 14px; font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; padding: 3px 8px; background: var(--violet); color: #fff; border-radius: 100px; font-weight: 600; }
+.service-icon { font-size: 26px; flex-shrink: 0; line-height: 1; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+.service-body { flex: 1; min-width: 0; }
+.service-name { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+.service-desc { font-size: 13px; color: var(--fg-muted); line-height: 1.45; margin-bottom: 8px; }
+.service-meta { display: flex; gap: 14px; flex-wrap: wrap; }
+.service-meta span { font-family: var(--mono); font-size: 11px; color: var(--fg-dim); letter-spacing: 0.02em; }
+.service-meta strong { color: var(--accent); font-weight: 500; }
+.service-arrow { font-size: 18px; color: var(--fg-dim); flex-shrink: 0; transition: color 0.2s, transform 0.2s; }
+.service-card:hover .service-arrow { color: var(--accent); transform: translateX(2px); }
+
+.modules-list { display: grid; gap: 8px; margin-bottom: 24px; }
+.module-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); transition: border-color var(--transition), background var(--transition); min-height: 60px; text-align: left; width: 100%; }
+.module-item:hover { border-color: var(--border-hover); }
+.module-item.checked { border-color: rgba(0,230,118,0.4); background: var(--accent-muted); }
+.module-check { width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--border-hover); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.module-item.checked .module-check { background: var(--accent); border-color: var(--accent); }
+.module-check svg { width: 14px; height: 14px; opacity: 0; transition: opacity 0.15s; color: var(--bg); }
+.module-item.checked .module-check svg { opacity: 1; }
+.module-body { flex: 1; min-width: 0; }
+.module-name { font-size: 14px; font-weight: 500; line-height: 1.3; }
+.module-meta { font-family: var(--mono); font-size: 11px; color: var(--fg-dim); margin-top: 3px; letter-spacing: 0.02em; }
+
+.detail-block { margin-bottom: 24px; }
+.detail-block h3 { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; color: var(--fg-muted); }
+.radio-group { display: grid; gap: 8px; }
+@media (min-width: 480px) { .radio-group { grid-template-columns: 1fr 1fr; } }
+.radio-card { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); transition: all var(--transition); text-align: left; min-height: 60px; width: 100%; }
+.radio-card:hover { border-color: var(--border-hover); }
+.radio-card.active { border-color: rgba(0,230,118,0.4); background: var(--accent-muted); }
+.radio-card strong { font-size: 14px; font-weight: 600; }
+.radio-card span { font-size: 12px; color: var(--fg-muted); line-height: 1.4; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 24px; font-family: var(--font); font-size: 14px; font-weight: 600; border-radius: var(--radius-sm); transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s; min-height: 48px; cursor: pointer; }
+.btn:hover { transform: translateY(-1px); }
+.btn-primary { background: var(--accent); color: var(--bg); border: 1px solid var(--accent); }
+.btn-primary:hover { box-shadow: 0 12px 40px rgba(0,230,118,0.25); }
+.btn-secondary { background: transparent; color: var(--fg); border: 1px solid var(--border-hover); }
+.btn-secondary:hover { border-color: var(--fg-muted); background: rgba(255,255,255,0.03); }
+
+.step-actions { display: flex; flex-direction: column-reverse; gap: 8px; margin-top: 8px; }
+@media (min-width: 480px) { .step-actions { flex-direction: row; justify-content: space-between; } .step-actions .btn { flex: 1; max-width: 240px; } }
+
+.result-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px 22px; margin-bottom: 20px; position: relative; overflow: hidden; }
+.result-card::before { content: ''; position: absolute; top: -120px; left: -80px; width: 320px; height: 320px; background: var(--accent-glow); border-radius: 50%; filter: blur(80px); pointer-events: none; }
+.result-card > * { position: relative; }
+.result-card .tag { margin-bottom: 14px; }
+.result-price { font-size: clamp(30px, 7vw, 42px); font-weight: 700; letter-spacing: -1.5px; line-height: 1.05; margin-bottom: 6px; }
+.result-days { font-family: var(--mono); font-size: 13px; color: var(--fg-muted); margin-bottom: 24px; letter-spacing: 0.02em; }
+.result-includes h4 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-dim); margin-bottom: 12px; font-weight: 500; }
+.result-includes ul { list-style: none; display: grid; gap: 8px; margin-bottom: 22px; }
+.result-includes li { font-size: 14px; color: var(--fg-muted); display: flex; gap: 10px; align-items: flex-start; line-height: 1.4; }
+.result-includes li::before { content: '→'; color: var(--accent); flex-shrink: 0; font-weight: 600; }
+.result-fineprint { font-family: var(--mono); font-size: 11px; color: var(--fg-dim); letter-spacing: 0.04em; padding-top: 16px; border-top: 1px solid var(--border); line-height: 1.6; }
+.result-actions { display: flex; flex-direction: column; gap: 8px; }
+@media (min-width: 480px) { .result-actions { flex-direction: row; } .result-actions .btn { flex: 1; } }
+.result-note { font-family: var(--mono); font-size: 11px; color: var(--fg-dim); text-align: center; margin-top: 16px; letter-spacing: 0.04em; line-height: 1.5; }
+
+.service-card.new { border-color: rgba(0,230,118,0.25); }
+.service-card.new::after { content: 'NUEVO'; position: absolute; top: -7px; right: 14px; font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; padding: 3px 8px; background: var(--accent); color: var(--bg); border-radius: 100px; font-weight: 600; }
+
+.advanced-cta { margin-top: 18px; padding: 18px 20px; background: rgba(139,92,246,0.04); border: 1px dashed rgba(139,92,246,0.28); border-radius: var(--radius); display: flex; flex-direction: column; gap: 14px; }
+.advanced-cta-body strong { font-size: 14px; font-weight: 600; display: block; margin-bottom: 4px; }
+.advanced-cta-body span { font-size: 13px; color: var(--fg-muted); line-height: 1.45; }
+.advanced-cta a { white-space: nowrap; }
+@media (min-width: 480px) { .advanced-cta { flex-direction: row; align-items: center; justify-content: space-between; gap: 20px; } }
+
+.verticals-container { margin-bottom: 20px; }
+.verticals-container.hidden { display: none; }
+.verticals-label { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 12px; }
+.verticals-strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.verticals-strip::-webkit-scrollbar { display: none; }
+.vertical-pill { flex-shrink: 0; padding: 10px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 100px; font-size: 13px; color: var(--fg-muted); display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; min-height: 40px; white-space: nowrap; font-family: inherit; cursor: pointer; }
+.vertical-pill:hover { border-color: var(--border-hover); color: var(--fg); }
+.vertical-pill.active { background: var(--accent-muted); border-color: rgba(0,230,118,0.4); color: var(--accent); }
+.vertical-hint { font-family: var(--mono); font-size: 11px; color: var(--fg-dim); margin-top: 10px; letter-spacing: 0.02em; line-height: 1.5; }
+
+.result-plan { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; margin-bottom: 16px; }
+.result-plan-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.result-plan-title { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-muted); font-weight: 500; }
+.result-plan-badge { font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; padding: 3px 8px; background: rgba(139,92,246,0.15); color: var(--violet); border-radius: 100px; font-weight: 600; flex-shrink: 0; }
+.result-plan-price { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; }
+.result-plan-price strong { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+.result-plan-price span { font-size: 13px; color: var(--fg-muted); font-family: var(--mono); }
+.result-plan-name { font-size: 13px; color: var(--fg-muted); margin-bottom: 14px; }
+.result-plan ul { list-style: none; display: grid; gap: 6px; padding-top: 12px; border-top: 1px solid var(--border); }
+.result-plan li { font-size: 13px; color: var(--fg-muted); display: flex; gap: 10px; line-height: 1.4; }
+.result-plan li::before { content: '·'; color: var(--accent); font-weight: 700; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="/" class="nav-back">← Volver al sitio</a>
+    <a href="/" class="nav-logo">santiago<span>.</span></a>
+  </div>
+</nav>
+
+<main class="container main">
+  <header class="header">
+    <div class="tag">Cotizador</div>
+    <h1>Calculá tu proyecto<br><span class="gradient">en un minuto.</span></h1>
+    <p>Sin compromiso. El precio final lo confirmamos en la demo gratis.</p>
+  </header>
+
+  <div class="stepper" id="stepper">
+    <div class="step-dot active" data-step="1"><span>1</span><label>Tipo</label></div>
+    <div class="step-line"></div>
+    <div class="step-dot" data-step="2"><span>2</span><label>Módulos</label></div>
+    <div class="step-line"></div>
+    <div class="step-dot" data-step="3"><span>3</span><label>Detalles</label></div>
+  </div>
+
+  <section class="step" id="step-1">
+    <h2 class="step-title">¿Qué querés construir?</h2>
+    <p class="step-help">Elegí el tipo de proyecto. Después afinamos.</p>
+    <div class="services-grid" id="services-grid"></div>
+    <div class="advanced-cta">
+      <div class="advanced-cta-body">
+        <strong>¿Marketplace o algo más complejo?</strong>
+        <span>Proyectos USD 4.500+ los charlamos en una llamada de 30 min, gratis.</span>
+      </div>
+      <a id="advanced-wa" href="#" target="_blank" rel="noopener" class="btn btn-secondary">Hablemos →</a>
+    </div>
+  </section>
+
+  <section class="step hidden" id="step-2">
+    <h2 class="step-title">¿Qué módulos necesita?</h2>
+    <p class="step-help">Sumás solo lo que te sirve. Podés saltearlo.</p>
+    <div class="verticals-container hidden" id="verticals-container"></div>
+    <div class="modules-list" id="modules-list"></div>
+    <div class="step-actions">
+      <button class="btn btn-secondary" data-back>← Atrás</button>
+      <button class="btn btn-primary" data-next>Siguiente →</button>
+    </div>
+  </section>
+
+  <section class="step hidden" id="step-3">
+    <h2 class="step-title">Últimos detalles.</h2>
+    <p class="step-help">Tres cosas y listo.</p>
+
+    <div class="detail-block">
+      <h3>Diseño</h3>
+      <div class="radio-group">
+        <button class="radio-card active" data-design="template">
+          <strong>Template ajustado</strong>
+          <span>Look profesional. Sin costo extra.</span>
+        </button>
+        <button class="radio-card" data-design="custom">
+          <strong>100% custom</strong>
+          <span>Diseño desde cero. +25%.</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="detail-block">
+      <h3>Plazo</h3>
+      <div class="radio-group">
+        <button class="radio-card active" data-urgency="standard">
+          <strong>Estándar</strong>
+          <span>El plazo normal. Sin recargo.</span>
+        </button>
+        <button class="radio-card" data-urgency="express">
+          <strong>Express</strong>
+          <span>30% más rápido. +20%.</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="detail-block">
+      <h3>¿Tenés un sistema actual que integrar?</h3>
+      <div class="radio-group">
+        <button class="radio-card active" data-integration="false">
+          <strong>No</strong>
+          <span>Empezamos de cero.</span>
+        </button>
+        <button class="radio-card" data-integration="true">
+          <strong>Sí</strong>
+          <span>Conectar con tu stack. +USD 400, +3 días.</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="step-actions">
+      <button class="btn btn-secondary" data-back>← Atrás</button>
+      <button class="btn btn-primary" data-finish>Ver presupuesto →</button>
+    </div>
+  </section>
+
+  <section class="step hidden" id="result">
+    <div class="result-card">
+      <div class="tag">Tu presupuesto</div>
+      <div class="result-price" id="r-price">USD $0</div>
+      <div class="result-days" id="r-days">~0 días</div>
+      <div class="result-includes">
+        <h4>Incluye</h4>
+        <ul id="r-includes"></ul>
+      </div>
+      <div class="result-fineprint">
+        Precio fijo. Demo gratis en 48hs. 30 días de soporte. Código fuente tuyo al cierre.
+      </div>
+    </div>
+    <div class="result-plan" id="result-plan">
+      <div class="result-plan-head">
+        <span class="result-plan-title">Plan mensual sugerido</span>
+        <span class="result-plan-badge">OPCIONAL</span>
+      </div>
+      <div class="result-plan-price">
+        <strong id="r-plan-price">USD $0</strong>
+        <span>/mes</span>
+      </div>
+      <div class="result-plan-name" id="r-plan-name">—</div>
+      <ul id="r-plan-features"></ul>
+    </div>
+    <div class="result-actions">
+      <a id="r-wa" href="#" target="_blank" rel="noopener" class="btn btn-primary">Pedí tu demo gratis →</a>
+      <button class="btn btn-secondary" data-restart>Empezar de nuevo</button>
+    </div>
+    <p class="result-note">El número final lo confirmamos en una llamada de 30 min, gratis.</p>
+  </section>
+</main>
+
+<script>
+const PHONE = '5493536561265';
+
+const SERVICES = {
+  landing: {
+    name: 'Landing Page',
+    icon: '🚀',
+    desc: 'Página que convierte visitas en consultas.',
+    basePrice: 900,
+    baseDays: 7,
+    modules: [
+      { id: 'form', name: 'Formulario con email automático', price: 150, days: 1 },
+      { id: 'multilang', name: 'Multi-idioma (ES/EN)', price: 300, days: 2 },
+      { id: 'blog', name: 'Blog con CMS', price: 400, days: 3 },
+      { id: 'animations', name: 'Animaciones avanzadas', price: 250, days: 1 },
+      { id: 'crm', name: 'Integración con CRM', price: 300, days: 2 }
+    ]
+  },
+  app: {
+    name: 'App Móvil PWA',
+    icon: '📱',
+    desc: 'Tu negocio en el celular del cliente.',
+    basePrice: 1800,
+    baseDays: 12,
+    modules: [
+      { id: 'push', name: 'Push notifications', price: 350, days: 2 },
+      { id: 'auth', name: 'Login de usuarios', price: 400, days: 3 },
+      { id: 'pay', name: 'Pagos integrados (MercadoPago)', price: 450, days: 3 },
+      { id: 'offline', name: 'Modo offline', price: 350, days: 2 },
+      { id: 'geo', name: 'Geolocalización', price: 300, days: 2 },
+      { id: 'admin', name: 'Panel admin web', price: 500, days: 3 }
+    ]
+  },
+  ecommerce: {
+    name: 'E-commerce',
+    icon: '🛒',
+    desc: 'Tienda online con catálogo, carrito y pagos.',
+    basePrice: 2800,
+    baseDays: 15,
+    popular: true,
+    modules: [
+      { id: 'shipping', name: 'Envíos (Andreani / OCA)', price: 350, days: 2 },
+      { id: 'multistore', name: 'Multi-sucursal', price: 500, days: 3 },
+      { id: 'coupons', name: 'Cupones y descuentos', price: 200, days: 1 },
+      { id: 'blog', name: 'Blog de contenido', price: 300, days: 2 },
+      { id: 'multilang', name: 'Multi-idioma', price: 400, days: 3 },
+      { id: 'pwa', name: 'App PWA del e-commerce', price: 600, days: 4 }
+    ]
+  },
+  sistema: {
+    name: 'Sistema a Medida',
+    icon: '⚙️',
+    desc: 'Turnos, stock, CRM, facturación.',
+    basePrice: 3500,
+    baseDays: 18,
+    modules: [
+      { id: 'turnos', name: 'Turnos online', price: 400, days: 3 },
+      { id: 'stock', name: 'Stock multi-depósito', price: 500, days: 3 },
+      { id: 'crm', name: 'CRM de clientes', price: 450, days: 3 },
+      { id: 'afip', name: 'Facturación AFIP', price: 600, days: 4 },
+      { id: 'roles', name: 'Multi-usuario con roles', price: 350, days: 2 },
+      { id: 'reports', name: 'Reportes y dashboard', price: 400, days: 3 },
+      { id: 'wa', name: 'Integración WhatsApp', price: 300, days: 2 }
+    ]
+  },
+  agentewa: {
+    name: 'Agente IA WhatsApp',
+    icon: '🤖',
+    desc: 'Atiende, agenda y vende 24/7 por WhatsApp.',
+    basePrice: 1200,
+    baseDays: 5,
+    isNew: true,
+    modules: [
+      { id: 'reservas', name: 'Reservas y turnos automáticos', price: 400, days: 2 },
+      { id: 'sdr', name: 'Calificación de leads (SDR)', price: 400, days: 2 },
+      { id: 'cobranza', name: 'Cobranza y recordatorios de pago', price: 350, days: 2 },
+      { id: 'catalogo', name: 'Catálogo + cotizador automático', price: 400, days: 3 },
+      { id: 'handoff', name: 'Handoff a humano + dashboard', price: 300, days: 2 },
+      { id: 'multilang', name: 'Multi-idioma (ES/EN/PT)', price: 250, days: 1 },
+      { id: 'crm', name: 'Conexión a tu CRM o sistema', price: 400, days: 2 }
+    ]
+  },
+  automatizacion: {
+    name: 'Automatizaciones',
+    icon: '⚡',
+    desc: 'Conectá tus herramientas y eliminá tareas repetitivas.',
+    basePrice: 600,
+    baseDays: 3,
+    modules: [
+      { id: 'crm', name: 'Conectar CRM + email marketing', price: 250, days: 1 },
+      { id: 'sync', name: 'Sincronización entre apps (n8n/Make)', price: 350, days: 2 },
+      { id: 'reports', name: 'Reportes automáticos diarios/semanales', price: 200, days: 1 },
+      { id: 'excel', name: 'Procesamiento de Excel/CSV', price: 300, days: 2 },
+      { id: 'afip', name: 'Integración AFIP / facturación auto', price: 500, days: 3 },
+      { id: 'scraping', name: 'Scraping web + alertas', price: 400, days: 2 }
+    ]
+  }
+};
+
+const VERTICALS = {
+  clinica: { name: 'Clínica / Estética', icon: '🏥', modules: ['turnos', 'crm', 'wa', 'roles'] },
+  gimnasio: { name: 'Gimnasio / Box', icon: '💪', modules: ['turnos', 'crm', 'roles', 'reports'] },
+  inmobiliaria: { name: 'Inmobiliaria', icon: '🏠', modules: ['crm', 'wa', 'reports', 'roles'] },
+  consultorio: { name: 'Consultorio médico', icon: '🩺', modules: ['turnos', 'crm', 'wa', 'roles'] },
+  restaurante: { name: 'Restaurante / Delivery', icon: '🍽️', modules: ['stock', 'turnos', 'wa', 'afip'] },
+  distribuidora: { name: 'Distribuidora B2B', icon: '📦', modules: ['stock', 'crm', 'afip', 'wa'] },
+  profesional: { name: 'Abogado / Contador', icon: '💼', modules: ['turnos', 'crm', 'afip'] },
+  custom: { name: 'Otro · custom', icon: '⚙️', modules: [] }
+};
+
+const PLANS = [
+  { max: 1500, name: 'Plan Esencial', price: 80, features: ['Hosting + dominio incluidos', 'Soporte por WhatsApp en 24hs', 'Backups diarios y SSL'] },
+  { max: 3500, name: 'Plan Pro', price: 130, features: ['Hosting + dominio incluidos', 'Soporte prioritario (4hs hábiles)', 'Backups + monitoreo 24/7', '2 hs/mes de cambios o mejoras'] },
+  { max: Infinity, name: 'Plan Business', price: 200, features: ['Hosting + dominio incluidos', 'Soporte prioritario 24/7', 'Backups + monitoreo + uptime SLA', '4 hs/mes de cambios y mejoras', 'Reporte mensual de performance'] }
+];
+
+const state = {
+  step: 1,
+  service: null,
+  vertical: null,
+  modules: new Set(),
+  design: 'template',
+  urgency: 'standard',
+  integration: false
+};
+
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
+
+function renderServices() {
+  const grid = $('#services-grid');
+  grid.innerHTML = Object.entries(SERVICES).map(([id, s]) => {
+    const cls = ['service-card'];
+    if (s.popular) cls.push('popular');
+    if (s.isNew) cls.push('new');
+    return `
+    <button class="${cls.join(' ')}" data-service="${id}" type="button">
+      <div class="service-icon">${s.icon}</div>
+      <div class="service-body">
+        <div class="service-name">${s.name}</div>
+        <div class="service-desc">${s.desc}</div>
+        <div class="service-meta">
+          <span>Desde <strong>USD $${s.basePrice.toLocaleString('en-US')}</strong></span>
+          <span>~${s.baseDays} días</span>
+        </div>
+      </div>
+      <div class="service-arrow" aria-hidden="true">→</div>
+    </button>
+  `;
+  }).join('');
+  $$('[data-service]').forEach(c => c.addEventListener('click', () => selectService(c.dataset.service)));
+
+  const advText = 'Hola Santiago, me interesa hablar de un proyecto más complejo (marketplace, plataforma multi-tenant o similar). ¿Cuándo podemos coordinar una llamada?';
+  $('#advanced-wa').href = `https://wa.me/${PHONE}?text=${encodeURIComponent(advText)}`;
+}
+
+function selectService(id) {
+  if (state.service !== id) {
+    state.modules.clear();
+    state.vertical = null;
+  }
+  state.service = id;
+  goTo(2);
+}
+
+function selectVertical(id) {
+  state.vertical = id;
+  state.modules = new Set(VERTICALS[id].modules);
+  renderModules();
+}
+
+function renderModules() {
+  const s = SERVICES[state.service];
+  const verticalsBox = $('#verticals-container');
+
+  if (state.service === 'sistema') {
+    verticalsBox.classList.remove('hidden');
+    verticalsBox.innerHTML = `
+      <div class="verticals-label">¿Para qué tipo de negocio?</div>
+      <div class="verticals-strip">
+        ${Object.entries(VERTICALS).map(([id, v]) => `
+          <button class="vertical-pill${state.vertical === id ? ' active' : ''}" data-vertical="${id}" type="button">
+            <span aria-hidden="true">${v.icon}</span> ${v.name}
+          </button>
+        `).join('')}
+      </div>
+      <div class="vertical-hint">${state.vertical ? 'Te marqué los módulos típicos del rubro. Sumá o quitá lo que quieras.' : 'Elegí tu rubro para pre-marcar los módulos más usados.'}</div>
+    `;
+    $$('[data-vertical]').forEach(b => b.addEventListener('click', () => selectVertical(b.dataset.vertical)));
+  } else {
+    verticalsBox.classList.add('hidden');
+    verticalsBox.innerHTML = '';
+  }
+
+  const list = $('#modules-list');
+  list.innerHTML = s.modules.map(m => `
+    <button class="module-item${state.modules.has(m.id) ? ' checked' : ''}" data-mod="${m.id}" type="button" aria-pressed="${state.modules.has(m.id)}">
+      <div class="module-check" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      </div>
+      <div class="module-body">
+        <div class="module-name">${m.name}</div>
+        <div class="module-meta">+USD $${m.price} · +${m.days} ${m.days === 1 ? 'día' : 'días'}</div>
+      </div>
+    </button>
+  `).join('');
+  $$('[data-mod]').forEach(b => b.addEventListener('click', () => toggleModule(b.dataset.mod)));
+}
+
+function toggleModule(id) {
+  if (state.modules.has(id)) state.modules.delete(id);
+  else state.modules.add(id);
+  renderModules();
+}
+
+function syncStep3() {
+  $$('[data-design]').forEach(b => b.classList.toggle('active', b.dataset.design === state.design));
+  $$('[data-urgency]').forEach(b => b.classList.toggle('active', b.dataset.urgency === state.urgency));
+  $$('[data-integration]').forEach(b => b.classList.toggle('active', b.dataset.integration === String(state.integration)));
+}
+
+function calc() {
+  const s = SERVICES[state.service];
+  let p = s.basePrice;
+  let d = s.baseDays;
+  state.modules.forEach(id => {
+    const m = s.modules.find(x => x.id === id);
+    if (m) { p += m.price; d += m.days; }
+  });
+  if (state.integration) { p += 400; d += 3; }
+  if (state.design === 'custom') p = p * 1.25;
+  if (state.urgency === 'express') {
+    p = p * 1.20;
+    d = Math.max(7, Math.round(d * 0.7));
+  }
+  const min = Math.round(p / 100) * 100;
+  const max = Math.round((p * 1.18) / 100) * 100;
+  return { min, max, days: d };
+}
+
+function buildIncludes() {
+  const s = SERVICES[state.service];
+  const baseLabel = state.service === 'sistema' && state.vertical && state.vertical !== 'custom'
+    ? `${s.name} para ${VERTICALS[state.vertical].name.toLowerCase()} · base completa`
+    : `${s.name} · base completa`;
+  const items = [baseLabel];
+  state.modules.forEach(id => {
+    const m = s.modules.find(x => x.id === id);
+    if (m) items.push(m.name);
+  });
+  if (state.design === 'custom') items.push('Diseño 100% custom');
+  if (state.urgency === 'express') items.push('Entrega express (30% más rápido)');
+  if (state.integration) items.push('Integración con tu sistema actual');
+  return items;
+}
+
+function getPlan(price) {
+  return PLANS.find(p => price < p.max) || PLANS[PLANS.length - 1];
+}
+
+function renderResult() {
+  const { min, max, days } = calc();
+  const items = buildIncludes();
+  const s = SERVICES[state.service];
+  const plan = getPlan(min);
+
+  $('#r-price').textContent = `USD $${min.toLocaleString('en-US')}–$${max.toLocaleString('en-US')}`;
+  $('#r-days').textContent = `Plazo estimado: ~${days} días`;
+  $('#r-includes').innerHTML = items.map(t => `<li>${t}</li>`).join('');
+
+  $('#r-plan-price').textContent = `USD $${plan.price}`;
+  $('#r-plan-name').textContent = plan.name;
+  $('#r-plan-features').innerHTML = plan.features.map(f => `<li>${f}</li>`).join('');
+
+  const projectLabel = state.service === 'sistema' && state.vertical && state.vertical !== 'custom'
+    ? `${s.name} para ${VERTICALS[state.vertical].name}`
+    : s.name;
+  const moduleNames = [...state.modules].map(id => s.modules.find(x => x.id === id)?.name).filter(Boolean);
+  const lines = [
+    'Hola Santiago, usé el cotizador.',
+    '',
+    `· Proyecto: ${projectLabel}`,
+    `· Módulos: ${moduleNames.length ? moduleNames.join(', ') : 'sin extras'}`,
+    `· Diseño: ${state.design === 'custom' ? '100% custom' : 'template ajustado'}`,
+    `· Plazo: ${state.urgency === 'express' ? 'express' : 'estándar'}`,
+    `· Integración con sistema actual: ${state.integration ? 'sí' : 'no'}`,
+    '',
+    `Estimado: USD $${min.toLocaleString('en-US')}–$${max.toLocaleString('en-US')}`,
+    `Plazo: ~${days} días`,
+    `Plan mensual sugerido: ${plan.name} · USD $${plan.price}/mes`,
+    '',
+    '¿Lo vemos?'
+  ].join('\n');
+  $('#r-wa').href = `https://wa.me/${PHONE}?text=${encodeURIComponent(lines)}`;
+}
+
+function goTo(step) {
+  state.step = step;
+  $$('.step').forEach(s => s.classList.add('hidden'));
+  if (step === 1) $('#step-1').classList.remove('hidden');
+  if (step === 2) { renderModules(); $('#step-2').classList.remove('hidden'); }
+  if (step === 3) { syncStep3(); $('#step-3').classList.remove('hidden'); }
+  if (step === 4) { renderResult(); $('#result').classList.remove('hidden'); }
+
+  $$('.step-dot').forEach(d => {
+    const n = parseInt(d.dataset.step, 10);
+    d.classList.remove('active', 'done');
+    if (step === 4 || n < step) d.classList.add('done');
+    if (n === step && step <= 3) d.classList.add('active');
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restart() {
+  state.service = null;
+  state.vertical = null;
+  state.modules.clear();
+  state.design = 'template';
+  state.urgency = 'standard';
+  state.integration = false;
+  goTo(1);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderServices();
+
+  const preset = new URLSearchParams(location.search).get('service');
+  if (preset && SERVICES[preset]) {
+    selectService(preset);
+  }
+
+  $$('[data-back]').forEach(b => b.addEventListener('click', () => goTo(state.step - 1)));
+  $$('[data-next]').forEach(b => b.addEventListener('click', () => goTo(state.step + 1)));
+  $$('[data-finish]').forEach(b => b.addEventListener('click', () => goTo(4)));
+  $$('[data-restart]').forEach(b => b.addEventListener('click', restart));
+
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('[data-design],[data-urgency],[data-integration]');
+    if (!t) return;
+    if (t.dataset.design) {
+      state.design = t.dataset.design;
+      $$('[data-design]').forEach(b => b.classList.toggle('active', b === t));
+    } else if (t.dataset.urgency) {
+      state.urgency = t.dataset.urgency;
+      $$('[data-urgency]').forEach(b => b.classList.toggle('active', b === t));
+    } else if (t.dataset.integration) {
+      state.integration = t.dataset.integration === 'true';
+      $$('[data-integration]').forEach(b => b.classList.toggle('active', b === t));
+    }
+  });
+});
+</script>
+
+</body>
+</html>
