@@ -181,6 +181,8 @@ a { color: inherit; }
 .btn-primary:hover { box-shadow: 0 12px 40px rgba(0,230,118,0.25); }
 .btn-secondary { background: transparent; color: var(--fg); border: 1px solid var(--border-hover); }
 .btn-secondary:hover { border-color: var(--fg-muted); background: rgba(255,255,255,0.03); }
+.btn-srm { background: transparent; color: var(--gold); border: 1px solid rgba(245,158,11,0.4); }
+.btn-srm:hover { background: var(--gold); color: var(--bg); border-color: var(--gold); box-shadow: 0 12px 40px rgba(245,158,11,0.2); }
 
 .hero-proof { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 48px; opacity: 0; animation: fadeUp 0.7s 0.55s forwards; }
 .proof-item { display: flex; align-items: center; gap: 10px; }
@@ -499,6 +501,7 @@ a.service-card { text-decoration: none; color: inherit; display: block; }
       <div class="hero-actions">
         <a href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20ver%20una%20demo%20personalizada" target="_blank" rel="noopener" class="btn btn-primary" data-track="hero_cta" data-event="Lead">Pedí tu demo gratis →</a>
         <a href="/app" class="btn btn-secondary" data-track="hero_quote" data-event="Contact">Calculá tu precio →</a>
+        <a href="https://metodo-srm.vercel.app/" target="_blank" rel="noopener" class="btn btn-srm" data-track="hero_srm" data-event="Contact">Método SRM →</a>
       </div>
 
       <div class="hero-proof">
