@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00ff87"/><stop offset="100%" stop-color="#7c5cff"/></linearGradient></defs><rect width="32" height="32" rx="6" fill="#050508"/><text x="16" y="22" font-family="system-ui,sans-serif" font-size="14" font-weight="800" fill="url(#g)" text-anchor="middle">SR</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" rx="7.5" fill="#17140E"/>
+  <text x="14" y="23.2" font-family="Georgia, 'Times New Roman', serif" font-size="22" font-weight="400" fill="#ECE7DA" text-anchor="middle">S</text>
+  <circle cx="23.4" cy="22" r="2.4" fill="#0E9E64"/>
+</svg>

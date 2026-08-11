@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reservá tu sesión estratégica — Santiago Ramírez</title>
+<meta name="description" content="Agendá 90 minutos 1:1 para diagnosticar tu negocio y salir con un plan de acción. Pago seguro con Mercado Pago.">
+<meta name="theme-color" content="#ECE7DA">
+<link rel="canonical" href="https://santiagoagustinramirez.com/reservar.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Reservá tu sesión estratégica — Santiago Ramírez">
+<meta property="og:description" content="90 minutos 1:1 para diagnosticar tu negocio y salir con un plan de acción escrito. Pago seguro con Mercado Pago.">
+<meta property="og:url" content="https://santiagoagustinramirez.com/reservar.html">
+<meta property="og:image" content="https://santiagoagustinramirez.com/og.png">
+<meta property="og:locale" content="es_AR">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","name":"Sesión estratégica 1:1","serviceType":"Consultoría de negocio","provider":{"@type":"Person","name":"Santiago Ramírez","url":"https://santiagoagustinramirez.com"},"areaServed":"AR","description":"90 minutos 1:1 para diagnosticar tu negocio y salir con un plan de acción escrito.","offers":{"@type":"Offer","price":"75","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://santiagoagustinramirez.com/reservar.html"}}
+</script>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent',{content_name:'Sesión estratégica',content_ids:['sesion'],content_type:'product'});
+</script>
+<style>
+  :root{--paper:#ECE7DA;--ink:#17140E;--ink-soft:#3A352B;--muted:#6E685A;--line:rgba(23,20,14,.14);--forest:#163A2B;--signal:#0E9E64;--on-forest:#E9E4D6;--serif:"Instrument Serif",Georgia,serif;--sans:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.5;padding:24px}
+  .wrap{max-width:640px;margin:0 auto}
+  .back{color:var(--muted);font-size:14px;text-decoration:none}
+  .head{margin:24px 0 8px}
+  h1{font-family:var(--serif);font-weight:400;font-size:clamp(30px,7vw,44px);line-height:1.05}
+  .sub{color:var(--muted);font-size:16px;margin-top:8px}
+  .price{display:inline-flex;align-items:baseline;gap:6px;margin-top:14px;font-family:var(--serif)}
+  .price strong{font-size:30px;font-weight:400}
+  .price span{font-size:14px;color:var(--muted)}
+  h2{font-family:var(--serif);font-weight:400;font-size:20px;margin:28px 0 12px}
+  .day{margin-bottom:18px}
+  .day-label{font-size:13px;color:var(--muted);text-transform:capitalize;margin-bottom:8px}
+  .slots{display:flex;flex-wrap:wrap;gap:8px}
+  .slot{border:1px solid var(--line);background:color-mix(in srgb,var(--ink) 5%,transparent);border-radius:999px;padding:9px 16px;cursor:pointer;font:inherit;font-size:14px;color:var(--ink)}
+  .slot.sel{background:var(--forest);color:var(--on-forest);border-color:var(--forest)}
+  .form{margin-top:24px;display:grid;gap:12px}
+  .form input{width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--ink) 5%,transparent);font:inherit;font-size:15px;color:var(--ink)}
+  .form input::placeholder{color:var(--muted)}
+  .btn{display:block;width:100%;text-align:center;background:var(--forest);color:var(--on-forest);border:none;border-radius:999px;padding:16px;font-weight:600;font-size:15px;cursor:pointer;font-family:var(--sans);margin-top:6px}
+  .btn[disabled]{opacity:.6;pointer-events:none}
+  .note{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+  .empty{color:var(--muted);font-size:15px;padding:12px 0}
+  .err{color:#B42318;font-size:14px;margin-top:8px}
+  /* Fase 1 — View Transitions + Dark mode */
+  @view-transition{navigation:auto;}
+  @media(prefers-reduced-motion:no-preference){
+    ::view-transition-old(root){animation:vt-out .26s ease both;}
+    ::view-transition-new(root){animation:vt-in .34s ease both;}
+    @keyframes vt-out{to{opacity:0;transform:translateY(-6px);}}
+    @keyframes vt-in{from{opacity:0;transform:translateY(10px);}}
+  }
+  html{color-scheme:light dark;}
+  @media(prefers-color-scheme:dark){:root{--paper:#141210;--ink:#EDE8DC;--ink-soft:#CFC8B8;--muted:#9A9182;--line:rgba(237,232,220,.16);--forest:#0F2C20;--signal:#25B87C;--on-forest:#E9E4D6;}}
+  :root[data-theme="dark"]{--paper:#141210;--ink:#EDE8DC;--ink-soft:#CFC8B8;--muted:#9A9182;--line:rgba(237,232,220,.16);--forest:#0F2C20;--signal:#25B87C;--on-forest:#E9E4D6;}
+  :focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:3px;}
+</style>
+</head>
+<body>
+<script>(function(){try{var s=localStorage.getItem('srm-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}})();</script>
+  <div class="wrap">
+    <a href="/" class="back">← Volver al inicio</a>
+    <div class="head">
+      <h1>Sesión estratégica</h1>
+      <p class="sub">90 minutos 1:1 para diagnosticar tu negocio y salir con un plan de acción escrito.</p>
+      <div class="price"><strong id="price">USD $75</strong><span>· pago único</span></div>
+    </div>
+
+    <h2>Elegí día y hora</h2>
+    <div id="slots-container"><p class="empty">Cargando horarios disponibles…</p></div>
+
+    <div class="form" id="form" style="display:none">
+      <input type="text" id="name" placeholder="Tu nombre" autocomplete="name">
+      <input type="email" id="email" placeholder="Tu email" autocomplete="email" inputmode="email">
+      <button class="btn" id="submit" type="button">Reservar y pagar →</button>
+      <p class="err" id="err" style="display:none"></p>
+      <p class="note">Pago seguro con Mercado Pago. Recibís la invitación al calendario por email.</p>
+    </div>
+  </div>
+<script>
+(function(){
+  var SERVICE='sesion';
+  var selected=null;
+  var container=document.getElementById('slots-container');
+  var form=document.getElementById('form');
+  var errEl=document.getElementById('err');
+
+  function getCookie(n){var m=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return m?m.pop():undefined;}
+  function fmtDay(d){return d.toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long',timeZone:'America/Argentina/Cordoba'});}
+  function fmtTime(d){return d.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit',timeZone:'America/Argentina/Cordoba'});}
+
+  fetch('/api/availability?service='+SERVICE)
+    .then(function(r){return r.json();})
+    .then(function(data){
+      if(data && data.price_usd) document.getElementById('price').textContent='USD $'+data.price_usd;
+      var slots=(data && data.slots)||[];
+      if(!slots.length){ container.innerHTML='<p class="empty">No hay horarios disponibles por ahora. Escribime por WhatsApp y coordinamos.</p>'; return; }
+      var byDay={};
+      slots.forEach(function(iso){var d=new Date(iso);var key=fmtDay(d);(byDay[key]=byDay[key]||[]).push({iso:iso,d:d});});
+      container.innerHTML=Object.keys(byDay).map(function(day){
+        return '<div class="day"><div class="day-label">'+day+'</div><div class="slots">'
+          + byDay[day].map(function(s){return '<button class="slot" type="button" data-iso="'+s.iso+'">'+fmtTime(s.d)+'</button>';}).join('')
+          + '</div></div>';
+      }).join('');
+      Array.prototype.forEach.call(document.querySelectorAll('.slot'),function(b){
+        b.addEventListener('click',function(){
+          selected=b.getAttribute('data-iso');
+          Array.prototype.forEach.call(document.querySelectorAll('.slot'),function(x){x.classList.toggle('sel',x===b);});
+          form.style.display='grid';
+          form.scrollIntoView({behavior:'smooth',block:'center'});
+        });
+      });
+    })
+    .catch(function(){ container.innerHTML='<p class="empty">No pudimos cargar los horarios. Probá de nuevo o escribime por WhatsApp.</p>'; });
+
+  document.getElementById('submit').addEventListener('click',function(){
+    var name=document.getElementById('name').value.trim();
+    var email=document.getElementById('email').value.trim();
+    errEl.style.display='none';
+    if(!selected){ errEl.textContent='Elegí un horario primero.'; errEl.style.display='block'; return; }
+    if(!email || email.indexOf('@')<0){ errEl.textContent='Ingresá un email válido.'; errEl.style.display='block'; return; }
+    var btn=this; var orig=btn.textContent; btn.disabled=true; btn.textContent='Redirigiendo…';
+    if(typeof window.fbq==='function')window.fbq('track','InitiateCheckout');
+    fetch('/api/booking',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      service:SERVICE,slot:selected,name:name,email:email,fbp:getCookie('_fbp'),fbc:getCookie('_fbc')
+    })}).then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j};});}).then(function(res){
+      if(res.ok && res.j.init_point){ location.href=res.j.init_point; return; }
+      btn.disabled=false; btn.textContent=orig;
+      errEl.textContent = res.j.error==='slot_taken' ? 'Ese horario se acaba de ocupar. Elegí otro.' : 'No se pudo iniciar la reserva. Probá de nuevo.';
+      errEl.style.display='block';
+    }).catch(function(){ btn.disabled=false; btn.textContent=orig; errEl.textContent='Error de conexión. Probá de nuevo.'; errEl.style.display='block'; });
+  });
+})();
+</script>
+<script src="/shared/stars.js" defer></script>
+<script src="/shared/assistant.js" defer></script>
+<script src="/shared/pwa.js" defer></script>
+</body>
+</html>

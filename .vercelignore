@@ -1,0 +1,4 @@
+video/
+*.md
+.env.example
+scripts/dev-server.js

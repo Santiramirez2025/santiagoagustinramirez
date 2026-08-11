@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¡Gracias! — Santiago Ramírez</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#ECE7DA">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1419051696174763');fbq('track','PageView');
+</script>
+<style>
+  :root{--paper:#ECE7DA;--ink:#17140E;--muted:#6E685A;--line:rgba(23,20,14,.14);--forest:#163A2B;--signal:#0E9E64;--on-forest:#E9E4D6;--serif:"Instrument Serif",Georgia,serif;--sans:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);min-height:100vh;display:grid;place-items:center;padding:24px;line-height:1.5}
+  .card{max-width:520px;width:100%;text-align:center}
+  .check{width:64px;height:64px;border-radius:50%;background:var(--signal);display:grid;place-items:center;margin:0 auto 24px}
+  .check svg{stroke:#fff}
+  h1{font-family:var(--serif);font-weight:400;font-size:clamp(32px,7vw,44px);line-height:1.05;margin-bottom:12px}
+  p{color:var(--muted);font-size:16px;margin-bottom:8px}
+  .steps{text-align:left;background:rgba(23,20,14,.03);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin:24px 0}
+  .steps h2{font-family:var(--serif);font-weight:400;font-size:20px;margin-bottom:10px}
+  .steps li{color:var(--muted);font-size:15px;margin:6px 0 6px 18px}
+  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--forest);color:var(--on-forest);text-decoration:none;padding:14px 24px;border-radius:999px;font-weight:600;font-size:15px}
+  .home{display:inline-block;margin-top:16px;color:var(--muted);font-size:14px;text-decoration:underline}
+  /* Fase 1 — View Transitions + Dark mode */
+  @view-transition{navigation:auto;}
+  @media(prefers-reduced-motion:no-preference){
+    ::view-transition-old(root){animation:vt-out .26s ease both;}
+    ::view-transition-new(root){animation:vt-in .34s ease both;}
+    @keyframes vt-out{to{opacity:0;transform:translateY(-6px);}}
+    @keyframes vt-in{from{opacity:0;transform:translateY(10px);}}
+  }
+  html{color-scheme:light dark;}
+  @media(prefers-color-scheme:dark){:root{--paper:#141210;--ink:#EDE8DC;--muted:#9A9182;--line:rgba(237,232,220,.16);--forest:#0F2C20;--signal:#25B87C;--on-forest:#E9E4D6;}}
+  :root[data-theme="dark"]{--paper:#141210;--ink:#EDE8DC;--muted:#9A9182;--line:rgba(237,232,220,.16);--forest:#0F2C20;--signal:#25B87C;--on-forest:#E9E4D6;}
+  :focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:3px;}
+</style>
+</head>
+<body>
+<script>(function(){try{var s=localStorage.getItem('srm-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}})();</script>
+  <div class="card">
+    <div class="check"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+    <h1 id="title">¡Listo! Recibimos tu pago</h1>
+    <p id="subtitle">Gracias por reservar. Te escribo en el día para coordinar los próximos pasos.</p>
+    <div class="steps">
+      <h2>¿Qué sigue ahora?</h2>
+      <ol>
+        <li>Te contacto por WhatsApp o email para agendar la llamada.</li>
+        <li>Revisamos el alcance y confirmamos el plan de trabajo.</li>
+        <li>Arranca el proyecto. Recibís la demo en 48hs.</li>
+      </ol>
+    </div>
+    <a class="btn" id="wa" href="#" target="_blank" rel="noopener">Escribime por WhatsApp →</a>
+    <br><a class="home" href="/">← Volver al inicio</a>
+  </div>
+<script>
+(function(){
+  var PHONE = '5493536561265';
+  var q = new URLSearchParams(location.search);
+  var order = q.get('order');
+  var mpStatus = q.get('status') || q.get('collection_status');
+  document.getElementById('wa').href = 'https://wa.me/'+PHONE+'?text='+encodeURIComponent('Hola Santiago, acabo de hacer el pago por la web. Coordinemos los próximos pasos.');
+  if(!order) return;
+  fetch('/api/order-status?order='+encodeURIComponent(order))
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(!d || !d.event_id) return;
+      var approved = mpStatus === 'approved' || d.status === 'approved';
+      if(d.kind === 'booking'){
+        document.getElementById('subtitle').textContent = 'Tu sesión quedó reservada. Te llega la invitación al calendario por email.';
+      }
+      if(approved && typeof window.fbq === 'function'){
+        // Purchase con el MISMO event_id que envía el CAPI (webhook) => deduplicado.
+        window.fbq('track','Purchase',
+          { value: d.value, currency: d.currency, content_name: d.service_name, content_type: 'product' },
+          { eventID: d.event_id });
+      }
+    })
+    .catch(function(){});
+})();
+</script>
+<script src="/shared/stars.js" defer></script>
+</body>
+</html>
