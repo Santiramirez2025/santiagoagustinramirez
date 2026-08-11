@@ -90,11 +90,15 @@
       var pEl = document.getElementById('ig-posts'); if (pEl && d.posts) pEl.textContent = Number(d.posts).toLocaleString('es-AR');
       if (d.media && d.media.length) {
         var grid = document.getElementById('ig-grid'), empty = document.getElementById('ig-empty');
+        var ov = '<span class="ig-ov"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></span>';
         grid.innerHTML = d.media.slice(0, 6).map(function (m) {
-          return '<a class="ig-tile" href="' + m.permalink + '" target="_blank" rel="noopener"><img src="' + m.img + '" alt="" loading="lazy"></a>';
+          var badge = m.type === 'VIDEO' ? '<span class="ig-badge">▶</span>' : (m.type === 'CAROUSEL_ALBUM' ? '<span class="ig-badge">▧</span>' : '');
+          return '<a class="ig-tile" href="' + m.permalink + '" target="_blank" rel="noopener"><img src="' + m.img + '" alt="" loading="lazy">' + badge + ov + '</a>';
         }).join('');
         grid.hidden = false;
-        if (empty) empty.style.display = 'none';
+        if (empty) {
+          empty.innerHTML = '<span class="ig-live-tag"><span class="p"></span>En vivo desde Instagram</span> · <a href="https://instagram.com/santiagoramirezmindel" target="_blank" rel="noopener" data-track="ig_verpubs" data-event="Lead">Ver todo →</a>';
+        }
       }
     }).catch(function () {});
   }
