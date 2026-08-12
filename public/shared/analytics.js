@@ -12,7 +12,7 @@
 
   // ─────────────────────────────────────────────────────────────────────────
   // CONFIG — completá cuando tengas las cuentas (gratis). Sin esto igual funciona el analytics propio.
-  var CLARITY_ID = '';            // clarity.microsoft.com → crear proyecto → pegar el ID acá
+  var CLARITY_ID = 'y1cylb48d2';  // Microsoft Clarity (grabaciones + mapas de calor)
   var VERCEL_ANALYTICS = true;    // activá "Web Analytics" en el panel de Vercel (gratis)
   // ─────────────────────────────────────────────────────────────────────────
 
