@@ -8,32 +8,9 @@
 // (la IP solo se usa, en el momento, para el match de Meta).
 
 const { sendEvent } = require('../lib/meta');
-const { sql } = require('../lib/db');
+const { ensureEventsTable, insertEvent } = require('../lib/db');
 
 const CAPI_EVENTS = { InitiateCheckout: 1, Contact: 1, Lead: 1, ViewContent: 1, Purchase: 1 };
-
-// Crea la tabla una sola vez por instancia (sin migración manual).
-let _ensured;
-function ensureTable() {
-  if (!process.env.DATABASE_URL) return Promise.resolve(false);
-  if (!_ensured) {
-    _ensured = sql`
-      CREATE TABLE IF NOT EXISTS events (
-        id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-        visitor_id text, session_id text, event text NOT NULL,
-        path text, referrer text,
-        utm_source text, utm_medium text, utm_campaign text,
-        device text, meta jsonb, ua text,
-        created_at timestamptz NOT NULL DEFAULT now()
-      )`
-      .then(function () { return sql`CREATE INDEX IF NOT EXISTS events_created_idx ON events (created_at)`; })
-      .then(function () { return sql`CREATE INDEX IF NOT EXISTS events_event_idx ON events (event)`; })
-      .then(function () { return sql`CREATE INDEX IF NOT EXISTS events_session_idx ON events (session_id)`; })
-      .then(function () { return true; })
-      .catch(function (e) { console.error('[track] ensureTable', e.message); _ensured = null; return false; });
-  }
-  return _ensured;
-}
 
 function readBody(req) {
   return new Promise(function (resolve) {
@@ -65,7 +42,7 @@ module.exports = async (req, res) => {
   const fbc = cookie(req, '_fbc');
 
   try {
-    await ensureTable();
+    const dbReady = await ensureEventsTable();
     const tasks = [];
     for (const ev of batch) {
       if (!ev || !ev.event) continue;
@@ -80,14 +57,8 @@ module.exports = async (req, res) => {
       }
 
       // 2) Analytics propio (Neon)
-      if (process.env.DATABASE_URL) {
-        const m = ev.meta && typeof ev.meta === 'object' ? ev.meta : {};
-        tasks.push(sql`
-          INSERT INTO events (visitor_id, session_id, event, path, referrer, utm_source, utm_medium, utm_campaign, device, meta, ua)
-          VALUES (${ev.visitorId || null}, ${ev.sessionId || null}, ${ev.event}, ${ev.path || null}, ${ev.referrer || null},
-                  ${ev.utm_source || null}, ${ev.utm_medium || null}, ${ev.utm_campaign || null}, ${ev.device || null},
-                  ${JSON.stringify(m)}, ${ua || null})
-        `.catch(function (e) { console.error('[track] insert', e.message); }));
+      if (dbReady) {
+        tasks.push(insertEvent(Object.assign({}, ev, { ua: ua })).catch(function (e) { console.error('[track] insert', e.message); }));
       }
     }
     await Promise.all(tasks);

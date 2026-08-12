@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Panel · Comportamiento</title>
+<style>
+  :root{
+    --bg:#090f0c; --surface:#111a15; --surface2:#0d1512; --line:rgba(120,180,150,.14);
+    --ink:#e9f1ec; --muted:#8090; --muted:#7f8f86; --accent:#18b877; --accent-dim:#0e6b45;
+    --warn:#e0a33e; --crit:#e6605f; --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 700px at 80% -10%,#0f1b15 0,var(--bg) 55%);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:var(--accent)}
+  .wrap{max-width:1120px;margin:0 auto;padding:22px 18px 60px}
+  header{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:22px}
+  .brand{display:flex;align-items:center;gap:11px}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 rgba(24,184,119,.5);animation:pulse 2.2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(24,184,119,.45)}70%{box-shadow:0 0 0 8px rgba(24,184,119,0)}100%{box-shadow:0 0 0 0 rgba(24,184,119,0)}}
+  h1{font-size:16px;margin:0;font-weight:650;letter-spacing:.01em}
+  .sub{font-size:12px;color:var(--muted);font-family:var(--mono)}
+  .controls{display:flex;gap:8px;align-items:center}
+  .seg{display:flex;background:var(--surface2);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .seg button{background:none;border:0;color:var(--muted);padding:7px 13px;font-size:12.5px;cursor:pointer;font-family:var(--mono)}
+  .seg button.on{background:var(--accent);color:#04120c;font-weight:600}
+  .icon-btn{background:var(--surface2);border:1px solid var(--line);color:var(--muted);border-radius:10px;width:36px;height:34px;cursor:pointer;font-size:15px}
+  .grid{display:grid;gap:14px}
+  .kpis{grid-template-columns:repeat(5,1fr)}
+  .cols{grid-template-columns:1.3fr 1fr}
+  .cols3{grid-template-columns:1fr 1fr 1fr}
+  @media(max-width:860px){.kpis{grid-template-columns:repeat(2,1fr)}.cols,.cols3{grid-template-columns:1fr}}
+  .card{background:linear-gradient(180deg,var(--surface),var(--surface2));border:1px solid var(--line);border-radius:16px;padding:16px 17px}
+  .card h2{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin:0 0 13px;font-weight:600}
+  .kpi .n{font-size:30px;font-weight:680;font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1}
+  .kpi .l{font-size:11.5px;color:var(--muted);margin-top:7px}
+  .kpi .d{font-size:11px;font-family:var(--mono);margin-top:6px}
+  .up{color:var(--accent)} .down{color:var(--crit)} .neutral{color:var(--muted)}
+  .accent .n{color:var(--accent)}
+  /* funnel */
+  .funnel{display:flex;flex-direction:column;gap:9px}
+  .fb{position:relative;background:var(--surface2);border-radius:9px;height:42px;overflow:hidden;border:1px solid var(--line)}
+  .fb .fill{position:absolute;inset:0;width:0;background:linear-gradient(90deg,var(--accent-dim),var(--accent));border-radius:9px;transition:width .7s cubic-bezier(.2,.7,.2,1)}
+  .fb .txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 13px;font-size:13px;z-index:1}
+  .fb .txt b{font-variant-numeric:tabular-nums}
+  .fb .pct{font-family:var(--mono);font-size:11.5px;color:var(--ink);opacity:.85}
+  /* bars list */
+  .rows{display:flex;flex-direction:column;gap:9px}
+  .row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;font-size:13px}
+  .bar{position:relative;height:8px;background:var(--surface2);border-radius:5px;overflow:hidden;margin-top:5px}
+  .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:5px}
+  .row .k{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .row .v{font-family:var(--mono);font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+  /* timeline svg */
+  .spark{width:100%;height:120px;display:block}
+  .legend{display:flex;gap:16px;font-size:11.5px;color:var(--muted);margin-top:8px;font-family:var(--mono)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .swatch{width:10px;height:10px;border-radius:3px;display:inline-block}
+  /* feed */
+  .feed{max-height:340px;overflow:auto;display:flex;flex-direction:column;gap:2px}
+  .ev{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:7px 4px;border-bottom:1px solid var(--line);font-size:12.5px}
+  .tag{font-family:var(--mono);font-size:10.5px;padding:2px 7px;border-radius:6px;background:var(--surface2);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+  .tag.conv{background:rgba(24,184,119,.14);color:var(--accent);border-color:rgba(24,184,119,.3)}
+  .tag.rage{background:rgba(230,96,95,.14);color:var(--crit);border-color:rgba(230,96,95,.3)}
+  .ev .p{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--mono)}
+  .ev .t{font-family:var(--mono);color:var(--muted);font-size:11px}
+  .muted{color:var(--muted);font-size:12.5px}
+  /* gate */
+  .gate{position:fixed;inset:0;background:rgba(6,10,8,.92);display:none;align-items:center;justify-content:center;z-index:50}
+  .gate.show{display:flex}
+  .gate .box{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px;width:min(360px,90vw);text-align:center}
+  .gate input{width:100%;margin:14px 0;padding:11px 13px;background:var(--surface2);border:1px solid var(--line);border-radius:10px;color:var(--ink);font-family:var(--mono);font-size:13px}
+  .gate button{width:100%;padding:11px;background:var(--accent);color:#04120c;border:0;border-radius:10px;font-weight:650;cursor:pointer;font-size:14px}
+  .err{color:var(--crit);font-size:12px;margin-top:10px;min-height:16px}
+  .rage-flag{color:var(--crit)} .warn-flag{color:var(--warn)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <span class="dot"></span>
+      <div>
+        <h1>Panel de comportamiento</h1>
+        <div class="sub" id="updated">cargando…</div>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="seg" id="range">
+        <button data-d="1">Hoy</button>
+        <button data-d="7" class="on">7 días</button>
+        <button data-d="30">30 días</button>
+      </div>
+      <button class="icon-btn" id="refresh" title="Actualizar">↻</button>
+    </div>
+  </header>
+
+  <div class="grid kpis" id="kpis"></div>
+
+  <div class="grid cols" style="margin-top:14px">
+    <div class="card">
+      <h2>Visitas por día</h2>
+      <svg class="spark" id="spark" viewBox="0 0 600 120" preserveAspectRatio="none"></svg>
+      <div class="legend">
+        <span><i class="swatch" style="background:var(--accent-dim)"></i> Visitas</span>
+        <span><i class="swatch" style="background:var(--accent)"></i> Contactos WhatsApp</span>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Embudo</h2>
+      <div class="funnel" id="funnel"></div>
+    </div>
+  </div>
+
+  <div class="grid cols3" style="margin-top:14px">
+    <div class="card"><h2>Dispositivo</h2><div class="rows" id="devices"></div></div>
+    <div class="card"><h2>Fuente de tráfico</h2><div class="rows" id="sources"></div></div>
+    <div class="card"><h2>Hasta dónde leen</h2><div class="rows" id="scroll"></div></div>
+  </div>
+
+  <div class="grid cols" style="margin-top:14px">
+    <div class="card"><h2>Botones más tocados</h2><div class="rows" id="ctas"></div></div>
+    <div class="card"><h2>Páginas más vistas</h2><div class="rows" id="pages"></div></div>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <h2>Actividad en vivo <span class="muted" id="feedcount"></span></h2>
+    <div class="feed" id="feed"></div>
+  </div>
+
+  <p class="muted" style="text-align:center;margin-top:26px">Datos propios (Neon) · se actualiza solo cada 30s · <span id="dbnote"></span></p>
+</div>
+
+<div class="gate" id="gate">
+  <div class="box">
+    <div class="dot" style="margin:0 auto 12px"></div>
+    <div style="font-size:15px;font-weight:600">Panel privado</div>
+    <div class="muted" style="margin-top:6px">Ingresá tu token de acceso</div>
+    <input id="token" type="password" placeholder="STATS_TOKEN" autocomplete="off">
+    <button id="enter">Entrar</button>
+    <div class="err" id="gateErr"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var fmt=function(n){return (n||0).toLocaleString('es-AR');};
+  var pct=function(x){return (x*100).toFixed(x>=0.1?0:1)+'%';};
+  var $=function(s){return document.querySelector(s);};
+  var days=7, timer=null;
+  var TK='_srm_stats_token';
+  function token(){try{return localStorage.getItem(TK)||'';}catch(e){return '';}}
+  function setToken(t){try{localStorage.setItem(TK,t);}catch(e){}}
+
+  function gate(show,msg){ $('#gate').classList.toggle('show',!!show); if(msg)$('#gateErr').textContent=msg; }
+
+  async function load(){
+    var t=token();
+    if(!t){gate(true);return;}
+    try{
+      var r=await fetch('/api/stats?days='+days,{headers:{'x-stats-token':t}});
+      if(r.status===401){gate(true,'Token incorrecto');return;}
+      if(r.status===503){var j=await r.json();$('#dbnote').textContent=j.message||'Falta configuración';gate(false);renderEmpty();return;}
+      if(!r.ok){throw new Error('HTTP '+r.status);}
+      gate(false);
+      var d=await r.json();
+      render(d);
+    }catch(e){ $('#updated').textContent='error: '+e.message; }
+  }
+
+  function renderEmpty(){ $('#kpis').innerHTML='<div class="card muted">Sin datos todavía. Configurá STATS_TOKEN y DATABASE_URL en Vercel.</div>'; }
+
+  function kpi(n,l,d,cls){ return '<div class="card kpi '+(cls||'')+'"><div class="n">'+n+'</div><div class="l">'+l+'</div>'+(d?'<div class="d neutral">'+d+'</div>':'')+'</div>'; }
+
+  function render(d){
+    var o=d.overview;
+    $('#updated').textContent='últimos '+d.range_days+'d · '+new Date().toLocaleTimeString('es-AR');
+    $('#kpis').innerHTML=[
+      kpi(fmt(o.visitors),'Visitantes únicos'),
+      kpi(fmt(o.sessions),'Sesiones'),
+      kpi(fmt(o.wa_contacts),'Contactos WhatsApp','conversión',''),
+      kpi(pct(o.conv_rate),'Tasa de conversión', o.wa_sessions+'/'+o.sessions+' sesiones','accent'),
+      kpi((o.avg_seconds||0)+'s','Tiempo medio', pct(o.engaged_rate)+' enganchados')
+    ].join('');
+    if(o.rage_clicks>0){ $('#kpis').insertAdjacentHTML('beforeend', '<div class="card kpi"><div class="n rage-flag">'+fmt(o.rage_clicks)+'</div><div class="l">Rage clicks <span class="rage-flag">⚠</span></div><div class="d neutral">frustración / posible bug UX</div></div>'); $('#kpis').className='grid kpis'; $('#kpis').style.gridTemplateColumns='repeat(6,1fr)'; }
+
+    // funnel
+    var s=o.sessions||1;
+    var steps=[['Visitaron', o.sessions, 1],['Se engancharon', o.engaged_sessions, o.engaged_sessions/s],['Contactaron por WhatsApp', o.wa_sessions, o.wa_sessions/s]];
+    $('#funnel').innerHTML=steps.map(function(st){
+      return '<div class="fb"><div class="fill" style="width:'+Math.max(2,st[2]*100)+'%"></div><div class="txt"><span>'+st[0]+'</span><span><b>'+fmt(st[1])+'</b> <span class="pct">'+pct(st[2])+'</span></span></div></div>';
+    }).join('');
+
+    sparkline(d.timeline);
+    barList('#devices', d.devices, 'device','sessions');
+    barList('#sources', d.sources, 'source','sessions');
+    barList('#scroll', (d.scroll||[]).map(function(x){return {k:x.depth+'%',v:x.sessions};}), 'k','v');
+    barList('#ctas', (d.ctas||[]).map(function(x){return {k:x.cta,v:x.clicks};}), 'k','v');
+    barList('#pages', (d.pages||[]).map(function(x){return {k:x.path,v:x.views};}), 'k','v');
+    feed(d.recent);
+  }
+
+  function barList(sel, arr, kk, vk){
+    var el=$(sel); if(!arr||!arr.length){el.innerHTML='<div class="muted">—</div>';return;}
+    var max=Math.max.apply(null,arr.map(function(a){return a[vk]||0;}))||1;
+    el.innerHTML=arr.map(function(a){
+      var k=(a[kk]==null?'—':a[kk]); var v=a[vk]||0;
+      return '<div><div class="row"><span class="k" title="'+esc(k)+'">'+esc(k)+'</span><span class="v">'+fmt(v)+'</span></div><div class="bar"><i style="width:'+(v/max*100)+'%"></i></div></div>';
+    }).join('');
+  }
+
+  function sparkline(tl){
+    var svg=$('#spark'); if(!tl||!tl.length){svg.innerHTML='';return;}
+    var W=600,H=120,pad=6, n=tl.length;
+    var maxV=Math.max.apply(null,tl.map(function(t){return t.pageviews;}))||1;
+    var bw=(W-pad*2)/n;
+    var bars='',dots='',line='';
+    tl.forEach(function(t,i){
+      var x=pad+i*bw;
+      var h=(t.pageviews/maxV)*(H-24);
+      bars+='<rect x="'+(x+bw*0.18)+'" y="'+(H-16-h)+'" width="'+(bw*0.64)+'" height="'+h+'" rx="2" fill="var(--accent-dim)"/>';
+      if(t.wa>0){ var wy=H-16-((t.wa/maxV)*(H-24)); dots+='<circle cx="'+(x+bw/2)+'" cy="'+wy+'" r="3.5" fill="var(--accent)"/>'; }
+    });
+    svg.innerHTML=bars+dots;
+  }
+
+  function feed(rows){
+    if(!rows){return;}
+    $('#feedcount').textContent='('+rows.length+')';
+    var label={page_view:'visita',scroll:'scroll',engaged:'enganchó',click:'click',wa_click:'WhatsApp',InitiateCheckout:'conversión',rage_click:'rage',page_time:'salió'};
+    $('#feed').innerHTML=rows.map(function(r){
+      var cls=(r.event==='wa_click'||r.event==='InitiateCheckout')?'conv':(r.event==='rage_click'?'rage':'');
+      return '<div class="ev"><span class="tag '+cls+'">'+(label[r.event]||r.event)+'</span><span class="p">'+esc(r.path||'')+' · '+esc(r.device||'')+'</span><span class="t">'+esc((r.at||'').slice(11))+'</span></div>';
+    }).join('');
+  }
+
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  // eventos UI
+  $('#range').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b)return;
+    [].forEach.call(this.querySelectorAll('button'),function(x){x.classList.remove('on');}); b.classList.add('on');
+    days=parseInt(b.getAttribute('data-d'),10); load(); });
+  $('#refresh').addEventListener('click',load);
+  $('#enter').addEventListener('click',function(){ var v=$('#token').value.trim(); if(v){setToken(v);gate(false);load();} });
+  $('#token').addEventListener('keydown',function(e){ if(e.key==='Enter')$('#enter').click(); });
+
+  load();
+  timer=setInterval(load,30000);
+})();
+</script>
+</body>
+</html>
