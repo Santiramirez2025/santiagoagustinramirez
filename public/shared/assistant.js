@@ -1,15 +1,23 @@
-/* assistant.js — widget del Asistente IA de Santiago Ramírez.
-   Autónomo: inyecta estilos + UI, conversa con /api/assistant, y ofrece reservar seña. */
+/* assistant.js — Asistente guiado de Santiago Ramírez.
+   Especializado en negocios de agenda (estética, spa, salud). 100% del lado del cliente:
+   sin LLM, sin costo, siempre responde. Califica el lead, cotiza con PRICING y deriva a
+   WhatsApp con contexto (dispara la conversión vía analytics.js) o al checkout con seña. */
 (function () {
   'use strict';
   if (window.__srmAssistant) return; window.__srmAssistant = true;
 
   var PHONE = '5493536561265';
-  var lang = (function () { try { return (localStorage.getItem('lang') || 'es').indexOf('en') === 0 ? 'en' : 'es'; } catch (e) { return 'es'; } })();
-  var T = {
-    es: { title: 'Asistente IA', sub: 'Te ayudo en 1 minuto', greet: '¡Hola! Soy el asistente de Santiago. Contame qué querés lograr con tu negocio y te recomiendo el camino (y el presupuesto).', ph: 'Escribí tu mensaje…', send: 'Enviar', reserve: 'Reservar con seña', wa: 'WhatsApp', today: 'Empezás hoy con', typing: 'Escribiendo…', err: 'No se pudo enviar. Probá de nuevo.' },
-    en: { title: 'AI Assistant', sub: 'I help in 1 minute', greet: "Hi! I'm Santiago's assistant. Tell me what you want to achieve and I'll recommend the path (and the price).", ph: 'Type your message…', send: 'Send', reserve: 'Reserve with deposit', wa: 'WhatsApp', today: 'Start today with', typing: 'Typing…', err: 'Could not send. Try again.' }
-  }[lang];
+
+  // Cotización real desde el motor de precios (servicio "reservas" = turnos con seña).
+  var P = window.PRICING;
+  var Q = P ? P.calc({ service: 'reservas' }) : { min: 1500, serviceName: 'Turnos / Reservas online' };
+  var DEP = P ? P.deposit(Q.min) : 450;
+  var PRICE = { min: Number(Q.min).toLocaleString('en-US'), dep: Number(DEP).toLocaleString('en-US') };
+
+  var T = { title: 'Asistente', sub: 'Respuesta al instante', ph: 'Escribí tu mensaje…', typing: 'Escribiendo…' };
+  var GREET = '¡Hola! 👋 Soy el asistente de Santiago. Ayudo a centros de estética, spa y consultorios a **llenar la agenda y dejar de perder turnos**. ¿Qué te gustaría resolver?';
+  var CHIPS_MAIN = ['😩 Me faltan turnos (no-shows)', '📱 El WhatsApp me consume', '💰 ¿Cuánto sale?', '⚙️ ¿Cómo funciona?'];
+  var CHIPS_MORE = ['💰 ¿Cuánto sale?', '⚙️ ¿Cómo funciona?', '💬 Quiero una demo'];
 
   var CSS = `
   .srm-ai-launch{position:fixed;left:22px;bottom:22px;z-index:140;width:60px;height:60px;border-radius:50%;
@@ -37,16 +45,20 @@
   @keyframes srm-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   .srm-ai-msg.bot{align-self:flex-start;background:color-mix(in srgb,var(--ink,#17140E) 6%,transparent);border-bottom-left-radius:5px}
   .srm-ai-msg.me{align-self:flex-end;background:var(--forest,#163A2B);color:var(--on-forest,#E9E4D6);border-bottom-right-radius:5px}
+  .srm-ai-msg b{font-weight:700}
   .srm-ai-typing{align-self:flex-start;display:inline-flex;gap:4px;padding:12px 14px;background:color-mix(in srgb,var(--ink,#17140E) 6%,transparent);border-radius:15px;border-bottom-left-radius:5px}
   .srm-ai-typing i{width:6px;height:6px;border-radius:50%;background:var(--muted,#6E685A);animation:srm-bounce 1.2s infinite}
   .srm-ai-typing i:nth-child(2){animation-delay:.15s}.srm-ai-typing i:nth-child(3){animation-delay:.3s}
   @keyframes srm-bounce{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-5px);opacity:1}}
+  .srm-ai-chips{display:flex;flex-wrap:wrap;gap:7px;align-self:flex-start;max-width:94%}
+  .srm-ai-chips button{font:inherit;font-size:12.5px;font-weight:600;border-radius:999px;padding:8px 13px;cursor:pointer;background:transparent;color:var(--forest,#163A2B);border:1px solid var(--line-2,rgba(23,20,14,.26));transition:background .15s,transform .15s}
+  .srm-ai-chips button:hover{background:color-mix(in srgb,var(--forest,#163A2B) 9%,transparent);transform:translateY(-1px)}
   .srm-ai-quote{align-self:flex-start;max-width:92%;border:1px solid var(--line,rgba(23,20,14,.14));border-radius:15px;padding:13px 14px;background:color-mix(in srgb,var(--signal,#0E9E64) 8%,transparent);animation:srm-in .32s cubic-bezier(.22,.61,.36,1) both}
   .srm-ai-quote .qh{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--signal-ink,#0B6B45);margin-bottom:2px}
   .srm-ai-quote .qa{font-family:var(--serif,Georgia,serif);font-size:24px;color:var(--forest,#163A2B);line-height:1.05}
-  .srm-ai-quote .qn{font-size:12px;color:var(--muted,#6E685A);margin:2px 0 12px}
+  .srm-ai-quote .qn{font-size:12px;color:var(--muted,#6E685A);margin:3px 0 12px}
   .srm-ai-quote .qb{display:flex;gap:8px;flex-wrap:wrap}
-  .srm-ai-quote button,.srm-ai-quote a{font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:9px 15px;cursor:pointer;text-decoration:none;border:1px solid var(--line-2,rgba(23,20,14,.26));}
+  .srm-ai-quote button,.srm-ai-quote a{font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:9px 15px;cursor:pointer;text-decoration:none;border:1px solid var(--line-2,rgba(23,20,14,.26));display:inline-block}
   .srm-ai-quote .primary{background:var(--forest,#163A2B);color:var(--on-forest,#E9E4D6);border-color:var(--forest,#163A2B)}
   .srm-ai-quote .ghost{background:transparent;color:var(--ink,#17140E)}
   .srm-ai-foot{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line,rgba(23,20,14,.14))}
@@ -54,17 +66,18 @@
   .srm-ai-foot input::placeholder{color:var(--muted,#6E685A)}
   .srm-ai-foot button{border:none;background:var(--forest,#163A2B);color:var(--on-forest,#E9E4D6);border-radius:50%;width:42px;height:42px;cursor:pointer;flex:none;display:grid;place-items:center;transition:transform .2s}
   .srm-ai-foot button:hover{transform:scale(1.06)}
-  .srm-ai-foot button[disabled]{opacity:.5;pointer-events:none}
   `;
 
   function el(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
   function esc(s) { return String(s).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }
+  function fmt(s) { return esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>'); }
+  function norm(s) { return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
   function getCookie(n) { var m = document.cookie.match('(^|;)\\s*' + n + '\\s*=\\s*([^;]+)'); return m ? m.pop() : undefined; }
 
   var style = el('style'); style.textContent = CSS; document.head.appendChild(style);
 
   var launch = el('button', 'srm-ai-launch');
-  launch.setAttribute('aria-label', T.title);
+  launch.setAttribute('aria-label', 'Asistente IA');
   launch.innerHTML = '<span class="sp"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 0 0-9 9 9 9 0 0 0 1.3 4.6L3 21l4.6-1.3A9 9 0 1 0 12 3Z"/><path d="M8 11h8M8 14h5"/></svg>';
   document.body.appendChild(launch);
 
@@ -76,47 +89,117 @@
     + '<button class="x" aria-label="Cerrar">×</button></div>'
     + '<div class="srm-ai-body" id="srm-ai-body"></div>'
     + '<form class="srm-ai-foot" id="srm-ai-form"><input id="srm-ai-input" type="text" placeholder="' + esc(T.ph) + '" autocomplete="off" maxlength="500">'
-    + '<button type="submit" aria-label="' + esc(T.send) + '"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7Z"/></svg></button></form>';
+    + '<button type="submit" aria-label="Enviar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7Z"/></svg></button></form>';
   document.body.appendChild(panel);
 
   var body = panel.querySelector('#srm-ai-body');
   var form = panel.querySelector('#srm-ai-form');
   var input = panel.querySelector('#srm-ai-input');
-  var sendBtn = form.querySelector('button');
-  var history = [];
-  var opened = false, firstMsg = true;
+  var opened = false;
+  var state = { rubro: null };
 
   function scrollDown() { body.scrollTop = body.scrollHeight; }
-  function addMsg(role, text) {
-    var m = el('div', 'srm-ai-msg ' + (role === 'user' ? 'me' : 'bot'), esc(text).replace(/\n/g, '<br>'));
-    body.appendChild(m); scrollDown();
-  }
-  function addQuote(q) {
-    var wa = 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent('Hola Santiago, vengo del asistente. Me interesa: ' + q.serviceName + ' (aprox USD ' + q.min_usd + '–' + q.max_usd + ', seña USD ' + q.deposit_usd + '). ¿Coordinamos?');
-    var card = el('div', 'srm-ai-quote');
-    card.innerHTML = '<div class="qh">' + esc(T.today) + '</div><div class="qa">USD $' + Number(q.deposit_usd).toLocaleString('en-US') + '</div>'
-      + '<div class="qn">' + esc(q.serviceName) + ' · USD ' + q.min_usd + '–' + q.max_usd + '</div>'
-      + '<div class="qb"><button class="primary" type="button">' + esc(T.reserve) + ' →</button>'
-      + '<a class="ghost" href="' + wa + '" target="_blank" rel="noopener">' + esc(T.wa) + '</a></div>';
-    card.querySelector('.primary').addEventListener('click', function () { reserve(q, this); });
-    body.appendChild(card); scrollDown();
-  }
+  function addMsg(role, text) { body.appendChild(el('div', 'srm-ai-msg ' + (role === 'user' ? 'me' : 'bot'), role === 'user' ? esc(text) : fmt(text))); scrollDown(); }
   function typing(on) {
     var ex = body.querySelector('.srm-ai-typing');
     if (on && !ex) { var t = el('div', 'srm-ai-typing', '<i></i><i></i><i></i>'); t.setAttribute('aria-label', T.typing); body.appendChild(t); scrollDown(); }
     if (!on && ex) ex.remove();
   }
-  function reserve(q, btn) {
-    btn.disabled = true; btn.textContent = lang === 'en' ? 'Redirecting…' : 'Redirigiendo…';
-    if (typeof window.fbq === 'function') window.fbq('track', 'InitiateCheckout', { content_name: q.serviceName });
-    fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.assign({}, q.config, { fbp: getCookie('_fbp'), fbc: getCookie('_fbc') })) })
-      .then(function (r) { return r.json(); })
-      .then(function (d) { if (d && d.init_point) { location.href = d.init_point; } else { throw new Error('x'); } })
-      .catch(function () { btn.disabled = false; btn.textContent = T.reserve + ' →'; });
+  function addChips(list) {
+    if (!list || !list.length) return;
+    var box = el('div', 'srm-ai-chips');
+    list.forEach(function (label) {
+      var b = el('button', null, esc(label)); b.type = 'button';
+      b.addEventListener('click', function () { box.remove(); handleUser(label); });
+      box.appendChild(b);
+    });
+    body.appendChild(box); scrollDown();
+  }
+  function waLink(kind) {
+    var extra = state.rubro ? ('Tengo un ' + state.rubro + ' y ') : '';
+    var msg = kind === 'precio'
+      ? ('Hola Santiago, vengo del asistente. ' + extra + 'quiero el sistema de turnos con seña. ¿Me pasás el presupuesto?')
+      : ('Hola Santiago, vengo del asistente. ' + extra + 'quiero una demo del sistema de turnos con seña. ¿Coordinamos?');
+    return 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(msg);
+  }
+  function addCTA(o) {
+    o = o || {};
+    var wa = waLink(o.price ? 'precio' : 'demo');
+    var card = el('div', 'srm-ai-quote'), html = '';
+    if (o.price) {
+      html += '<div class="qh">Sistema de turnos desde</div><div class="qa">USD ' + PRICE.min + '</div>'
+        + '<div class="qn">seña de reserva USD ' + PRICE.dep + ' · el resto lo acordamos en la llamada</div>';
+    } else {
+      html += '<div class="qh">Demo gratis</div><div class="qa" style="font-size:19px">15 min, sin compromiso</div>'
+        + '<div class="qn">Te muestro cómo quedaría tu agenda trabajando sola</div>';
+    }
+    html += '<div class="qb"><a class="primary" href="' + wa + '" target="_blank" rel="noopener" data-track="assistant_wa" data-event="Lead">💬 Reservá tu demo gratis</a>'
+      + '<a class="ghost" href="/app?service=reservas" data-track="assistant_cotizar" data-event="ViewContent">Armar presupuesto</a></div>';
+    card.innerHTML = html;
+    body.appendChild(card); scrollDown();
+  }
+
+  // ── Cerebro guiado (reglas por intención) ──────────────────────────────────
+  var RUBROS = { estetica: 'centro de estética', 'centro de estetica': 'centro de estética', spa: 'spa', peluqueria: 'salón de belleza', 'salon': 'salón de belleza', unas: 'estudio de uñas', manicura: 'estudio de uñas', depilacion: 'centro de depilación', cosmetologia: 'centro de cosmetología', barberia: 'barbería', consultorio: 'consultorio', nutricion: 'consultorio de nutrición', gimnasio: 'gimnasio', gym: 'gimnasio', masajes: 'centro de masajes', cejas: 'estudio de cejas y pestañas', pestanas: 'estudio de cejas y pestañas' };
+
+  function detectRubro(t) {
+    for (var k in RUBROS) { if (t.indexOf(k) !== -1) { state.rubro = RUBROS[k]; return true; } }
+    return false;
+  }
+
+  function brain(text) {
+    var t = norm(text);
+    detectRubro(t);
+
+    if (/(precio|cuesta|sale|cuanto val|cuanto s|presupuesto|valor|vale|cobras|cobra|caro|barato|inversion)/.test(t))
+      return { text: 'Te tiro números reales, sin vueltas. 👇\nEl **sistema de turnos online con seña** arranca en **USD ' + PRICE.min + '** (según lo que necesites). Para reservar tu lugar se abona una **seña de USD ' + PRICE.dep + '** y el resto lo acordamos en una llamada.\nTe lo armo a medida en 1 minuto, o lo vemos juntos por WhatsApp.', cta: { price: true } };
+
+    if (/(reservar|contratar|quiero el sistema|lo quiero|quiero contratar|empezar ya|arrancar ya|pagar la se|dejar la se)/.test(t))
+      return { text: '¡Buenísimo! 🙌 Para arrancar dejás una **seña de reserva** y coordinamos todo en una llamada. ¿Lo hablamos antes por WhatsApp o querés que te arme el presupuesto exacto?', cta: { price: true } };
+
+    if (/(no.?show|ausencia|falta|faltan|no vienen|no viene|no vino|plantad|cancelan|se borran|dejan colgado)/.test(t))
+      return { text: 'Los no-shows son plata que se va. 😕\nLa solución: tus clientas reservan online y **dejan una seña por Mercado Pago**. El que paga, viene — y si falta, ya cobraste. Además reciben **recordatorios automáticos**. La mayoría baja las ausencias más del **70%**.', chips: CHIPS_MORE };
+
+    if (/(whatsapp|mensaje|contestar|responder|agenda manual|planilla|cuaderno|agenda de papel|todo el dia|me consume|no llego|pierdo tiempo)/.test(t))
+      return { text: 'Te entiendo — contestar turnos todo el día agota y perdés ventas cuando no llegás a responder. 📱\nCon el sistema, un **agente de IA en WhatsApp** atiende, muestra horarios libres, agenda y cobra la seña **solo, 24/7**. Vos te dedicás a atender.', chips: CHIPS_MORE };
+
+    if (/(como funciona|funciona|que incluye|incluye|que hace|como es|que es|explicame|de que se trata)/.test(t))
+      return { text: 'Simple, en 3 pasos:\n1️⃣ Tu clienta entra a tu web y elige día y hora libres.\n2️⃣ Deja una **seña por Mercado Pago** → turno confirmado.\n3️⃣ Recibe **recordatorios automáticos** y vos ves todo en un panel.\n➕ Opcional: **agente de IA en WhatsApp** que agenda y cobra por vos. Todo con tu marca.', chips: CHIPS_MORE };
+
+    if (/(cuanto tarda|tarda|demora|tiempo|cuando lo|plazo|listo en|entrega)/.test(t))
+      return { text: 'Lo tengo funcionando en **~10 días hábiles**. Empezamos apenas confirmás la seña de reserva. ⚡', chips: ['💬 Quiero una demo', '💰 ¿Cuánto sale?'] };
+
+    if (/(demo|hablar|contacto|persona|humano|asesor|llamada|reunion|coordinar|santiago|whatsapp ya|escribir)/.test(t))
+      return { text: '¡Dale! Coordinemos una **demo gratis de 15 min** (sin compromiso). Te muestro cómo quedaría tu agenda 👇', cta: {} };
+
+    if (/^(hola|buenas|buen dia|buenas tardes|hey|holis)/.test(t))
+      return { text: '¡Hola! 😊 ¿Tenés un negocio de agenda (estética, spa, salud) y querés dejar de perder turnos? Contame qué te gustaría resolver.', chips: CHIPS_MAIN };
+
+    if (/(gracias|genial|buenisimo|perfecto|dale|listo|ok|barbaro|de una|me interesa|me sirve)/.test(t))
+      return { text: '¡Cuando quieras! 🙌 ¿Arrancamos con una demo gratis y te muestro todo?', cta: {} };
+
+    if (state.rubro)
+      return { text: '¡Genial, para un **' + state.rubro + '** funciona perfecto! Muchos ya lo usan para no perder turnos y llenar la agenda. ¿Querés que te muestre cómo quedaría?', chips: CHIPS_MORE };
+
+    return { text: 'Buena pregunta 🙌 Eso lo vemos mejor en una **demo gratis** (sin compromiso). O si querés, elegí una opción y te cuento:', chips: CHIPS_MAIN };
+  }
+
+  function handleUser(text) {
+    text = String(text).trim(); if (!text) return;
+    addMsg('user', text);
+    input.value = '';
+    typing(true);
+    setTimeout(function () {
+      typing(false);
+      var r = brain(text);
+      addMsg('bot', r.text);
+      if (r.cta) addCTA(r.cta);
+      if (r.chips) addChips(r.chips);
+    }, 480 + Math.random() * 420);
   }
 
   function open() {
-    if (!opened) { opened = true; addMsg('bot', T.greet); }
+    if (!opened) { opened = true; addMsg('bot', GREET); addChips(CHIPS_MAIN); }
     panel.classList.add('open'); launch.style.display = 'none';
     setTimeout(function () { input.focus(); }, 250);
   }
@@ -125,22 +208,5 @@
   launch.addEventListener('click', open);
   panel.querySelector('.x').addEventListener('click', close);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && panel.classList.contains('open')) close(); });
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var text = input.value.trim(); if (!text) return;
-    input.value = ''; addMsg('user', text); history.push({ role: 'user', content: text });
-    if (firstMsg) { firstMsg = false; if (typeof window.fbq === 'function') window.fbq('track', 'Lead', { content_name: 'ai_assistant' }); }
-    sendBtn.disabled = true; typing(true);
-    fetch('/api/assistant', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: history }) })
-      .then(function (r) { return r.json(); })
-      .then(function (d) {
-        typing(false); sendBtn.disabled = false;
-        var reply = (d && d.reply) || T.err;
-        addMsg('bot', reply); history.push({ role: 'assistant', content: reply });
-        if (d && d.quote) addQuote(d.quote);
-        input.focus();
-      })
-      .catch(function () { typing(false); sendBtn.disabled = false; addMsg('bot', T.err); });
-  });
+  form.addEventListener('submit', function (e) { e.preventDefault(); handleUser(input.value); });
 })();
