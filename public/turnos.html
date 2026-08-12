@@ -386,9 +386,12 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
   };
   Object.keys(waMsgs).forEach(function(id){var el=document.getElementById(id);if(el)el.href='https://wa.me/'+PHONE+'?text='+encodeURIComponent(waMsgs[id]);});
 
-  // Tracking de clicks (Pixel)
+  // Tracking de clicks (Pixel). WhatsApp lo maneja analytics.js (InitiateCheckout + CAPI), acá lo salteamos para no duplicar.
   document.querySelectorAll('[data-track]').forEach(function(el){
-    el.addEventListener('click',function(){ if(typeof window.fbq==='function') window.fbq('track', el.getAttribute('data-event')||'Lead', {content_name:el.getAttribute('data-track')}); });
+    el.addEventListener('click',function(){
+      var h=el.getAttribute('href')||''; if(h.indexOf('wa.me')>-1||h.indexOf('whatsapp')>-1) return;
+      if(typeof window.fbq==='function') window.fbq('track', el.getAttribute('data-event')||'Lead', {content_name:el.getAttribute('data-track')});
+    });
   });
 
   // Tema
@@ -438,6 +441,7 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
   calc();
 })();
 </script>
+<script src="/shared/analytics.js" defer></script>
 <script src="/shared/stars.js" defer></script>
 <script src="/shared/assistant.js" defer></script>
 <script src="/shared/pwa.js" defer></script>
