@@ -75,7 +75,9 @@
     var a = e.target && e.target.closest ? e.target.closest('a,button,[data-track]') : null;
     if (!a) return;
     clicks++;
-    var name = a.getAttribute('data-track') || (a.id || a.getAttribute('aria-label') || a.tagName || '').toString().slice(0, 40);
+    // Etiqueta legible: data-track → id → aria-label → texto visible → tipo (último recurso)
+    var name = a.getAttribute('data-track') || a.id || a.getAttribute('aria-label')
+      || ((a.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 40)) || (a.tagName || '').toLowerCase();
     var href = (a.getAttribute && a.getAttribute('href')) || '';
     var isWa = href.indexOf('wa.me') > -1 || href.indexOf('api.whatsapp') > -1 || href.indexOf('whatsapp://') > -1;
 
