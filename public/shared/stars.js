@@ -6,6 +6,9 @@
   if (window.__srmStars) return; window.__srmStars = true;
 
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // En mobile/touch: fondo estático (sin loop 60fps) para no competir con los toques → mejora INP.
+  var coarse = window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  if (coarse || (window.innerWidth || 0) < 820) reduce = true;
 
   // Estilos: dejamos ver el canvas detrás del contenido.
   var st = document.createElement('style');
