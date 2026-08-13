@@ -107,6 +107,19 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
   .slot .chk{width:16px;height:16px;border-radius:50%;background:var(--signal);display:grid;place-items:center;flex:none;opacity:0;transition:opacity .4s .15s}
   .slot.on .chk{opacity:1}
 
+  /* hero calculator card */
+  .hero-calc{border:1px solid var(--line);border-radius:22px;background:color-mix(in srgb,var(--paper-2) 60%,var(--paper));padding:clamp(20px,3vw,26px);box-shadow:0 30px 70px rgba(10,8,5,.14)}
+  .hero-calc>.eyebrow{margin-bottom:14px}
+  .hero-calc .hc-out{text-align:center;margin:6px 0 20px}
+  .hero-calc .lbl{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .hero-calc .loss{font-family:var(--serif);font-size:clamp(40px,7vw,56px);color:#B4532A;line-height:1;margin:4px 0 8px}
+  :root[data-theme="dark"] .hero-calc .loss{color:#E08A5E}
+  @media(prefers-color-scheme:dark){.hero-calc .loss{color:#E08A5E}}
+  .hero-calc .rec-line{font-size:14px;color:var(--muted)}
+  .hero-calc .rec-line b{color:var(--signal-ink);font-family:var(--serif);font-size:18px}
+  .hero-calc .hc-controls{display:flex;flex-direction:column;gap:16px}
+  .hero-calc .btn{margin-top:22px;width:100%;justify-content:center}
+
   /* calculator */
   .calc{background:color-mix(in srgb,var(--forest) 5%,var(--paper));border:1px solid var(--line)}
   .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);align-items:center}
@@ -208,10 +221,10 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
       <div>
         <span class="eyebrow"><span class="dot"></span>Para estética · spa · consultorios · gimnasios</span>
         <h1>Menos <em>no-shows</em>. Agenda llena. Cobrás por adelantado.</h1>
-        <p class="lead">Sistema de turnos online con <strong>seña por Mercado Pago</strong> y un <strong>agente de IA en WhatsApp</strong> que atiende, agenda y cobra por vos — 24/7. Dejá de perder plata con los que no vienen.</p>
+        <p class="lead">Turnos con <strong>seña por Mercado Pago</strong> y un <strong>agente de IA en WhatsApp</strong> que agenda y cobra por vos. Dejá de perder plata con los que no vienen.</p>
         <div class="hero-cta">
           <a class="btn btn-primary" id="wa-hero" href="#" target="_blank" rel="noopener" data-track="hero_wa" data-event="Lead">Reservá tu demo gratis →</a>
-          <a class="btn btn-ghost" href="#calc" data-track="hero_calc" data-event="ViewContent">Calculá lo que perdés</a>
+          <a class="btn btn-ghost" href="#como" data-track="hero_como" data-event="ViewContent">Ver cómo funciona</a>
         </div>
         <div class="hero-trust">
           <span><b>✓</b> Demo gratis en 48hs</span>
@@ -220,51 +233,19 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
         </div>
       </div>
 
-      <div class="mock" aria-hidden="true">
-        <div class="mock-top">
-          <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span>
-          <div><div class="tt">Agenda de hoy</div><div class="st">Reservas online</div></div>
-          <span class="badge">EN VIVO</span>
-        </div>
-        <div class="slot" data-i="1"><span class="h">10:00</span><span class="who">Martina G.</span><span class="chk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tag">Seña ✓</span></div>
-        <div class="slot" data-i="2"><span class="h">11:30</span><span class="who">Lucía P.</span><span class="chk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tag">Seña ✓</span></div>
-        <div class="slot" data-i="3"><span class="h">15:00</span><span class="who">Sofía R.</span><span class="chk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tag">Seña ✓</span></div>
-        <div class="slot" data-i="4"><span class="h">17:30</span><span class="who">Camila V.</span><span class="chk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tag">Seña ✓</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CALCULADORA -->
-  <section class="calc reveal" id="calc">
-    <div class="wrap">
-      <span class="eyebrow"><span class="dot"></span>Calculadora sin vueltas</span>
-      <h2 class="sec-h" style="margin-top:12px">¿Cuánta plata te cuestan los <em>no-shows</em>?</h2>
-      <p class="sec-sub" style="margin-bottom:30px">Movés 3 barras y ves cuánto perdés por mes — y cuánto recuperás cobrando seña. Sin dejar tu mail.</p>
-      <div class="calc-grid">
-        <div class="calc-controls">
-          <div class="ctrl">
-            <label><span>Turnos por semana</span><b id="v-turnos">60</b></label>
-            <input type="range" id="s-turnos" min="10" max="300" step="5" value="60">
-          </div>
-          <div class="ctrl">
-            <label><span>Precio promedio por turno</span><b id="v-precio">$15.000</b></label>
-            <input type="range" id="s-precio" min="2000" max="120000" step="1000" value="15000">
-          </div>
-          <div class="ctrl">
-            <label><span>Ausencias (no-shows) hoy</span><b id="v-ns">20%</b></label>
-            <input type="range" id="s-ns" min="5" max="45" step="1" value="20">
-          </div>
-        </div>
-        <div class="calc-out">
-          <div class="lbl">Perdés por mes</div>
+      <div class="hero-calc" id="calc" aria-label="Calculadora de no-shows">
+        <span class="eyebrow"><span class="dot"></span>Calculá lo que perdés</span>
+        <div class="hc-out">
+          <div class="lbl">Perdés por mes en no-shows</div>
           <div class="loss">$<span id="r-loss">0</span></div>
-          <div class="per">en turnos que reservan y no vienen</div>
-          <div class="rec">
-            <div class="lbl">Con seña recuperás ~</div>
-            <div class="big">$<span id="r-rec">0</span> <span style="font-size:14px;color:var(--muted)">/ mes</span></div>
-          </div>
-          <a class="btn btn-primary" id="wa-calc" href="#" target="_blank" rel="noopener" data-track="calc_wa" data-event="Lead">Quiero recuperar esa plata →</a>
+          <div class="rec-line">Con seña recuperás ~ <b>$<span id="r-rec">0</span></b> / mes</div>
         </div>
+        <div class="hc-controls">
+          <div class="ctrl"><label><span>Turnos por semana</span><b id="v-turnos">60</b></label><input type="range" id="s-turnos" min="10" max="300" step="5" value="60"></div>
+          <div class="ctrl"><label><span>Precio por turno</span><b id="v-precio">$15.000</b></label><input type="range" id="s-precio" min="2000" max="120000" step="1000" value="15000"></div>
+          <div class="ctrl"><label><span>Ausencias (no-shows)</span><b id="v-ns">20%</b></label><input type="range" id="s-ns" min="5" max="45" step="1" value="20"></div>
+        </div>
+        <a class="btn btn-primary" id="wa-calc" href="#" target="_blank" rel="noopener" data-track="calc_wa" data-event="Lead">Quiero recuperar esa plata →</a>
       </div>
     </div>
   </section>
@@ -404,18 +385,6 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
   var nav=document.getElementById('nav');
   addEventListener('scroll',function(){nav.classList.toggle('sc',scrollY>8);},{passive:true});
   var yr=document.getElementById('yr'); if(yr)yr.textContent=new Date().getFullYear();
-
-  // Booking mock: llenar slots en secuencia (loop suave)
-  var slots=Array.prototype.slice.call(document.querySelectorAll('.mock .slot'));
-  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(reduce){slots.forEach(function(s){s.classList.add('on');});}
-  else{
-    function cycle(){
-      slots.forEach(function(s){s.classList.remove('on');});
-      slots.forEach(function(s,i){ setTimeout(function(){s.classList.add('on');}, 350+i*550); });
-    }
-    cycle(); setInterval(cycle, slots.length*550+4200);
-  }
 
   // Calculadora
   var money=function(n){return Math.round(n).toLocaleString('es-AR');};
