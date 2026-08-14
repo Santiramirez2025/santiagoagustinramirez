@@ -171,8 +171,13 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
 
   /* price */
   .price{border:1px solid var(--line-2);border-radius:24px;padding:clamp(28px,4vw,44px);background:color-mix(in srgb,var(--paper-2) 55%,var(--paper));max-width:640px;margin:0 auto;text-align:center}
+  .price .promo-badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--on-forest);background:var(--forest);padding:6px 14px;border-radius:100px;margin-bottom:14px}
   .price .from{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
   .price .amt{font-family:var(--serif);font-size:clamp(40px,8vw,64px);line-height:1;margin:6px 0 4px}
+  .price .amt .was{font-size:.46em;color:var(--muted);text-decoration:line-through;font-family:var(--sans);font-weight:600;margin-right:12px;vertical-align:middle}
+  .price .amt .now{color:var(--signal-ink)}
+  .price .cuotas{font-size:15px;color:var(--ink-soft);margin-bottom:8px}
+  .price .cuotas b{color:var(--signal-ink)}
   .price .dep{color:var(--signal-ink);font-size:15px}
   .price ul{list-style:none;display:grid;gap:9px;max-width:420px;margin:22px auto;text-align:left}
   .price li{display:flex;gap:10px;font-size:14.5px;color:var(--ink-soft)}
@@ -302,9 +307,11 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
   <section class="reveal" id="precio">
     <div class="wrap">
       <div class="price">
+        <span class="promo-badge">🏆 Programa Fundadores · solo 5 cupos</span>
         <div class="from">Sistema de turnos con seña</div>
-        <div class="amt">desde USD $1.500</div>
-        <div class="dep">Reservás tu proyecto con una seña · el saldo lo acordamos en la llamada</div>
+        <div class="amt"><s class="was">USD $1.500</s><span class="now">USD $990</span></div>
+        <div class="cuotas">o <b>3 cuotas</b> — seña desde <b>USD $250</b> para arrancar</div>
+        <div class="dep">Precio fundador a cambio de un testimonio cuando veas resultados · el saldo lo acordamos en la llamada</div>
         <ul>
           <li>Turnos online 24/7 con tus servicios y horarios</li>
           <li>Seña por Mercado Pago + recordatorios por WhatsApp</li>
@@ -315,7 +322,7 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
           <a class="btn btn-primary" href="/app?service=reservas" data-track="price_cotizar" data-event="ViewContent">Armá tu presupuesto en 1 min →</a>
           <a class="btn btn-ghost" href="/reservar.html" data-track="price_sesion" data-event="ViewContent">Sesión estratégica USD 75</a>
         </div>
-        <p class="fine">Precio fijo. Demo gratis en 48hs. 30 días de soporte. Código fuente tuyo al cierre.</p>
+        <p class="fine">Precio fundador por tiempo limitado · Demo gratis en 48hs · 30 días de soporte · Código fuente tuyo al cierre.</p>
       </div>
     </div>
   </section>
@@ -331,7 +338,7 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
         <details class="qa"><summary>¿Necesito saber de tecnología?<span class="pl">+</span></summary><div class="a">No. Yo lo monto, lo configuro y te lo dejo funcionando. Vos solo ves tu agenda ordenada y cobrás. Incluye 30 días de soporte para cualquier ajuste.</div></details>
         <details class="qa"><summary>¿En cuánto tiempo lo tengo?<span class="pl">+</span></summary><div class="a">Ves una demo gratis en 48hs. El sistema completo suele estar listo en ~10 días (más rápido con la opción express).</div></details>
         <details class="qa"><summary>¿Y el agente de IA en WhatsApp?<span class="pl">+</span></summary><div class="a">Es opcional. Atiende consultas, agenda turnos y hasta cobra la seña por WhatsApp, 24/7, sin que respondas vos. Ideal si te llegan muchos mensajes.</div></details>
-        <details class="qa"><summary>¿Cuánto sale y cómo empiezo?<span class="pl">+</span></summary><div class="a">Desde USD 1.500, con precio fijo. Empezás reservando con una seña y el saldo lo acordamos en una llamada. Podés armar tu presupuesto exacto en el cotizador, o escribirme por WhatsApp y lo vemos juntos.</div></details>
+        <details class="qa"><summary>¿Cuánto sale y cómo empiezo?<span class="pl">+</span></summary><div class="a">Precio de lista USD 1.500, pero estoy con el <strong>Programa Fundadores</strong>: los primeros 5 negocios lo llevan a <strong>USD 990</strong> (o en 3 cuotas) a cambio de un testimonio cuando vean resultados. Empezás con una seña desde USD 250 y el saldo lo acordamos en una llamada. Armá tu presupuesto en el cotizador o escribime por WhatsApp.</div></details>
       </div>
     </div>
   </section>

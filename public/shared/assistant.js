@@ -13,6 +13,8 @@
   var Q = P ? P.calc({ service: 'reservas' }) : { min: 1500, serviceName: 'Turnos / Reservas online' };
   var DEP = P ? P.deposit(Q.min) : 450;
   var PRICE = { min: Number(Q.min).toLocaleString('en-US'), dep: Number(DEP).toLocaleString('en-US') };
+  // Programa Fundadores (promo de lanzamiento): precio y seña reducidos + cuotas, cupos limitados.
+  var PROMO = { was: '1,500', price: '990', dep: '250', cuotas: '3', slots: 5 };
 
   var T = { title: 'Asistente', sub: 'Respuesta al instante', ph: 'Escribí tu mensaje…', typing: 'Escribiendo…' };
   var GREET = '¡Hola! 👋 Soy el asistente de Santiago. Ayudo a centros de estética, spa y consultorios a **llenar la agenda y dejar de perder turnos**. ¿Qué te gustaría resolver?';
@@ -127,8 +129,9 @@
     var wa = waLink(o.price ? 'precio' : 'demo');
     var card = el('div', 'srm-ai-quote'), html = '';
     if (o.price) {
-      html += '<div class="qh">Sistema de turnos desde</div><div class="qa">USD ' + PRICE.min + '</div>'
-        + '<div class="qn">seña de reserva USD ' + PRICE.dep + ' · el resto lo acordamos en la llamada</div>';
+      html += '<div class="qh">🏆 Programa Fundadores · ' + PROMO.slots + ' cupos</div>'
+        + '<div class="qa"><s style="font-size:.5em;color:#9a9a9a;font-weight:600;margin-right:8px">USD ' + PROMO.was + '</s>USD ' + PROMO.price + '</div>'
+        + '<div class="qn">o ' + PROMO.cuotas + ' cuotas · seña desde USD ' + PROMO.dep + ' · el resto lo acordamos en la llamada</div>';
     } else {
       html += '<div class="qh">Demo gratis</div><div class="qa" style="font-size:19px">15 min, sin compromiso</div>'
         + '<div class="qn">Te muestro cómo quedaría tu agenda trabajando sola</div>';
@@ -152,7 +155,7 @@
     detectRubro(t);
 
     if (/(precio|cuesta|sale|cuanto val|cuanto s|presupuesto|valor|vale|cobras|cobra|caro|barato|inversion)/.test(t))
-      return { text: 'Te tiro números reales, sin vueltas. 👇\nEl **sistema de turnos online con seña** arranca en **USD ' + PRICE.min + '** (según lo que necesites). Para reservar tu lugar se abona una **seña de USD ' + PRICE.dep + '** y el resto lo acordamos en una llamada.\nTe lo armo a medida en 1 minuto, o lo vemos juntos por WhatsApp.', cta: { price: true } };
+      return { text: 'Te tiro números reales, sin vueltas. 👇\nEl **sistema de turnos online con seña** tiene precio de lista **USD ' + PROMO.was + '**, pero estoy con el **Programa Fundadores**: los primeros ' + PROMO.slots + ' negocios lo llevan a **USD ' + PROMO.price + '** (o en **' + PROMO.cuotas + ' cuotas**) a cambio de un testimonio cuando vean resultados.\nArrancás con una **seña desde USD ' + PROMO.dep + '** y el resto lo acordamos en una llamada. Te lo armo a medida en 1 minuto, o lo vemos por WhatsApp.', cta: { price: true } };
 
     if (/(reservar|contratar|quiero el sistema|lo quiero|quiero contratar|empezar ya|arrancar ya|pagar la se|dejar la se)/.test(t))
       return { text: '¡Buenísimo! 🙌 Para arrancar dejás una **seña de reserva** y coordinamos todo en una llamada. ¿Lo hablamos antes por WhatsApp o querés que te arme el presupuesto exacto?', cta: { price: true } };
