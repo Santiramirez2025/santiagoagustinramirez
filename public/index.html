@@ -528,7 +528,7 @@ fbq('init','1419051696174763');fbq('track','PageView');
       <!-- right: guided intake -->
       <div class="flow" id="flow" aria-live="polite">
         <div class="flow-top">
-          <span class="flow-count"><b id="fc-now">01</b> — 03</span>
+          <span class="flow-count"><b id="fc-now">01</b> — 04</span>
           <button class="flow-back" id="flow-back" type="button" data-en="← Back" aria-label="Volver">← Volver</button>
         </div>
         <div class="flow-bar"><i id="flow-fill"></i></div>
@@ -587,6 +587,30 @@ fbq('init','1419051696174763');fbq('track','PageView');
 
         <!-- STEP 3 -->
         <div class="step" data-step="3">
+          <h2 class="q" data-en="What budget do you have in mind?">¿Qué presupuesto tenés en mente?</h2>
+          <p class="q-help" data-en="Just to fit the plan to your reality.">Para ajustar el plan a tu realidad.</p>
+          <div class="opts">
+            <button class="opt" type="button" data-key="presupuesto" data-val="bajo" data-label="Hasta USD 500" data-label-en="Up to USD 500">
+              <span class="opt-idx">A</span><span class="opt-b"><span class="opt-t" data-en="Up to USD 500">Hasta USD 500</span><span class="opt-d" data-en="I'm starting small.">Arranco con lo mínimo.</span></span>
+              <svg class="opt-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <button class="opt" type="button" data-key="presupuesto" data-val="medio" data-label="USD 500 - 1.500" data-label-en="USD 500 - 1,500">
+              <span class="opt-idx">B</span><span class="opt-b"><span class="opt-t" data-en="USD 500 - 1,500">USD 500 - 1.500</span><span class="opt-d" data-en="I have a defined budget.">Tengo un presupuesto definido.</span></span>
+              <svg class="opt-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <button class="opt" type="button" data-key="presupuesto" data-val="alto" data-label="USD 1.500 - 3.500+" data-label-en="USD 1,500 - 3,500+">
+              <span class="opt-idx">C</span><span class="opt-b"><span class="opt-t" data-en="USD 1,500 - 3,500+">USD 1.500 - 3.500+</span><span class="opt-d" data-en="I'm looking for a complete solution.">Busco una solución completa.</span></span>
+              <svg class="opt-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <button class="opt" type="button" data-key="presupuesto" data-val="asesorar" data-label="Todavía no sé, quiero que me asesoren" data-label-en="Not sure yet, I want guidance">
+              <span class="opt-idx">D</span><span class="opt-b"><span class="opt-t" data-en="Not sure yet">Todavía no sé</span><span class="opt-d" data-en="I want guidance on what fits.">Quiero que me orienten primero.</span></span>
+              <svg class="opt-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="step" data-step="4">
           <h2 class="q" data-en="When do you need it?">¿Para cuándo lo necesitás?</h2>
           <p class="q-help" data-en="Last step. Then we continue on WhatsApp.">Último paso. Después seguimos por WhatsApp.</p>
           <div class="opts">
@@ -606,12 +630,13 @@ fbq('init','1419051696174763');fbq('track','PageView');
         </div>
 
         <!-- SUMMARY -->
-        <div class="step" data-step="4">
+        <div class="step" data-step="5">
           <span class="sum-tag"><span class="dot"></span><span data-en="Done">Listo</span></span>
           <h2 class="sum-title" data-en="I know how I can help you. <br>Let's continue on WhatsApp.">Ya sé cómo puedo ayudarte. <br>Sigamos por WhatsApp.</h2>
           <ul class="sum-list">
             <li><span class="sum-k" data-en="Goal">Objetivo</span><span class="sum-v" id="s-objetivo">—</span></li>
             <li><span class="sum-k" data-en="Today">Hoy</span><span class="sum-v" id="s-situacion">—</span></li>
+            <li><span class="sum-k" data-en="Budget">Presupuesto</span><span class="sum-v" id="s-presupuesto">—</span></li>
             <li><span class="sum-k" data-en="Start">Arranque</span><span class="sum-v" id="s-timing">—</span></li>
           </ul>
           <div class="sum-actions">
@@ -922,7 +947,6 @@ fbq('init','1419051696174763');fbq('track','PageView');
             <div class="bt-t" data-en="Your business, selling on its own">Tu negocio, vendiendo solo</div>
             <div class="bt-d" data-en="Online store with integrated payments, shipping and admin panel. Open 24/7." style="margin-top:8px">Tienda online con pagos integrados, envíos y panel de gestión. Abierta 24/7.</div>
           </div>
-          <div class="bt-case" data-en="◆ Your success story goes here — add a real client + result.">◆ Acá va tu caso de éxito — sumá un cliente real + su resultado.</div>
           <span class="bt-go" data-en="Build my store →">Armar mi tienda →</span>
         </a>
         <a class="bento-tile" href="/app?service=agentewa" data-track="bento_agentewa" data-event="ViewContent">
@@ -1104,13 +1128,13 @@ fbq('init','1419051696174763');fbq('track','PageView');
   var fill = document.getElementById("flow-fill");
   var fcNow = document.getElementById("fc-now");
   var backBtn = document.getElementById("flow-back");
-  var answers = { objetivo:null, situacion:null, timing:null }; // stores selected button elements
+  var answers = { objetivo:null, situacion:null, presupuesto:null, timing:null }; // stores selected button elements
   var current = 1;
 
   var WA_INTRO = { es: "Hola Santiago, vengo de tu web.", en: "Hi Santiago, I'm coming from your website." };
   var WA_ROWS  = {
-    es: ["· Mi objetivo: ", "· Mi negocio hoy: ", "· Quiero arrancar: "],
-    en: ["· My goal: ", "· My business today: ", "· I want to start: "]
+    es: ["· Mi objetivo: ", "· Mi negocio hoy: ", "· Mi presupuesto: ", "· Quiero arrancar: "],
+    en: ["· My goal: ", "· My business today: ", "· My budget: ", "· I want to start: "]
   };
   var WA_END = { es: "¿Cómo me podés ayudar?", en: "How can you help me?" };
 
@@ -1121,33 +1145,49 @@ fbq('init','1419051696174763');fbq('track','PageView');
   function show(step){
     current = step;
     steps.forEach(function(s){ s.classList.toggle("is-active", parseInt(s.getAttribute("data-step"),10) === step); });
-    fcNow.textContent = pad(Math.min(step, 3));
-    fill.style.width = (step >= 4 ? 100 : (step/3)*100) + "%";
+    fcNow.textContent = pad(Math.min(step, 4));
+    fill.style.width = (step >= 5 ? 100 : (step/4)*100) + "%";
     backBtn.classList.toggle("show", step > 1);
-    if(step === 4) buildSummary();
+    if(step === 5) buildSummary();
     if(window.innerWidth < 940 && step > 1) flow.scrollIntoView({ behavior:"smooth", block:"start" });
   }
 
   function select(btn){
     answers[btn.getAttribute("data-key")] = btn;
     track(btn);
-    show(Math.min(current + 1, 4));
+    show(Math.min(current + 1, 5));
   }
 
   function buildSummary(){
     var lang = window.__lang;
     document.getElementById("s-objetivo").textContent = disp(answers.objetivo);
     document.getElementById("s-situacion").textContent = disp(answers.situacion);
+    document.getElementById("s-presupuesto").textContent = disp(answers.presupuesto);
     document.getElementById("s-timing").textContent = disp(answers.timing);
     var rows = WA_ROWS[lang];
     var msg = [
       WA_INTRO[lang], "",
       rows[0] + lbl(answers.objetivo),
       rows[1] + lbl(answers.situacion),
-      rows[2] + lbl(answers.timing),
+      rows[2] + lbl(answers.presupuesto),
+      rows[3] + lbl(answers.timing),
       "", WA_END[lang]
     ].join("\n");
     document.getElementById("s-wa").href = "https://wa.me/" + PHONE + "?text=" + encodeURIComponent(msg);
+
+    var presupuestoVal = answers.presupuesto && answers.presupuesto.getAttribute("data-val");
+    var timingVal = answers.timing && answers.timing.getAttribute("data-val");
+    var intentEvent = (timingVal === "ya" && (presupuestoVal === "medio" || presupuestoVal === "alto")) ? "Lead_AltaIntencion" : "Lead_Explorando";
+    if (typeof window.fbq === "function") {
+      try {
+        window.fbq("trackCustom", intentEvent, {
+          objetivo: answers.objetivo && answers.objetivo.getAttribute("data-val"),
+          situacion: answers.situacion && answers.situacion.getAttribute("data-val"),
+          presupuesto: presupuestoVal,
+          timing: timingVal
+        });
+      } catch (e) {}
+    }
   }
 
   function track(el){
@@ -1161,7 +1201,7 @@ fbq('init','1419051696174763');fbq('track','PageView');
   flow.addEventListener("click", function(e){ var opt = e.target.closest(".opt"); if(opt) select(opt); });
   backBtn.addEventListener("click", function(){ if(current > 1) show(current - 1); });
   document.getElementById("s-restart").addEventListener("click", function(){
-    answers = { objetivo:null, situacion:null, timing:null }; show(1);
+    answers = { objetivo:null, situacion:null, presupuesto:null, timing:null }; show(1);
   });
 
   document.querySelectorAll("[data-track]").forEach(function(el){
@@ -1174,7 +1214,7 @@ fbq('init','1419051696174763');fbq('track','PageView');
   });
 
   // re-render dynamic bits when language changes
-  window.onLangChange = function(){ if(current === 4) buildSummary(); };
+  window.onLangChange = function(){ if(current === 5) buildSummary(); };
 
   var nav = document.getElementById("nav");
   window.addEventListener("scroll", function(){ nav.classList.toggle("is-scrolled", window.scrollY > 8); }, { passive:true });
