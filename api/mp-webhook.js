@@ -65,7 +65,18 @@ module.exports = async (req, res) => {
         if (bk) {
           const gcalId = await calendar.createEvent({
             summary: `${order.service_name} — ${order.buyer_name || order.buyer_email || 'Cliente'}`,
-            description: `Reserva pagada vía Mercado Pago.\nOrden: ${orderId}\nEmail: ${order.buyer_email || '-'}\nTel: ${order.buyer_phone || '-'}`,
+            description: [
+              `Antes de la sesión, completá el cuestionario previo (10 minutos):`,
+              `${url}/cuestionario.html?order=${orderId}`,
+              ``,
+              `Son 14 preguntas sobre tu negocio. Con eso llego sabiendo dónde mirar y los 90 minutos se van enteros en encontrar las fugas.`,
+              ``,
+              `—`,
+              `Reserva pagada vía Mercado Pago.`,
+              `Orden: ${orderId}`,
+              `Email: ${order.buyer_email || '-'}`,
+              `Tel: ${order.buyer_phone || '-'}`
+            ].join('\n'),
             startIso: new Date(bk.slot_start).toISOString(),
             endIso: new Date(bk.slot_end).toISOString(),
             attendeeEmail: order.buyer_email || undefined

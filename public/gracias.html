@@ -26,6 +26,8 @@ fbq('init','1419051696174763');fbq('track','PageView');
   .steps li{color:var(--muted);font-size:15px;margin:6px 0 6px 18px}
   .btn{display:inline-flex;align-items:center;gap:8px;background:var(--forest);color:var(--on-forest);text-decoration:none;padding:14px 24px;border-radius:999px;font-weight:600;font-size:15px}
   .home{display:inline-block;margin-top:16px;color:var(--muted);font-size:14px;text-decoration:underline}
+  .cuest-note{font-size:13px;color:var(--muted);margin:10px auto 18px;max-width:420px;line-height:1.45}
+  #wa{margin-top:4px}
   /* Fase 1 — View Transitions + Dark mode */
   @view-transition{navigation:auto;}
   @media(prefers-reduced-motion:no-preference){
@@ -54,6 +56,8 @@ fbq('init','1419051696174763');fbq('track','PageView');
         <li>Arranca el proyecto. Recibís la demo en 48hs.</li>
       </ol>
     </div>
+    <a class="btn" id="cuest" href="#" hidden>Completar el cuestionario previo →</a>
+    <p class="cuest-note" id="cuest-note" hidden>Son 10 minutos y es lo que hace que los 90 de la sesión rindan. El link también te llega en la invitación del calendario.</p>
     <a class="btn" id="wa" href="#" target="_blank" rel="noopener">Escribime por WhatsApp →</a>
     <br><a class="home" href="/">← Volver al inicio</a>
   </div>
@@ -72,6 +76,20 @@ fbq('init','1419051696174763');fbq('track','PageView');
       var approved = mpStatus === 'approved' || d.status === 'approved';
       if(d.kind === 'booking'){
         document.getElementById('subtitle').textContent = 'Tu sesión quedó reservada. Te llega la invitación al calendario por email.';
+        // El cuestionario previo es el próximo paso real: se muestra acá, apenas paga.
+        var c = document.getElementById('cuest');
+        c.href = '/cuestionario.html?order=' + encodeURIComponent(order);
+        c.hidden = false;
+        document.getElementById('cuest-note').hidden = false;
+        document.getElementById('wa').textContent = '¿Alguna duda? Escribime por WhatsApp';
+        document.getElementById('wa').style.background = 'transparent';
+        document.getElementById('wa').style.color = 'var(--muted)';
+        document.getElementById('wa').style.border = '1px solid var(--line)';
+        var ol = document.querySelector('.steps ol');
+        if(ol) ol.innerHTML = '<li>Completá el cuestionario previo (10 minutos).</li>'
+          + '<li>Reviso tus respuestas y preparo la sesión con hipótesis armadas.</li>'
+          + '<li>Nos vemos 90 minutos por videollamada.</li>'
+          + '<li>Dentro de las 24 hs te mando el plan escrito y cotizado.</li>';
       }
       if(approved && typeof window.fbq === 'function'){
         // Purchase con el MISMO event_id que envía el CAPI (webhook) => deduplicado.

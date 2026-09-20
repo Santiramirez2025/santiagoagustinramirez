@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuestionario previo — Diagnóstico Negocio Ordenado</title>
+<meta name="description" content="Diez minutos de preguntas para que la sesión de 90 minutos arranque con el contexto de tu negocio ya sobre la mesa.">
+<meta name="theme-color" content="#ECE7DA">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#ECE7DA;--ink:#17140E;--ink-soft:#3A352B;--muted:#6E685A;--line:rgba(23,20,14,.14);--forest:#163A2B;--signal:#0E9E64;--on-forest:#E9E4D6;--serif:"Instrument Serif",Georgia,serif;--sans:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.5;padding:24px 20px 60px}
+  .wrap{max-width:640px;margin:0 auto}
+  h1{font-family:var(--serif);font-weight:400;font-size:clamp(28px,6.5vw,40px);line-height:1.08;margin-top:20px}
+  .sub{color:var(--ink-soft);font-size:15px;margin-top:10px}
+  .meta{margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:14px;color:var(--ink-soft);background:color-mix(in srgb, var(--ink) 4%, transparent)}
+  .bar{position:sticky;top:0;z-index:5;background:var(--paper);padding:10px 0 8px;margin-top:22px;border-bottom:1px solid var(--line)}
+  .bar-track{height:4px;background:var(--line);border-radius:4px;overflow:hidden}
+  .bar-fill{height:100%;width:0;background:var(--signal);transition:width .25s}
+  .bar-txt{font-size:12px;color:var(--muted);margin-top:6px}
+  .q{padding:20px 0;border-bottom:1px solid var(--line)}
+  .q-n{font-size:12px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+  .q-t{font-weight:600;font-size:16px;margin-top:4px}
+  .q-h{font-size:13px;color:var(--muted);margin-top:4px}
+  input[type=text],textarea{width:100%;margin-top:10px;padding:11px 13px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);font-family:inherit;font-size:15px;line-height:1.45;resize:vertical}
+  input[type=text]:focus,textarea:focus{outline:none;border-color:var(--signal)}
+  textarea{min-height:82px}
+  .opt{font-size:12px;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0}
+  .actions{margin-top:26px}
+  .btn{display:block;width:100%;padding:15px 18px;border:0;border-radius:11px;background:var(--forest);color:var(--on-forest);font-family:inherit;font-size:16px;font-weight:600;cursor:pointer}
+  .btn:disabled{opacity:.55;cursor:default}
+  .note{font-size:12px;color:var(--muted);text-align:center;margin-top:10px}
+  .err{margin-top:12px;padding:11px 13px;border-radius:9px;background:#F8E3E0;color:#8C2A1C;font-size:14px;display:none}
+  .done{text-align:center;padding:40px 0}
+  .done h2{font-family:var(--serif);font-weight:400;font-size:30px}
+  .done p{color:var(--ink-soft);margin-top:12px;font-size:15px}
+  .saved{font-size:12px;color:var(--signal);margin-top:8px;min-height:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <main id="form-view">
+    <h1>Antes de tu Diagnóstico</h1>
+    <p class="sub">Diez minutos ahora valen quince de la sesión. Con esto llego sabiendo dónde mirar, y los 90 minutos se van enteros en encontrar las fugas, no en ponerme al día.</p>
+    <div class="meta" id="meta" hidden></div>
+
+    <div class="bar">
+      <div class="bar-track"><div class="bar-fill" id="bar"></div></div>
+      <div class="bar-txt" id="bar-txt">0 de 14 respondidas</div>
+    </div>
+
+    <form id="form"></form>
+
+    <div class="actions">
+      <div class="saved" id="saved"></div>
+      <button class="btn" id="submit" type="button">Enviar mis respuestas</button>
+      <p class="note">Se guarda solo mientras escribís. Podés cerrar y volver después.</p>
+      <div class="err" id="err"></div>
+    </div>
+  </main>
+
+  <div class="done" id="done-view" hidden>
+    <h2>Listo, lo recibí</h2>
+    <p>Voy a revisar todo antes de la sesión y llego con hipótesis armadas. Nos vemos en la videollamada.</p>
+    <p class="note" style="margin-top:20px">Podés cerrar esta pestaña.</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var QS = [
+    { k: 'q1',  t: '¿Qué vende tu negocio y a quién?', h: 'En una frase, como se lo explicarías a un desconocido.', big: true },
+    { k: 'q2',  t: '¿Hace cuánto que opera y cuánta gente trabaja ahí?', h: 'Contando socios y quien te ayuda aunque sea part-time.' },
+    { k: 'q3',  t: '¿Cuántas ventas cerrás por mes, aproximadamente?', h: 'Un número aproximado alcanza.' },
+    { k: 'q4',  t: '¿Cuál es tu ticket promedio?', h: 'Cuánto deja en promedio cada venta.' },
+    { k: 'q5',  t: '¿Por dónde te llegan hoy los clientes?', h: 'Ordenados de mayor a menor: recomendación, Instagram, web, local, lo que sea.', big: true },
+    { k: 'q6',  t: '¿Qué pasa, paso a paso, desde que alguien te consulta hasta que te paga?', h: 'Contámelo como una secuencia, sin saltear pasos aburridos.', big: true },
+    { k: 'q7',  t: '¿Qué parte de ese proceso hacés a mano todos los días?', h: 'Copiar datos, armar presupuestos, responder lo mismo de siempre.', big: true },
+    { k: 'q8',  t: '¿Cuántas horas por semana te come esa parte manual?', h: 'Aunque sea estimado.' },
+    { k: 'q9',  t: '¿Qué herramientas usás hoy?', h: 'Planillas, CRM, WhatsApp Business, agenda de papel — todo cuenta.', big: true },
+    { k: 'q10', t: '¿Tenés web, tienda online o solo redes?', h: 'Pasame los links que tengas.', big: true },
+    { k: 'q11', t: '¿Invertiste en publicidad alguna vez? ¿Cuánto y con qué resultado?', h: 'Si nunca invertiste, escribilo igual: también es un dato.', big: true },
+    { k: 'q12', t: '¿Qué intentaste ya para resolver esto y no funcionó?', h: 'Así no te propongo lo mismo que ya te falló.', big: true },
+    { k: 'q13', t: 'Si en 90 días una sola cosa estuviera resuelta, ¿cuál sería?', h: 'La más importante de las catorce. Pensala un minuto.', big: true },
+    { k: 'q14', t: '¿Quién decide y aprueba una inversión en tu negocio?', h: '¿Sos vos solo o hay un socio, tu pareja, tu familia?' },
+    { k: 'x1',  t: '¿Qué te gustaría que saliera de esta sesión?', h: 'Opcional.', big: true, opt: true },
+    { k: 'x2',  t: '¿Hay algo que no te pregunté y que creés que tengo que saber?', h: 'Opcional. Esta es la que más veces cambia el diagnóstico.', big: true, opt: true }
+  ];
+  var REQ = QS.filter(function (q) { return !q.opt; }).length;
+
+  var params = new URLSearchParams(location.search);
+  var orderId = params.get('order') || '';
+  var LSKEY = 'srm_cuest_' + (orderId || 'libre');
+
+  var form = document.getElementById('form');
+  var bar = document.getElementById('bar');
+  var barTxt = document.getElementById('bar-txt');
+  var saved = document.getElementById('saved');
+  var err = document.getElementById('err');
+
+  // Sin pedido: pedimos el email para poder asociar las respuestas.
+  if (!orderId) {
+    QS.unshift({ k: 'email', t: '¿Cuál es tu email?', h: 'Para asociar tus respuestas con tu sesión.' });
+  }
+
+  form.innerHTML = QS.map(function (q, i) {
+    var n = q.opt ? '<span class="opt">Opcional</span>' : ('Pregunta ' + (orderId ? i + 1 : i));
+    var field = q.big
+      ? '<textarea id="' + q.k + '" name="' + q.k + '"></textarea>'
+      : '<input type="text" id="' + q.k + '" name="' + q.k + '">';
+    return '<div class="q"><div class="q-n">' + n + '</div><div class="q-t">' + q.t + '</div><div class="q-h">' + q.h + '</div>' + field + '</div>';
+  }).join('');
+
+  function values() {
+    var out = {};
+    QS.forEach(function (q) {
+      var el = document.getElementById(q.k);
+      if (el && el.value.trim()) out[q.k] = el.value.trim();
+    });
+    return out;
+  }
+
+  function progress() {
+    var v = values();
+    var done = QS.filter(function (q) { return !q.opt && q.k !== 'email' && v[q.k]; }).length;
+    bar.style.width = Math.round((done / REQ) * 100) + '%';
+    barTxt.textContent = done + ' de ' + REQ + ' respondidas';
+  }
+
+  var saveTimer;
+  function localSave() {
+    try { localStorage.setItem(LSKEY, JSON.stringify(values())); } catch (e) {}
+    saved.textContent = 'Guardado';
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () { saved.textContent = ''; }, 1600);
+  }
+
+  function fill(data) {
+    Object.keys(data || {}).forEach(function (k) {
+      var el = document.getElementById(k);
+      if (el) el.value = data[k];
+    });
+    progress();
+  }
+
+  try { fill(JSON.parse(localStorage.getItem(LSKEY) || '{}')); } catch (e) {}
+
+  form.addEventListener('input', function () { progress(); localSave(); });
+
+  // Si ya había respuestas guardadas en el servidor, las traemos.
+  if (orderId) {
+    fetch('/api/questionnaire?order=' + encodeURIComponent(orderId))
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (d && d.answers && Object.keys(d.answers).length) fill(d.answers);
+        if (d && d.order) {
+          var m = document.getElementById('meta');
+          var txt = d.order.name ? ('Hola ' + d.order.name + '. ') : '';
+          if (d.order.slot) {
+            var f = new Date(d.order.slot).toLocaleString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', timeZone: 'America/Argentina/Buenos_Aires' });
+            txt += 'Tu sesión está agendada para el ' + f + '.';
+          } else {
+            txt += 'Tu sesión ya está reservada.';
+          }
+          m.textContent = txt;
+          m.hidden = false;
+        }
+      })
+      .catch(function () {});
+  }
+
+  document.getElementById('submit').addEventListener('click', function () {
+    var btn = this;
+    var v = values();
+    err.style.display = 'none';
+
+    if (!orderId && !v.email) { err.textContent = 'Necesito tu email para asociar las respuestas.'; err.style.display = 'block'; return; }
+    var faltan = QS.filter(function (q) { return !q.opt && q.k !== 'email' && !v[q.k]; });
+    if (faltan.length) {
+      err.textContent = 'Te faltan ' + faltan.length + (faltan.length === 1 ? ' pregunta' : ' preguntas') + '. Si alguna no aplica a tu caso, escribí "no aplica" y seguí.';
+      err.style.display = 'block';
+      var first = document.getElementById(faltan[0].k);
+      if (first) { first.focus(); first.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Enviando…';
+    fetch('/api/questionnaire', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ order: orderId || null, email: v.email || null, answers: v })
+    }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.j && res.j.error);
+        try { localStorage.removeItem(LSKEY); } catch (e) {}
+        document.getElementById('form-view').hidden = true;
+        document.getElementById('done-view').hidden = false;
+        window.scrollTo(0, 0);
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.textContent = 'Enviar mis respuestas';
+        err.textContent = 'No se pudo enviar. Revisá la conexión y probá de nuevo — tus respuestas siguen guardadas acá.';
+        err.style.display = 'block';
+      });
+  });
+
+  progress();
+})();
+</script>
+<script src="/shared/analytics.js" defer></script>
+</body>
+</html>
