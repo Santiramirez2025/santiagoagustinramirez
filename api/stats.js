@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
   const iv = `${days} days`;
 
   try {
-    const [overview, timeline, devices, sources, pages, scroll, ctas, recent] = await Promise.all([
+    const [overview, timeline, devices, sources, angles, pages, scroll, ctas, recent] = await Promise.all([
       sql`SELECT
             COUNT(DISTINCT visitor_id) AS visitors,
             COUNT(DISTINCT session_id) AS sessions,
@@ -50,6 +50,12 @@ module.exports = async (req, res) => {
           FROM events WHERE created_at >= now() - ${iv}::interval GROUP BY 1 ORDER BY 2 DESC`,
       sql`SELECT COALESCE(NULLIF(utm_source,''),'directo/orgánico') AS source, COUNT(DISTINCT session_id) AS sessions
           FROM events WHERE created_at >= now() - ${iv}::interval AND event='page_view' GROUP BY 1 ORDER BY 2 DESC LIMIT 8`,
+      // Rendimiento por ángulo de anuncio (utm_content): sesiones y cuántas llegan al checkout.
+      sql`SELECT COALESCE(NULLIF(utm_content,''),'(sin ángulo)') AS angle,
+                 COUNT(DISTINCT session_id) AS sessions,
+                 COUNT(DISTINCT session_id) FILTER (WHERE event='InitiateCheckout') AS checkouts
+          FROM events WHERE created_at >= now() - ${iv}::interval
+          GROUP BY 1 ORDER BY 2 DESC LIMIT 10`,
       sql`SELECT path, COUNT(*) AS views FROM events
           WHERE created_at >= now() - ${iv}::interval AND event='page_view' AND path IS NOT NULL
           GROUP BY 1 ORDER BY 2 DESC LIMIT 8`,
@@ -80,6 +86,10 @@ module.exports = async (req, res) => {
       timeline: timeline.map((r) => ({ day: r.day, pageviews: num(r.pageviews), wa: num(r.wa) })),
       devices: devices.map((r) => ({ device: r.device, sessions: num(r.sessions) })),
       sources: sources.map((r) => ({ source: r.source, sessions: num(r.sessions) })),
+      angles: angles.map((r) => ({
+        angle: r.angle, sessions: num(r.sessions), checkouts: num(r.checkouts),
+        rate: num(r.sessions) ? num(r.checkouts) / num(r.sessions) : 0
+      })),
       pages: pages.map((r) => ({ path: r.path, views: num(r.views) })),
       scroll: scroll.map((r) => ({ depth: num(r.depth), sessions: num(r.sessions) })),
       ctas: ctas.map((r) => ({ cta: r.cta, clicks: num(r.clicks) })),

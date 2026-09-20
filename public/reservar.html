@@ -138,7 +138,8 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
     var btn=this; var orig=btn.textContent; btn.disabled=true; btn.textContent='Redirigiendo…';
     if(typeof window.fbq==='function')window.fbq('track','InitiateCheckout');
     fetch('/api/booking',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-      service:SERVICE,slot:selected,name:name,email:email,fbp:getCookie('_fbp'),fbc:getCookie('_fbc')
+      service:SERVICE,slot:selected,name:name,email:email,fbp:getCookie('_fbp'),fbc:getCookie('_fbc'),
+      utm:(window.__srmUtm||{})
     })}).then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j};});}).then(function(res){
       if(res.ok && res.j.init_point){ location.href=res.j.init_point; return; }
       btn.disabled=false; btn.textContent=orig;

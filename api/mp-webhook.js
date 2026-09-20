@@ -41,6 +41,9 @@ module.exports = async (req, res) => {
 
     const order = marked;
     const url = baseUrl(req);
+    // Atribución guardada al crear el pedido: qué anuncio trajo esta venta.
+    const cfg = (order.config && typeof order.config === 'object') ? order.config : {};
+    const utm = (cfg.utm && typeof cfg.utm === 'object') ? cfg.utm : {};
 
     // Purchase server-side con el MISMO event_id que dispara el Pixel en /gracias.html
     await meta.sendEvent({
@@ -50,7 +53,7 @@ module.exports = async (req, res) => {
       value: Number(order.amount), currency: order.currency,
       actionSource: 'website',
       user: { email: order.buyer_email || (payment.payer && payment.payer.email), phone: order.buyer_phone },
-      customData: { content_name: order.service_name, content_ids: [order.service_id], content_type: 'product' },
+      customData: { content_name: order.service_name, content_ids: [order.service_id], content_type: 'product', utm_content: utm.utm_content, utm_campaign: utm.utm_campaign },
       testCode: process.env.META_TEST_EVENT_CODE
     }).catch((e) => console.error('[webhook] CAPI Purchase falló', e && e.message));
 

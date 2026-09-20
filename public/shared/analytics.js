@@ -30,11 +30,34 @@
   var device = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
     ? (/(iPad|Tablet)/i.test(navigator.userAgent) ? 'tablet' : 'mobile') : 'desktop';
 
+  // Atribución. Los UTM llegan sólo en la landing del anuncio, pero la compra ocurre
+  // en /reservar.html: sin persistirlos, el pedido queda huérfano y no se puede saber
+  // qué ángulo lo trajo. Guardamos el primer toque del visitante y el de la sesión.
+  var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+  function readUtm() {
+    var fromUrl = {}, has = false;
+    UTM_KEYS.forEach(function (k) { var v = q.get(k); if (v) { fromUrl[k] = v; has = true; } });
+    if (has) {
+      fromUrl.landing = location.pathname;
+      fromUrl.at = new Date().toISOString();
+      ss('_srm_utm', JSON.stringify(fromUrl));
+      if (!ls('_srm_utm_first')) ls('_srm_utm_first', JSON.stringify(fromUrl));
+      return fromUrl;
+    }
+    var stored = ss('_srm_utm') || ls('_srm_utm_first');
+    if (stored) { try { return JSON.parse(stored); } catch (e) {} }
+    return {};
+  }
+  var utm = readUtm();
+  window.__srmUtm = utm; // lo lee reservar.html para atribuir el pedido
+
   var base = {
     visitorId: visitorId, sessionId: sessionId, path: location.pathname,
-    utm_source: q.get('utm_source') || undefined,
-    utm_medium: q.get('utm_medium') || undefined,
-    utm_campaign: q.get('utm_campaign') || undefined,
+    utm_source: utm.utm_source || undefined,
+    utm_medium: utm.utm_medium || undefined,
+    utm_campaign: utm.utm_campaign || undefined,
+    utm_content: utm.utm_content || undefined,
+    utm_term: utm.utm_term || undefined,
     device: device
   };
 

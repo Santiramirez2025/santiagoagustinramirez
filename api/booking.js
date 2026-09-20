@@ -52,6 +52,8 @@ module.exports = async (req, res) => {
     const bookingId = crypto.randomUUID();
     const eventId = crypto.randomUUID();
     const url = baseUrl(req);
+    // Atribución del pedido al anuncio que lo trajo (lo manda el front desde analytics.js).
+    const utm = (b.utm && typeof b.utm === 'object') ? b.utm : {};
 
     const pref = await mp.createPreference({
       orderId,
@@ -68,7 +70,7 @@ module.exports = async (req, res) => {
 
     await db.createOrder({
       id: orderId, event_id: eventId, kind: 'booking',
-      service_id: serviceId, service_name: session.name, config: { slot: b.slot },
+      service_id: serviceId, service_name: session.name, config: { slot: b.slot, utm: utm },
       quote_usd: session.priceUsd, deposit_usd: session.priceUsd,
       amount: pref.amount, currency: pref.currency,
       buyer_email: b.email, buyer_phone: b.phone, buyer_name: b.name,
@@ -86,7 +88,7 @@ module.exports = async (req, res) => {
       name: 'InitiateCheckout', eventId: crypto.randomUUID(), eventSourceUrl: `${url}/reservar.html`,
       value: pref.amount, currency: pref.currency,
       user: { email: b.email, phone: b.phone, ip: clientIp(req), userAgent: req.headers['user-agent'], fbp: b.fbp, fbc: b.fbc },
-      customData: { content_name: session.name, content_ids: [serviceId], content_type: 'product' },
+      customData: { content_name: session.name, content_ids: [serviceId], content_type: 'product', utm_content: utm.utm_content, utm_campaign: utm.utm_campaign },
       testCode: process.env.META_TEST_EVENT_CODE
     }).catch(() => {});
 
