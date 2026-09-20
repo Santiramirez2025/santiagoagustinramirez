@@ -92,6 +92,7 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
     </div>
 
     <a class="cta" href="/reservar.html" data-track="diagnostico_cta_top" data-event="Lead">Reservá tu Diagnóstico — USD 75, 90 minutos, plan escrito</a>
+    <p class="cta-note" id="avail" hidden></p>
     <p class="cta-note">Elegís día y hora en el siguiente paso. Pago seguro con Mercado Pago.</p>
 
     <h2>El Mapa de 3 Fugas</h2>
@@ -151,6 +152,31 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
       <a class="wa-alt" href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20tengo%20una%20duda%20sobre%20el%20Diagn%C3%B3stico%20Negocio%20Ordenado" data-track="diagnostico_wa_fallback">¿Tenés una duda antes? Escribime por WhatsApp</a>
     </div>
   </div>
+<script>
+/* Disponibilidad real, leída del calendario. No afirma nada sobre quién tomó los
+   otros turnos: sólo muestra el próximo libre y cuántos quedan en 7 días. */
+(function () {
+  var el = document.getElementById('avail');
+  if (!el) return;
+  var TZ = 'America/Argentina/Buenos_Aires';
+  fetch('/api/availability?service=sesion')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      var slots = (data && data.slots) || [];
+      if (!slots.length) return;
+      var next = new Date(slots[0]);
+      var limite = Date.now() + 7 * 86400000;
+      var enSemana = slots.filter(function (s) { return new Date(s).getTime() <= limite; }).length;
+      var hora = next.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', timeZone: TZ });
+      var fecha = next.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', timeZone: TZ });
+      var txt = 'Próximo turno libre: ' + fecha + ' a las ' + hora;
+      if (enSemana > 0) txt += ' · ' + enSemana + (enSemana === 1 ? ' turno disponible' : ' turnos disponibles') + ' en los próximos 7 días';
+      el.textContent = txt;
+      el.hidden = false;
+    })
+    .catch(function () {});
+})();
+</script>
 <script src="/shared/analytics.js" defer></script>
 <script src="/shared/stars.js" defer></script>
 <script src="/shared/assistant.js" defer></script>
