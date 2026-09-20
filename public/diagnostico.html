@@ -58,6 +58,12 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
   .guarantee-block{margin:20px 0;padding:16px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb, var(--ink) 4%, transparent);font-size:14px;line-height:1.5;color:var(--ink-soft)}
   .guarantee-block p{margin:0 0 8px;color:var(--ink-soft);font-size:14px}
   .guarantee-block p:last-child{margin-bottom:0}
+  .proof-intro{font-size:14px;color:var(--muted);margin:-4px 0 14px}
+  .proof{display:grid;gap:10px;margin-bottom:8px}
+  .proof-item{display:block;padding:14px 16px;border:1px solid var(--line);border-radius:12px;text-decoration:none;transition:border-color .15s,background .15s}
+  .proof-item:hover{border-color:var(--signal);background:color-mix(in srgb, var(--signal) 5%, transparent)}
+  .proof-name{display:block;font-weight:600;font-size:15px;color:var(--ink)}
+  .proof-desc{display:block;font-size:13px;color:var(--muted);margin-top:4px;line-height:1.45}
   .faq{margin-top:10px;border-top:1px solid var(--line)}
   .faq-item{padding:16px 0;border-bottom:1px solid var(--line)}
   .faq-q{font-weight:600;font-size:15px;color:var(--ink)}
@@ -123,6 +129,23 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
           <li>Acceso a mentoría continua (eso es el programa mensual)</li>
         </ul>
       </div>
+    </div>
+
+    <h2>Trabajos en producción</h2>
+    <p class="proof-intro">No son maquetas ni capturas: son sistemas funcionando hoy, con clientes reales usándolos. Entrá y miralos vos mismo.</p>
+    <div class="proof">
+      <a class="proof-item" href="https://www.oficiosgo.com/" target="_blank" rel="noopener" data-track="caso_oficiosgo">
+        <span class="proof-name">OficiosGo ↗</span>
+        <span class="proof-desc">Marketplace de oficios en Villa María, con más de 50 profesionales publicados. Aplicación web hecha desde cero.</span>
+      </a>
+      <a class="proof-item" href="https://www.julianlozita.com/" target="_blank" rel="noopener" data-track="caso_lozita">
+        <span class="proof-name">Julián Lozita ↗</span>
+        <span class="proof-desc">Plataforma inmobiliaria con panel de administración, generación automática de fichas y asistente de consultas.</span>
+      </a>
+      <a class="proof-item" href="https://www.azulcolchones.com/" target="_blank" rel="noopener" data-track="caso_azul">
+        <span class="proof-name">Azul Colchones ↗</span>
+        <span class="proof-desc">Tienda y sistema de ventas de una distribuidora con 30 años en el rubro, con cobro por Mercado Pago.</span>
+      </a>
     </div>
 
     <div class="guarantee-block">
