@@ -39,7 +39,7 @@
 
   // Sesiones / bookings de precio fijo (se cobran 100%, no seña).
   var SESSIONS = {
-    sesion:   { name: 'Sesión estratégica', priceUsd: 75, durationMin: 90 }
+    sesion:   { name: 'Diagnóstico Negocio Ordenado', priceUsd: 75, durationMin: 90 }
   };
 
   var CONFIG = {
