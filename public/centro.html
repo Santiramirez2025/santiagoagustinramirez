@@ -166,7 +166,11 @@
     var pagadas = d.orders.filter(function (o) { return o.status === 'approved' || o.status === 'paid'; });
     var prox = pagadas.filter(function (o) { return o.slot && new Date(o.slot).getTime() > ahora; });
     var pas = pagadas.filter(function (o) { return !o.slot || new Date(o.slot).getTime() <= ahora; });
-    var pend = d.orders.filter(function (o) { return o.status === 'pending'; });
+    // Sólo los abandonos recuperables: reservas, o pedidos con algún contacto cargado.
+    // Los presupuestos viejos del cotizador, sin mail ni teléfono, sólo hacen ruido.
+    var pend = d.orders.filter(function (o) {
+      return o.status === 'pending' && (o.kind === 'booking' || o.email || o.phone);
+    });
 
     prox.sort(function (a, b) { return new Date(a.slot) - new Date(b.slot); });
 

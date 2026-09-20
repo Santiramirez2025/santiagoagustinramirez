@@ -57,6 +57,14 @@
   .blk-t{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px;flex:none;width:52px}
   .blk-n{font-weight:600}
   .blk-d{color:var(--muted);font-size:12px}
+  .blk{cursor:pointer}
+  .blk-x{margin-left:auto;color:var(--muted);font-size:15px;flex:none;font-weight:600}
+  .blk-guide{padding:0 12px 13px 74px;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--ink) 3%,transparent)}
+  .blk-wrap:last-child .blk-guide{border-bottom:0}
+  .g-h{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-top:11px}
+  .g-p{color:var(--ink-soft);margin-top:3px;font-size:13px;line-height:1.5}
+  .g-l{margin:5px 0 0 15px;color:var(--ink-soft);font-size:13px;line-height:1.5}
+  .g-l li{margin:5px 0}
   .out{width:100%;min-height:340px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.55}
   .row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
   .hint{color:var(--muted);font-size:12px;margin-top:6px}
@@ -146,13 +154,68 @@
   };
 
   var BLOQUES = [
-    { min: 0,  dur: 5,  n: 'Encuadre', d: 'Cómo funcionan los 90 min, que sale un plan escrito, que no vendés nada hoy.' },
-    { min: 5,  dur: 15, n: 'El negocio hoy', d: 'Él habla. Confirmás números y buscás la contradicción entre lo que dice y lo que hace.' },
-    { min: 20, dur: 15, n: 'Fuga 1 — Procesos', d: 'Recorrés el camino de una venta paso a paso, en vivo.' },
-    { min: 35, dur: 15, n: 'Fuga 2 — Presencia digital', d: 'Compartís pantalla y mostrás lo que cronometraste antes.' },
-    { min: 50, dur: 15, n: 'Fuga 3 — Marketing', d: 'Qué mide y qué no. Casi siempre no mide nada atado a ventas.' },
-    { min: 65, dur: 15, n: 'Priorización', d: 'Eligen juntos las 3 cosas a resolver primero.' },
-    { min: 80, dur: 10, n: 'Cierre', d: 'Qué va a decir el plan y cuándo llega. Sin propuesta comercial todavía.' }
+    { min: 0, dur: 5, n: 'Encuadre', d: 'Cómo funcionan los 90 min, que sale un plan escrito, que no vendés nada hoy.',
+      hacer: 'Pedí permiso para grabar, compartí pantalla desde el minuto cero y explicá la estructura completa antes de que empiece a contar.',
+      decir: [
+        'Te pido permiso para grabar, así no tomo notas y te presto atención de verdad.',
+        'Son 90 minutos en cuatro partes: me contás cómo funciona tu negocio hoy, miramos juntos tres lugares donde se suele perder plata, elegimos las tres más importantes, y listo.',
+        'Dentro de las 24 horas te mando el plan escrito con todo cotizado. Hoy no te voy a vender nada.'
+      ],
+      ojo: 'Si arranca a contarte el problema antes de que termines, dejalo hablar — pero volvé y cerrá el encuadre. Sin encuadre, a los 60 minutos estás en una charla.' },
+
+    { min: 5, dur: 15, n: 'El negocio hoy', d: 'Él habla. Confirmás números y buscás la contradicción entre lo que dice y lo que hace.',
+      hacer: 'Él habla el 80% del tiempo. Vos confirmás los números del cuestionario y anotás.',
+      decir: [
+        'Contame un día normal tuyo, desde que abrís hasta que cerrás.',
+        'De las consultas que te entran por mes, ¿cuántas terminan en venta?',
+        '¿Qué pasa si mañana no abrís el WhatsApp en todo el día?'
+      ],
+      ojo: 'Lo que buscás es la contradicción: dice que su problema es conseguir clientes, pero pierde la mitad de los presupuestos que manda. No propongas nada todavía — si te tienta una solución, anotala y seguí.' },
+
+    { min: 20, dur: 15, n: 'Fuga 1 — Procesos', d: 'Recorrés el camino de una venta paso a paso, en vivo.',
+      hacer: 'Agarrás una venta real y la recorrés paso por paso, cronometrando lo que él te va diciendo.',
+      decir: [
+        'Agarremos el último cliente que te compró. ¿Cómo empezó?',
+        '¿Y ahí qué hacés exactamente? ¿Cuánto te lleva eso?',
+        '¿Y si estás en la obra cuando te escriben, qué pasa?'
+      ],
+      ojo: 'Marcá los puntos donde el proceso depende de él, donde se copia información de un lado a otro, y donde el tiempo es medible. Cerrá contando: "de todo esto, X pasos los hacés vos a mano".' },
+
+    { min: 35, dur: 15, n: 'Fuga 2 — Presencia digital', d: 'Compartís pantalla y mostrás lo que cronometraste antes.',
+      hacer: 'Compartís pantalla con su web o perfil y entrás como si fueras un cliente que no lo conoce.',
+      decir: [
+        'Voy a hacer algo incómodo: voy a entrar a tu web como si no te conociera.',
+        'Tardé 14 segundos en entender qué vendés. Un cliente te da tres.',
+        '¿Cuántas consultas te entran por la web al mes?'
+      ],
+      ojo: 'No critiques el diseño. Cronometrá y mostrá: el dato pega, la opinión no. Si no sabe cuántas consultas le entran, la web no es un canal, es un folleto.' },
+
+    { min: 50, dur: 15, n: 'Fuga 3 — Marketing', d: 'Qué mide y qué no. Casi siempre no mide nada atado a ventas.',
+      hacer: 'Tres preguntas que destapan si hay medición real o no.',
+      decir: [
+        '¿De dónde vino tu último cliente?',
+        '¿Cuánto te costó conseguirlo?',
+        'Lo que pusiste en publicidad, ¿cuántas ventas trajo?'
+      ],
+      ojo: 'Si duda en la primera, no hay medición. Encuadralo sin culpa: "no es que hayas invertido mal, es que no tenés forma de saber si invertiste bien. Eso es distinto y tiene arreglo".' },
+
+    { min: 65, dur: 15, n: 'Priorización', d: 'Eligen juntos las 3 cosas a resolver primero.',
+      hacer: 'Listás todo lo encontrado y eligen juntos tres, por impacto sobre esfuerzo. Acá va el número del costo del desorden.',
+      decir: [
+        'Encontramos ocho cosas. Si las arreglamos todas juntas no vas a arreglar ninguna.',
+        '¿Cuál de estas, resuelta en 30 días, te cambia más el mes?',
+        'Esas horas semanales son X al año. A tu valor hora, son Y ventas que no estás haciendo.'
+      ],
+      ojo: 'Que elija él. Lo que elige él lo ejecuta; lo que elegís vos lo discute. Si este bloque no pasa, la sesión entera se arruina — cortá los anteriores si hace falta.' },
+
+    { min: 80, dur: 10, n: 'Cierre', d: 'Qué va a decir el plan y cuándo llega. Sin propuesta comercial todavía.',
+      hacer: 'Adelantás el contenido del plan, confirmás el plazo y pedís la devolución.',
+      decir: [
+        'En 24 horas te llega el plan escrito con las tres acciones, qué necesita cada una y cuánto sale.',
+        'Va dividido en dos: lo que podés hacer vos o tu equipo, y lo que haría yo.',
+        '¿Me dejás una frase de cómo te resultó la sesión? Un audio corto me sirve.'
+      ],
+      ojo: 'No cotices en vivo aunque te lo pida: "prefiero mandártelo escrito con el alcance al lado, así lo mirás tranquilo". El testimonio pedilo ahora, que es el único momento en que la sensación está fresca.' }
   ];
 
   var FUGAS = [
@@ -238,9 +301,27 @@
 
   function pintarBloques() {
     $('blocks').innerHTML = BLOQUES.map(function (b, i) {
-      return '<div class="blk" id="blk-' + i + '"><span class="blk-t">' + b.min + '–' + (b.min + b.dur) + '</span>' +
-        '<span><span class="blk-n">' + b.n + '</span><br><span class="blk-d">' + b.d + '</span></span></div>';
+      var decir = b.decir.map(function (d) { return '<li>' + d + '</li>'; }).join('');
+      return '<div class="blk-wrap">' +
+        '<div class="blk" id="blk-' + i + '" data-blk="' + i + '">' +
+          '<span class="blk-t">' + b.min + '\u2013' + (b.min + b.dur) + '</span>' +
+          '<span><span class="blk-n">' + b.n + '</span><br><span class="blk-d">' + b.d + '</span></span>' +
+          '<span class="blk-x" id="blkx-' + i + '">+</span>' +
+        '</div>' +
+        '<div class="blk-guide" id="guide-' + i + '" hidden>' +
+          '<p class="g-h">Qu\u00e9 hac\u00e9s</p><p class="g-p">' + b.hacer + '</p>' +
+          '<p class="g-h">Qu\u00e9 dec\u00eds</p><ul class="g-l">' + decir + '</ul>' +
+          '<p class="g-h">Ojo con esto</p><p class="g-p">' + b.ojo + '</p>' +
+        '</div></div>';
     }).join('');
+  }
+
+  function toggleGuia(i, forzar) {
+    var g = $('guide-' + i), x = $('blkx-' + i);
+    if (!g) return;
+    var abrir = forzar === undefined ? g.hidden : forzar;
+    g.hidden = !abrir;
+    x.textContent = abrir ? '\u2212' : '+';
   }
 
   function pintarFugas() {
@@ -306,7 +387,7 @@
     lineas.push('');
     lineas.push('---');
     lineas.push('');
-    lineas.push('Si este plan no te resulta accionable, te devuelvo los USD 75 sin preguntas.');
+    lineas.push('Cualquier punto de este plan que no te quede claro, escribime y lo repasamos. No tiene costo.');
     lineas.push('');
     lineas.push('Si agendás la implementación dentro de las 72 hs de la sesión, los USD 75 se descuentan del proyecto.');
     lineas.push('');
@@ -316,7 +397,7 @@
   }
 
   // --- Cronómetro ---
-  var t0 = null, tick = null;
+  var t0 = null, tick = null, ultimoBloque = -1;
   function pintarClock() {
     var ms = t0 ? Date.now() - t0 : 0;
     var min = Math.floor(ms / 60000), seg = Math.floor(ms / 1000) % 60;
@@ -330,6 +411,13 @@
       else if (min >= b.min + b.dur) { el.className = 'blk past'; }
     });
     $('block-now').textContent = t0 ? (actual ? actual.n : (min >= 90 ? 'Terminado' : 'Sin iniciar')) : 'Sin iniciar';
+    // Al cambiar de bloque, abrimos su guia y cerramos la anterior.
+    var idx = actual ? BLOQUES.indexOf(actual) : -1;
+    if (t0 && idx !== -1 && idx !== ultimoBloque) {
+      if (ultimoBloque !== -1) toggleGuia(ultimoBloque, false);
+      toggleGuia(idx, true);
+      ultimoBloque = idx;
+    }
   }
   $('t-start').addEventListener('click', function () {
     if (t0) { clearInterval(tick); t0 = null; this.textContent = 'Iniciar'; return; }
@@ -387,6 +475,10 @@
     if (v) { history.replaceState(null, '', '?order=' + encodeURIComponent(v)); arrancar(v); }
   });
   $('gate-blank').addEventListener('click', function () { arrancar(''); });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-blk]');
+    if (b) toggleGuia(Number(b.getAttribute('data-blk')));
+  });
   $('gen').addEventListener('click', generar);
   $('copy').addEventListener('click', function () {
     $('out').select();
