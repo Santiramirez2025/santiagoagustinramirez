@@ -52,6 +52,17 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
   .note{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
   .empty{color:var(--muted);font-size:15px;padding:12px 0}
   .err{color:#B42318;font-size:14px;margin-top:8px}
+  .price-ars{display:block;font-family:var(--sans);font-size:14px;color:var(--muted);margin-top:6px}
+  .more-slots{margin-top:4px;background:none;border:none;color:var(--ink);font:inherit;font-size:14px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px 0}
+  .picked{font-size:13px;color:var(--muted);margin:0 0 2px}
+  .picked b{color:var(--ink);font-weight:600}
+  /* Checkout fijo abajo en mobile: el 85% del tráfico entra por celular y el botón quedaba fuera de pantalla. */
+  @media(max-width:640px){
+    .form.pinned{position:fixed;left:0;right:0;bottom:0;margin:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));gap:8px;background:var(--paper);border-top:1px solid var(--line);box-shadow:0 -10px 28px rgba(0,0,0,.20);z-index:60}
+    .form.pinned .note{margin-top:6px}
+    .form.pinned .btn{margin-top:2px;padding:15px}
+    body.pinned-open{padding-bottom:300px}
+  }
   /* Fase 1 — View Transitions + Dark mode */
   @view-transition{navigation:auto;}
   @media(prefers-reduced-motion:no-preference){
@@ -74,6 +85,7 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
       <h1>Diagnóstico Negocio Ordenado</h1>
       <p class="sub">90 minutos 1:1 para diagnosticar tu negocio y salir con un plan de acción escrito.</p>
       <div class="price"><strong id="price">USD $75</strong><span>· pago único</span></div>
+      <span class="price-ars" id="price-ars" hidden></span>
     </div>
 
     <div class="guarantee-block" style="margin:20px 0;padding:16px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb, var(--ink) 4%, transparent);font-size:14px;line-height:1.5;color:var(--ink-soft)">
@@ -86,8 +98,10 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
     <div id="slots-container"><p class="empty">Cargando horarios disponibles…</p></div>
 
     <div class="form" id="form" style="display:none">
+      <p class="picked" id="picked" hidden></p>
       <input type="text" id="name" placeholder="Tu nombre" autocomplete="name">
       <input type="email" id="email" placeholder="Tu email" autocomplete="email" inputmode="email">
+      <input type="tel" id="phone" placeholder="Tu WhatsApp (con código de área)" autocomplete="tel" inputmode="tel">
       <button class="btn" id="submit" type="button">Reservar y pagar →</button>
       <p class="err" id="err" style="display:none"></p>
       <p class="note">Pago seguro con Mercado Pago. Recibís la invitación al calendario por email.</p>
@@ -101,6 +115,22 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
   var form=document.getElementById('form');
   var errEl=document.getElementById('err');
 
+  // En mobile el checkout queda fijo abajo, y sacamos de encima el banner de "Instalar app"
+  // y la burbuja del asistente, que tapaban justo el botón de pagar.
+  function pinForm(){
+    if(window.matchMedia('(max-width:640px)').matches){
+      form.classList.add('pinned');
+      document.body.classList.add('pinned-open');
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('body *'),function(el){
+      if(el===form||form.contains(el)) return;
+      var s=getComputedStyle(el);
+      if(s.position!=='fixed'||el.offsetHeight<20) return;
+      if(/instalar app/i.test(el.textContent||'')) el.style.display='none';
+      else if(el.classList.contains('srm-ai-launch')) el.style.display='none';
+    });
+  }
+
   function getCookie(n){var m=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return m?m.pop():undefined;}
   function fmtDay(d){return d.toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long',timeZone:'America/Argentina/Cordoba'});}
   function fmtTime(d){return d.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit',timeZone:'America/Argentina/Cordoba'});}
@@ -109,20 +139,41 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
     .then(function(r){return r.json();})
     .then(function(data){
       if(data && data.price_usd) document.getElementById('price').textContent='USD $'+data.price_usd;
+      // Referencia en pesos: casi todo el tráfico es de Argentina y paga con Mercado Pago.
+      if(data && data.price_ars){
+        var ars=document.getElementById('price-ars');
+        ars.textContent='≈ $'+Number(data.price_ars).toLocaleString('es-AR',{maximumFractionDigits:0})+' ARS al tipo de cambio de hoy · se cobra en pesos';
+        ars.hidden=false;
+      }
       var slots=(data && data.slots)||[];
       if(!slots.length){ container.innerHTML='<p class="empty">No hay horarios disponibles por ahora. Escribime por WhatsApp y coordinamos.</p>'; return; }
       var byDay={};
       slots.forEach(function(iso){var d=new Date(iso);var key=fmtDay(d);(byDay[key]=byDay[key]||[]).push({iso:iso,d:d});});
-      container.innerHTML=Object.keys(byDay).map(function(day){
-        return '<div class="day"><div class="day-label">'+day+'</div><div class="slots">'
+      var days=Object.keys(byDay);
+      var SHOW=3; // muro de 17 horarios: mostramos los primeros días y el resto detrás de un botón.
+      container.innerHTML=days.map(function(day,i){
+        return '<div class="day"'+(i>=SHOW?' data-extra="1" hidden':'')+'><div class="day-label">'+day+'</div><div class="slots">'
           + byDay[day].map(function(s){return '<button class="slot" type="button" data-iso="'+s.iso+'">'+fmtTime(s.d)+'</button>';}).join('')
           + '</div></div>';
-      }).join('');
+      }).join('')
+      + (days.length>SHOW ? '<button class="more-slots" type="button" id="more">Ver más horarios ('+(days.length-SHOW)+' días)</button>' : '');
+
+      var more=document.getElementById('more');
+      if(more) more.addEventListener('click',function(){
+        Array.prototype.forEach.call(container.querySelectorAll('[data-extra]'),function(d){d.hidden=false;});
+        more.remove();
+      });
+
       Array.prototype.forEach.call(document.querySelectorAll('.slot'),function(b){
         b.addEventListener('click',function(){
           selected=b.getAttribute('data-iso');
           Array.prototype.forEach.call(document.querySelectorAll('.slot'),function(x){x.classList.toggle('sel',x===b);});
+          var d=new Date(selected);
+          var p=document.getElementById('picked');
+          p.innerHTML='Turno elegido: <b>'+fmtDay(d)+', '+fmtTime(d)+'</b> (hora de Argentina)';
+          p.hidden=false;
           form.style.display='grid';
+          pinForm();
           form.scrollIntoView({behavior:'smooth',block:'center'});
         });
       });
@@ -132,16 +183,26 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
   document.getElementById('submit').addEventListener('click',function(){
     var name=document.getElementById('name').value.trim();
     var email=document.getElementById('email').value.trim();
+    var phone=document.getElementById('phone').value.trim();
     errEl.style.display='none';
     if(!selected){ errEl.textContent='Elegí un horario primero.'; errEl.style.display='block'; return; }
     if(!email || email.indexOf('@')<0){ errEl.textContent='Ingresá un email válido.'; errEl.style.display='block'; return; }
     var btn=this; var orig=btn.textContent; btn.disabled=true; btn.textContent='Redirigiendo…';
-    if(typeof window.fbq==='function')window.fbq('track','InitiateCheckout');
     fetch('/api/booking',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-      service:SERVICE,slot:selected,name:name,email:email,fbp:getCookie('_fbp'),fbc:getCookie('_fbc'),
+      service:SERVICE,slot:selected,name:name,email:email,phone:phone,fbp:getCookie('_fbp'),fbc:getCookie('_fbc'),
       utm:(window.__srmUtm||{})
     })}).then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j};});}).then(function(res){
-      if(res.ok && res.j.init_point){ location.href=res.j.init_point; return; }
+      if(res.ok && res.j.init_point){
+        // Mismo eventID que el evento del servidor → Meta cuenta UN checkout, no dos.
+        if(typeof window.fbq==='function'){
+          window.fbq('track','InitiateCheckout',
+            {content_name:'Diagnóstico Negocio Ordenado',content_ids:['sesion'],content_type:'product',value:res.j.amount,currency:res.j.currency},
+            {eventID:res.j.event_id});
+        }
+        var go=function(){ location.href=res.j.init_point; };
+        setTimeout(go,250); // le damos un respiro al pixel antes de salir de la página
+        return;
+      }
       btn.disabled=false; btn.textContent=orig;
       errEl.textContent = res.j.error==='slot_taken' ? 'Ese horario se acaba de ocupar. Elegí otro.' : 'No se pudo iniciar la reserva. Probá de nuevo.';
       errEl.style.display='block';

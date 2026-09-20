@@ -85,7 +85,8 @@ module.exports = async (req, res) => {
     if (!hold) { res.status(409).json({ error: 'slot_taken' }); return; }
 
     meta.sendEvent({
-      name: 'InitiateCheckout', eventId: crypto.randomUUID(), eventSourceUrl: `${url}/reservar.html`,
+      // eventId compartido con el fbq del navegador → Meta deduplica y no cuenta el checkout dos veces.
+      name: 'InitiateCheckout', eventId, eventSourceUrl: `${url}/reservar.html`,
       value: pref.amount, currency: pref.currency,
       user: { email: b.email, phone: b.phone, ip: clientIp(req), userAgent: req.headers['user-agent'], fbp: b.fbp, fbc: b.fbc },
       customData: { content_name: session.name, content_ids: [serviceId], content_type: 'product', utm_content: utm.utm_content, utm_campaign: utm.utm_campaign },
