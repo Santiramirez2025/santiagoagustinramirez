@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centro de operaciones — Santiago Ramírez</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#ECE7DA;--ink:#17140E;--ink-soft:#3A352B;--muted:#6E685A;--line:rgba(23,20,14,.14);--forest:#163A2B;--signal:#0E9E64;--warn:#B4541E;--on-forest:#E9E4D6;--serif:"Instrument Serif",Georgia,serif;--sans:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.5;font-size:14px;padding:20px 16px 60px}
+  .wrap{max-width:860px;margin:0 auto}
+  h1{font-family:var(--serif);font-weight:400;font-size:clamp(26px,5.5vw,34px)}
+  .lead{color:var(--muted);margin-top:4px}
+  h2{font-family:var(--serif);font-weight:400;font-size:21px;margin:30px 0 4px}
+  .h2note{color:var(--muted);font-size:13px;margin-bottom:10px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:16px}
+  .card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fff}
+  .card b{display:block;font-size:26px;font-family:var(--serif);font-weight:400;line-height:1.1}
+  .card span{font-size:12px;color:var(--muted)}
+  .card.alert{border-color:var(--warn)}
+  .card.alert b{color:var(--warn)}
+  .item{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fff;margin-bottom:10px}
+  .item-h{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .item-n{font-weight:600}
+  .item-m{color:var(--muted);font-size:13px}
+  .tag{font-size:11px;padding:2px 8px;border-radius:999px;background:var(--line);color:var(--ink-soft);font-weight:600}
+  .tag.ok{background:color-mix(in srgb,var(--signal) 20%,transparent);color:#0A6B45}
+  .tag.no{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+  .btns{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+  .b{display:inline-block;padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);text-decoration:none;font-family:inherit;font-size:13px;cursor:pointer;white-space:nowrap}
+  .b:hover{border-color:var(--signal)}
+  .b.go{background:var(--forest);color:var(--on-forest);border-color:var(--forest)}
+  .b.go:hover{opacity:.92}
+  .quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:9px;margin-top:10px}
+  .quick a{display:block;padding:13px 14px;border:1px solid var(--line);border-radius:11px;background:#fff;text-decoration:none;color:var(--ink);font-weight:600}
+  .quick a span{display:block;font-weight:400;font-size:12px;color:var(--muted);margin-top:2px}
+  .quick a:hover{border-color:var(--signal)}
+  .gate{max-width:400px;margin:90px auto;text-align:center}
+  .gate input{width:100%;margin-top:14px;padding:11px 13px;border:1px solid var(--line);border-radius:9px;font-family:inherit;font-size:15px}
+  .empty{color:var(--muted);font-style:italic;padding:8px 0}
+  .msg{padding:11px 13px;border-radius:9px;background:#F8E3E0;color:#8C2A1C;margin-top:12px;display:none}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--forest);color:var(--on-forest);padding:10px 18px;border-radius:999px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s}
+  .toast.on{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <h1>Centro de operaciones</h1>
+  <p class="lead">Pegá tu STATS_TOKEN para entrar.</p>
+  <input type="password" id="tok" placeholder="STATS_TOKEN" autocomplete="current-password">
+  <div class="btns" style="justify-content:center;margin-top:12px"><button class="b go" id="enter">Entrar</button></div>
+  <div class="msg" id="gate-msg"></div>
+</div>
+
+<div class="wrap" id="app" hidden>
+  <h1>Centro de operaciones</h1>
+  <p class="lead">Todo lo del Diagnóstico Negocio Ordenado, en un solo lugar.</p>
+
+  <div class="cards" id="cards"></div>
+
+  <h2>Próximas sesiones</h2>
+  <p class="h2note">Reservas pagadas con turno por delante.</p>
+  <div id="proximas"></div>
+
+  <h2>Checkouts abandonados</h2>
+  <p class="h2note">Llegaron a Mercado Pago y no pagaron. Es la gente más caliente que tenés: el link de pago sigue vivo.</p>
+  <div id="pendientes"></div>
+
+  <h2>Sesiones pasadas</h2>
+  <p class="h2note">Para reabrir la consola y recuperar el plan.</p>
+  <div id="pasadas"></div>
+
+  <h2>Accesos rápidos</h2>
+  <div class="quick">
+    <a href="/panel.html">Analytics<span>Visitas, scroll, ángulos</span></a>
+    <a href="/sesion.html">Consola en blanco<span>Diagnóstico sin orden</span></a>
+    <a href="/cuestionario.html" target="_blank">Cuestionario suelto<span>Para mandar a mano</span></a>
+    <a href="/diagnostico.html" target="_blank">La landing<span>Ver lo que ve el cliente</span></a>
+    <a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=1680539049972275" target="_blank" rel="noopener">Ads Manager<span>Campaña y anuncios</span></a>
+    <a href="https://eventsmanager.facebook.com/events_manager2/list/dataset/1419051696174763/overview" target="_blank" rel="noopener">Events Manager<span>Pixel y CAPI</span></a>
+    <a href="https://www.mercadopago.com.ar/activities" target="_blank" rel="noopener">Mercado Pago<span>Cobros recibidos</span></a>
+    <a href="https://calendar.google.com/" target="_blank" rel="noopener">Calendario<span>Turnos agendados</span></a>
+  </div>
+
+  <div class="btns" style="margin-top:26px">
+    <button class="b" id="refresh">Actualizar</button>
+    <button class="b" id="logout">Salir</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  'use strict';
+  var TOKKEY = 'srm_stats_token';
+  var PHONE = '5493536561265';
+  function $(id) { return document.getElementById(id); }
+
+  function toast(t) {
+    var el = $('toast');
+    el.textContent = t; el.className = 'toast on';
+    setTimeout(function () { el.className = 'toast'; }, 1700);
+  }
+  function copiar(txt) {
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(function () { toast('Copiado'); });
+    else { var i = document.createElement('input'); i.value = txt; document.body.appendChild(i); i.select(); document.execCommand('copy'); i.remove(); toast('Copiado'); }
+  }
+  function esc(s) { return String(s == null ? '' : s).replace(/[<>&"]/g, function (c) { return ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' })[c]; }); }
+  function fechaHora(iso) {
+    if (!iso) return null;
+    return new Date(iso).toLocaleString('es-AR', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'America/Argentina/Buenos_Aires' });
+  }
+  function wa(phone, texto) {
+    return 'https://wa.me/' + String(phone || '').replace(/\D/g, '') + '?text=' + encodeURIComponent(texto);
+  }
+
+  function fila(o, modo) {
+    var base = location.origin;
+    var cuest = base + '/cuestionario.html?order=' + o.id;
+    var when = fechaHora(o.slot);
+    var tags = [];
+    if (o.angle) tags.push('<span class="tag">' + esc(o.angle) + '</span>');
+    if (modo === 'proxima') tags.push(o.questionnaire ? '<span class="tag ok">cuestionario listo</span>' : '<span class="tag no">sin cuestionario</span>');
+    if (modo === 'pendiente') tags.push('<span class="tag no">sin pagar</span>');
+
+    var btns = [];
+    if (modo !== 'pendiente') {
+      btns.push('<a class="b go" href="/sesion.html?order=' + o.id + '">Abrir consola</a>');
+      btns.push('<button class="b" data-copy="' + esc(cuest) + '">Copiar link del cuestionario</button>');
+      if (o.phone || o.email) {
+        var txt = 'Hola' + (o.name ? ' ' + o.name.split(' ')[0] : '') + ', soy Santiago. Antes de nuestra sesión completá este cuestionario, son 10 minutos y hacen que los 90 rindan: ' + cuest;
+        if (o.phone) btns.push('<a class="b" target="_blank" rel="noopener" href="' + wa(o.phone, txt) + '">Recordar por WhatsApp</a>');
+      }
+    } else {
+      if (o.preference) btns.push('<button class="b" data-copy="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=' + esc(o.preference) + '">Copiar link de pago</button>');
+      var rec = 'Hola' + (o.name ? ' ' + o.name.split(' ')[0] : '') + ', soy Santiago. Vi que empezaste a reservar el Diagnóstico y quedó a mitad de camino'
+        + (when ? ' — te guardé el turno del ' + when : '') + '. Si tuviste algún problema con el pago, decime y lo resolvemos.'
+        + (o.preference ? ' Acá está el link para retomarlo: https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=' + o.preference : '');
+      if (o.phone) btns.push('<a class="b go" target="_blank" rel="noopener" href="' + wa(o.phone, rec) + '">Recuperar por WhatsApp</a>');
+      if (o.email) btns.push('<a class="b" href="mailto:' + esc(o.email) + '?subject=' + encodeURIComponent('Tu Diagnóstico quedó a mitad de camino') + '&body=' + encodeURIComponent(rec) + '">Recuperar por email</a>');
+    }
+    if (o.email) btns.push('<button class="b" data-copy="' + esc(o.email) + '">Copiar email</button>');
+
+    return '<div class="item"><div class="item-h"><span class="item-n">' + esc(o.name || o.email || 'Sin nombre') + '</span>'
+      + (when ? '<span class="item-m">' + when + '</span>' : '')
+      + '<span class="item-m">' + esc(o.email || '') + '</span>' + tags.join('') + '</div>'
+      + '<div class="btns">' + btns.join('') + '</div></div>';
+  }
+
+  function pintar(d) {
+    var r = d.resumen || {};
+    $('cards').innerHTML =
+      '<div class="card"><b>' + (r.pagados || 0) + '</b><span>reservas pagadas</span></div>' +
+      '<div class="card' + (r.pendientes ? ' alert' : '') + '"><b>' + (r.pendientes || 0) + '</b><span>checkouts abandonados</span></div>' +
+      '<div class="card' + (r.sin_cuestionario ? ' alert' : '') + '"><b>' + (r.sin_cuestionario || 0) + '</b><span>sin cuestionario</span></div>' +
+      '<div class="card"><b>' + (r.total || 0) + '</b><span>pedidos en total</span></div>';
+
+    var ahora = Date.now();
+    var pagadas = d.orders.filter(function (o) { return o.status === 'approved' || o.status === 'paid'; });
+    var prox = pagadas.filter(function (o) { return o.slot && new Date(o.slot).getTime() > ahora; });
+    var pas = pagadas.filter(function (o) { return !o.slot || new Date(o.slot).getTime() <= ahora; });
+    var pend = d.orders.filter(function (o) { return o.status === 'pending'; });
+
+    prox.sort(function (a, b) { return new Date(a.slot) - new Date(b.slot); });
+
+    $('proximas').innerHTML = prox.length ? prox.map(function (o) { return fila(o, 'proxima'); }).join('') : '<p class="empty">No hay sesiones agendadas por delante.</p>';
+    $('pendientes').innerHTML = pend.length ? pend.map(function (o) { return fila(o, 'pendiente'); }).join('') : '<p class="empty">Ningún checkout abandonado. Bien ahí.</p>';
+    $('pasadas').innerHTML = pas.length ? pas.map(function (o) { return fila(o, 'pasada'); }).join('') : '<p class="empty">Todavía ninguna.</p>';
+  }
+
+  function cargar() {
+    var tok = localStorage.getItem(TOKKEY) || '';
+    return fetch('/api/orders?limit=60', { headers: { 'x-stats-token': tok } })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        if (!res.ok) throw new Error((res.j && res.j.message) || (res.j && res.j.error) || 'error');
+        $('gate').hidden = true; $('app').hidden = false;
+        pintar(res.j);
+      });
+  }
+
+  $('enter').addEventListener('click', function () {
+    var v = $('tok').value.trim();
+    if (!v) return;
+    localStorage.setItem(TOKKEY, v);
+    cargar().catch(function (e) {
+      localStorage.removeItem(TOKKEY);
+      $('gate-msg').textContent = e.message === 'unauthorized' ? 'Token incorrecto.' : ('No se pudo entrar: ' + e.message);
+      $('gate-msg').style.display = 'block';
+    });
+  });
+  $('tok').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('enter').click(); });
+  $('refresh').addEventListener('click', function () { cargar().catch(function () { toast('No se pudo actualizar'); }); });
+  $('logout').addEventListener('click', function () { localStorage.removeItem(TOKKEY); location.reload(); });
+
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-copy]');
+    if (t) { e.preventDefault(); copiar(t.getAttribute('data-copy')); }
+  });
+
+  if (localStorage.getItem(TOKKEY)) cargar().catch(function () { localStorage.removeItem(TOKKEY); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consola de sesión — Diagnóstico Negocio Ordenado</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#ECE7DA;--ink:#17140E;--ink-soft:#3A352B;--muted:#6E685A;--line:rgba(23,20,14,.14);--forest:#163A2B;--signal:#0E9E64;--warn:#B4541E;--on-forest:#E9E4D6;--serif:"Instrument Serif",Georgia,serif;--sans:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.5;font-size:14px}
+  .top{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .top h1{font-family:var(--serif);font-weight:400;font-size:19px}
+  .who{color:var(--muted);font-size:13px}
+  .timer{margin-left:auto;display:flex;align-items:center;gap:10px}
+  .clock{font-variant-numeric:tabular-nums;font-weight:600;font-size:18px;min-width:62px;text-align:right}
+  .block-now{font-size:12px;color:var(--signal);font-weight:600}
+  .tbtn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:6px 12px;font-family:inherit;font-size:13px;cursor:pointer}
+  .tbtn.primary{background:var(--forest);color:var(--on-forest);border-color:var(--forest)}
+  .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:0;align-items:start}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  .col{padding:16px;min-width:0}
+  .col+.col{border-left:1px solid var(--line)}
+  @media(max-width:900px){.col+.col{border-left:0;border-top:1px solid var(--line)}}
+  h2{font-family:var(--serif);font-weight:400;font-size:20px;margin:18px 0 8px}
+  h2:first-child{margin-top:0}
+  h3{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:16px 0 6px}
+  .ans{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px;background:#fff}
+  .ans-q{font-size:12px;color:var(--muted);margin-bottom:3px}
+  .ans-a{white-space:pre-wrap;color:var(--ink-soft)}
+  .empty{color:var(--muted);font-style:italic}
+  .nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0}
+  .num{border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:#fff}
+  .num label{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+  .num input{width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;font-family:inherit;font-size:16px;font-weight:600;color:var(--ink);padding:3px 0;margin-top:3px}
+  .num input:focus{outline:none;border-bottom-color:var(--signal)}
+  .calc{border:1px solid var(--signal);border-radius:10px;padding:12px;background:color-mix(in srgb,var(--signal) 7%,transparent);margin:10px 0;font-size:14px;line-height:1.6}
+  .calc strong{font-size:16px}
+  .fuga{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px;background:#fff}
+  .fuga-h{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+  .fuga-t{font-weight:600;flex:1}
+  .sev{font-size:11px;padding:2px 8px;border-radius:999px;background:var(--line);color:var(--muted);font-weight:600}
+  .sev.on{background:var(--warn);color:#fff}
+  label.chk{display:flex;gap:8px;align-items:flex-start;padding:5px 0;cursor:pointer;color:var(--ink-soft)}
+  label.chk input{margin-top:3px;flex:none}
+  textarea{width:100%;margin-top:8px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-family:inherit;font-size:13px;background:#fff;color:var(--ink);resize:vertical;min-height:54px}
+  textarea:focus{outline:none;border-color:var(--signal)}
+  .blocks{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:10px}
+  .blk{display:flex;gap:10px;padding:8px 11px;border-bottom:1px solid var(--line);align-items:baseline}
+  .blk:last-child{border-bottom:0}
+  .blk.active{background:color-mix(in srgb,var(--signal) 10%,transparent)}
+  .blk.past{opacity:.45}
+  .blk-t{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px;flex:none;width:52px}
+  .blk-n{font-weight:600}
+  .blk-d{color:var(--muted);font-size:12px}
+  .out{width:100%;min-height:340px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.55}
+  .row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .hint{color:var(--muted);font-size:12px;margin-top:6px}
+  .gate{max-width:420px;margin:80px auto;padding:0 20px;text-align:center}
+  .gate input{width:100%;margin-top:12px;padding:11px 13px;border:1px solid var(--line);border-radius:9px;font-family:inherit;font-size:15px}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <h1 style="font-family:var(--serif);font-weight:400;font-size:26px">Consola de sesión</h1>
+  <p class="hint" style="margin-top:8px">Pegá el ID de la orden del cliente para cargar sus respuestas. Lo encontrás en el panel o en la descripción del evento del calendario.</p>
+  <input type="text" id="gate-order" placeholder="ID de la orden">
+  <div class="row" style="justify-content:center"><button class="tbtn primary" id="gate-go">Abrir sesión</button></div>
+  <p class="hint">También podés abrirla sin orden y cargar todo a mano.</p>
+  <div class="row" style="justify-content:center"><button class="tbtn" id="gate-blank">Abrir en blanco</button></div>
+</div>
+
+<div id="app" hidden>
+  <div class="top">
+    <h1>Diagnóstico</h1>
+    <span class="who" id="who">—</span>
+    <div class="timer">
+      <span class="block-now" id="block-now">Sin iniciar</span>
+      <span class="clock" id="clock">00:00</span>
+      <button class="tbtn primary" id="t-start">Iniciar</button>
+      <button class="tbtn" id="t-reset">Reiniciar</button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="col">
+      <h2>Lo que contestó</h2>
+      <div id="answers"></div>
+
+      <h2>Números del negocio</h2>
+      <p class="hint">Salen del cuestionario. Corregilos en vivo si el cliente los ajusta.</p>
+      <div class="nums">
+        <div class="num"><label>Ventas por mes</label><input type="text" id="n-ventas" inputmode="decimal"></div>
+        <div class="num"><label>Ticket promedio (USD)</label><input type="text" id="n-ticket" inputmode="decimal"></div>
+        <div class="num"><label>Horas manuales / semana</label><input type="text" id="n-horas" inputmode="decimal"></div>
+      </div>
+      <div class="calc" id="calc">Cargá los tres números para calcular el costo del desorden.</div>
+
+      <h2>Los 90 minutos</h2>
+      <div class="blocks" id="blocks"></div>
+    </div>
+
+    <div class="col">
+      <h2>Mapa de 3 Fugas</h2>
+      <p class="hint">Marcá lo que vas confirmando en vivo. La severidad sube sola.</p>
+      <div id="fugas"></div>
+
+      <h2>Las 3 acciones priorizadas</h2>
+      <textarea id="acc1" placeholder="Acción 1 — qué se hace, qué se necesita, cuánto demora"></textarea>
+      <textarea id="acc2" placeholder="Acción 2"></textarea>
+      <textarea id="acc3" placeholder="Acción 3"></textarea>
+
+      <h3>Lo puede hacer su equipo</h3>
+      <textarea id="equipo" placeholder="Qué puede resolver solo, sin contratarte"></textarea>
+      <h3>Lo hago yo — alcance y precio</h3>
+      <textarea id="mio" placeholder="Qué harías vos, con precio y plazo"></textarea>
+
+      <h2>Plan escrito</h2>
+      <div class="row">
+        <button class="tbtn primary" id="gen">Generar plan</button>
+        <button class="tbtn" id="copy">Copiar</button>
+        <button class="tbtn" id="dl">Descargar .md</button>
+      </div>
+      <textarea class="out" id="out" placeholder="Apretá «Generar plan» cuando tengas las fugas marcadas y las acciones escritas."></textarea>
+      <p class="hint">Se guarda todo solo en este navegador, por orden. Podés cerrar y volver.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var PREGUNTAS = {
+    q1: '¿Qué vende y a quién?', q2: 'Antigüedad y equipo', q3: 'Ventas por mes',
+    q4: 'Ticket promedio', q5: 'De dónde llegan los clientes', q6: 'Proceso de consulta a cobro',
+    q7: 'Qué hace a mano', q8: 'Horas manuales por semana', q9: 'Herramientas que usa',
+    q10: 'Web / tienda / redes', q11: 'Publicidad previa', q12: 'Qué ya intentó',
+    q13: 'La única cosa a resolver en 90 días', q14: 'Quién decide la inversión',
+    x1: 'Qué espera de la sesión', x2: 'Algo más que deba saber', email: 'Email'
+  };
+
+  var BLOQUES = [
+    { min: 0,  dur: 5,  n: 'Encuadre', d: 'Cómo funcionan los 90 min, que sale un plan escrito, que no vendés nada hoy.' },
+    { min: 5,  dur: 15, n: 'El negocio hoy', d: 'Él habla. Confirmás números y buscás la contradicción entre lo que dice y lo que hace.' },
+    { min: 20, dur: 15, n: 'Fuga 1 — Procesos', d: 'Recorrés el camino de una venta paso a paso, en vivo.' },
+    { min: 35, dur: 15, n: 'Fuga 2 — Presencia digital', d: 'Compartís pantalla y mostrás lo que cronometraste antes.' },
+    { min: 50, dur: 15, n: 'Fuga 3 — Marketing', d: 'Qué mide y qué no. Casi siempre no mide nada atado a ventas.' },
+    { min: 65, dur: 15, n: 'Priorización', d: 'Eligen juntos las 3 cosas a resolver primero.' },
+    { min: 80, dur: 10, n: 'Cierre', d: 'Qué va a decir el plan y cuándo llega. Sin propuesta comercial todavía.' }
+  ];
+
+  var FUGAS = [
+    { id: 'f1', t: 'Fuga 1 — Procesos manuales', items: [
+      'Repite tareas a mano todos los días',
+      'Copia datos de un lado a otro',
+      'Consultas que quedan sin responder',
+      'Arma cada presupuesto desde cero',
+      'El seguimiento depende de su memoria',
+      'Si él no abre el WhatsApp, se frena todo'
+    ]},
+    { id: 'f2', t: 'Fuga 2 — Presencia digital', items: [
+      'Tarda más de 10 seg en entenderse qué vende',
+      'El precio o el rango no está visible',
+      'Más de 3 clics hasta poder comprar o consultar',
+      'No carga bien en el celular',
+      'No hay prueba social real',
+      'No sabe cuántas consultas le entran por la web'
+    ]},
+    { id: 'f3', t: 'Fuga 3 — Marketing y medición', items: [
+      'No tiene pixel ni medición instalada',
+      'Solo mira métricas de vanidad',
+      'No sabe cuánto le cuesta conseguir un cliente',
+      'No puede decir de dónde vino la última venta',
+      'Invirtió en ads sin saber el retorno',
+      'No hay seguimiento de los que no compraron'
+    ]}
+  ];
+
+  var params = new URLSearchParams(location.search);
+  var orderId = params.get('order') || '';
+  var KEY, state = {};
+
+  function $(id) { return document.getElementById(id); }
+  function num(v) {
+    if (v == null) return null;
+    var m = String(v).replace(/\./g, '').replace(/,/g, '.').match(/\d+(\.\d+)?/);
+    return m ? parseFloat(m[0]) : null;
+  }
+  function fmt(n) { return n == null ? '—' : n.toLocaleString('es-AR', { maximumFractionDigits: 0 }); }
+
+  function save() {
+    state.nums = { ventas: $('n-ventas').value, ticket: $('n-ticket').value, horas: $('n-horas').value };
+    state.checks = {};
+    FUGAS.forEach(function (f) {
+      f.items.forEach(function (_, i) {
+        var el = $(f.id + '-' + i);
+        if (el && el.checked) state.checks[f.id + '-' + i] = 1;
+      });
+      state[f.id + '-nota'] = $(f.id + '-nota').value;
+    });
+    ['acc1', 'acc2', 'acc3', 'equipo', 'mio', 'out'].forEach(function (k) { state[k] = $(k).value; });
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function calcular() {
+    var ventas = num($('n-ventas').value), ticket = num($('n-ticket').value), horas = num($('n-horas').value);
+    if (ventas == null || ticket == null || horas == null) {
+      $('calc').textContent = 'Cargá los tres números para calcular el costo del desorden.';
+      return null;
+    }
+    var facturacionMes = ventas * ticket;
+    var horasAnio = horas * 48;
+    var valorHora = facturacionMes / (4.33 * 40);
+    var costoAnual = horasAnio * valorHora;
+    var ventasEquivalentes = ticket ? costoAnual / ticket : 0;
+    $('calc').innerHTML =
+      'Factura aprox. <strong>USD ' + fmt(facturacionMes) + '</strong> por mes.<br>' +
+      'Lo manual le come <strong>' + fmt(horasAnio) + ' horas al año</strong>.<br>' +
+      'A su propio valor hora (USD ' + fmt(valorHora) + '), eso equivale a <strong>USD ' + fmt(costoAnual) + '</strong> — unas <strong>' + fmt(ventasEquivalentes) + ' ventas</strong> que no está haciendo.';
+    return { facturacionMes: facturacionMes, horasAnio: horasAnio, valorHora: valorHora, costoAnual: costoAnual, ventasEquivalentes: ventasEquivalentes };
+  }
+
+  function severidad() {
+    FUGAS.forEach(function (f) {
+      var n = f.items.filter(function (_, i) { return $(f.id + '-' + i).checked; }).length;
+      var el = $(f.id + '-sev');
+      var txt = n === 0 ? 'sin marcar' : n <= 2 ? 'leve' : n <= 4 ? 'media' : 'alta';
+      el.textContent = n + '/' + f.items.length + ' · ' + txt;
+      el.className = 'sev' + (n >= 3 ? ' on' : '');
+    });
+  }
+
+  function pintarBloques() {
+    $('blocks').innerHTML = BLOQUES.map(function (b, i) {
+      return '<div class="blk" id="blk-' + i + '"><span class="blk-t">' + b.min + '–' + (b.min + b.dur) + '</span>' +
+        '<span><span class="blk-n">' + b.n + '</span><br><span class="blk-d">' + b.d + '</span></span></div>';
+    }).join('');
+  }
+
+  function pintarFugas() {
+    $('fugas').innerHTML = FUGAS.map(function (f) {
+      return '<div class="fuga"><div class="fuga-h"><span class="fuga-t">' + f.t + '</span><span class="sev" id="' + f.id + '-sev">sin marcar</span></div>' +
+        f.items.map(function (it, i) {
+          return '<label class="chk"><input type="checkbox" id="' + f.id + '-' + i + '"><span>' + it + '</span></label>';
+        }).join('') +
+        '<textarea id="' + f.id + '-nota" placeholder="Evidencia concreta que viste o mostraste en vivo"></textarea></div>';
+    }).join('');
+  }
+
+  function pintarRespuestas(ans) {
+    var keys = Object.keys(PREGUNTAS).filter(function (k) { return ans && ans[k]; });
+    if (!keys.length) { $('answers').innerHTML = '<p class="empty">No completó el cuestionario. Los primeros 15 minutos van a ser de preguntas rápidas.</p>'; return; }
+    $('answers').innerHTML = keys.map(function (k) {
+      return '<div class="ans"><div class="ans-q">' + PREGUNTAS[k] + '</div><div class="ans-a">' + String(ans[k]).replace(/[<>]/g, '') + '</div></div>';
+    }).join('');
+  }
+
+  function generar() {
+    var c = calcular();
+    var lineas = [];
+    lineas.push('# Plan de acción — Diagnóstico Negocio Ordenado');
+    lineas.push('');
+    lineas.push('Cliente: ' + (state.nombre || '—') + '  ·  Fecha: ' + new Date().toLocaleDateString('es-AR'));
+    lineas.push('');
+    lineas.push('## Dónde está el negocio hoy');
+    lineas.push(state.ans && state.ans.q1 ? state.ans.q1 : '—');
+    if (state.ans && state.ans.q13) { lineas.push(''); lineas.push('Lo que más le urge resolver: ' + state.ans.q13); }
+    lineas.push('');
+    if (c) {
+      lineas.push('## Lo que cuesta el desorden');
+      lineas.push('- Facturación aproximada: USD ' + fmt(c.facturacionMes) + ' por mes');
+      lineas.push('- Horas manuales al año: ' + fmt(c.horasAnio));
+      lineas.push('- Costo equivalente: USD ' + fmt(c.costoAnual) + ' al año, unas ' + fmt(c.ventasEquivalentes) + ' ventas no hechas');
+      lineas.push('');
+    }
+    lineas.push('## Las 3 fugas');
+    FUGAS.forEach(function (f) {
+      var marcados = f.items.filter(function (_, i) { return $(f.id + '-' + i).checked; });
+      if (!marcados.length && !$(f.id + '-nota').value.trim()) return;
+      lineas.push('');
+      lineas.push('### ' + f.t);
+      marcados.forEach(function (m) { lineas.push('- ' + m); });
+      var nota = $(f.id + '-nota').value.trim();
+      if (nota) { lineas.push(''); lineas.push('Evidencia: ' + nota); }
+    });
+    lineas.push('');
+    lineas.push('## Las 3 acciones, en orden');
+    [1, 2, 3].forEach(function (i) {
+      var v = $('acc' + i).value.trim();
+      if (v) { lineas.push(''); lineas.push(i + '. ' + v); }
+    });
+    lineas.push('');
+    lineas.push('## Quién hace qué');
+    lineas.push('');
+    lineas.push('**Lo puede hacer tu equipo**');
+    lineas.push($('equipo').value.trim() || '—');
+    lineas.push('');
+    lineas.push('**Lo hago yo**');
+    lineas.push($('mio').value.trim() || '—');
+    lineas.push('');
+    lineas.push('---');
+    lineas.push('');
+    lineas.push('Si este plan no te resulta accionable, te devuelvo los USD 75 sin preguntas.');
+    lineas.push('');
+    lineas.push('Si agendás la implementación dentro de las 72 hs de la sesión, los USD 75 se descuentan del proyecto.');
+    lineas.push('');
+    lineas.push('Santiago Ramírez · santiagoagustinramirez.com');
+    $('out').value = lineas.join('\n');
+    save();
+  }
+
+  // --- Cronómetro ---
+  var t0 = null, tick = null;
+  function pintarClock() {
+    var ms = t0 ? Date.now() - t0 : 0;
+    var min = Math.floor(ms / 60000), seg = Math.floor(ms / 1000) % 60;
+    $('clock').textContent = (min < 10 ? '0' : '') + min + ':' + (seg < 10 ? '0' : '') + seg;
+    var actual = null;
+    BLOQUES.forEach(function (b, i) {
+      var el = $('blk-' + i);
+      if (!el) return;
+      el.className = 'blk';
+      if (min >= b.min && min < b.min + b.dur) { el.className = 'blk active'; actual = b; }
+      else if (min >= b.min + b.dur) { el.className = 'blk past'; }
+    });
+    $('block-now').textContent = t0 ? (actual ? actual.n : (min >= 90 ? 'Terminado' : 'Sin iniciar')) : 'Sin iniciar';
+  }
+  $('t-start').addEventListener('click', function () {
+    if (t0) { clearInterval(tick); t0 = null; this.textContent = 'Iniciar'; return; }
+    t0 = Date.now(); this.textContent = 'Pausar';
+    tick = setInterval(pintarClock, 1000); pintarClock();
+  });
+  $('t-reset').addEventListener('click', function () {
+    clearInterval(tick); t0 = null; $('t-start').textContent = 'Iniciar'; pintarClock();
+  });
+
+  function arrancar(id) {
+    orderId = id || '';
+    KEY = 'srm_sesion_' + (orderId || 'libre');
+    $('gate').hidden = true;
+    $('app').hidden = false;
+    pintarBloques(); pintarFugas(); pintarClock();
+
+    try { state = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { state = {}; }
+    if (state.nums) {
+      $('n-ventas').value = state.nums.ventas || '';
+      $('n-ticket').value = state.nums.ticket || '';
+      $('n-horas').value = state.nums.horas || '';
+    }
+    Object.keys(state.checks || {}).forEach(function (k) { if ($(k)) $(k).checked = true; });
+    FUGAS.forEach(function (f) { if (state[f.id + '-nota']) $(f.id + '-nota').value = state[f.id + '-nota']; });
+    ['acc1', 'acc2', 'acc3', 'equipo', 'mio', 'out'].forEach(function (k) { if (state[k]) $(k).value = state[k]; });
+    pintarRespuestas(state.ans);
+    severidad(); calcular();
+
+    if (orderId) {
+      fetch('/api/questionnaire?order=' + encodeURIComponent(orderId))
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          state.ans = (d && d.answers) || {};
+          if (d && d.order) {
+            state.nombre = d.order.name || '';
+            var f = d.order.slot ? new Date(d.order.slot).toLocaleString('es-AR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'America/Argentina/Buenos_Aires' }) : '';
+            $('who').textContent = (d.order.name || 'Cliente') + (f ? ' · ' + f : '');
+          }
+          pintarRespuestas(state.ans);
+          if (!$('n-ventas').value) $('n-ventas').value = num(state.ans.q3) || '';
+          if (!$('n-ticket').value) $('n-ticket').value = num(state.ans.q4) || '';
+          if (!$('n-horas').value) $('n-horas').value = num(state.ans.q8) || '';
+          calcular(); save();
+        })
+        .catch(function () {});
+    }
+
+    document.addEventListener('input', function () { severidad(); calcular(); save(); });
+    document.addEventListener('change', function () { severidad(); save(); });
+  }
+
+  $('gate-go').addEventListener('click', function () {
+    var v = $('gate-order').value.trim();
+    if (v) { history.replaceState(null, '', '?order=' + encodeURIComponent(v)); arrancar(v); }
+  });
+  $('gate-blank').addEventListener('click', function () { arrancar(''); });
+  $('gen').addEventListener('click', generar);
+  $('copy').addEventListener('click', function () {
+    $('out').select();
+    try { document.execCommand('copy'); this.textContent = 'Copiado'; var b = this; setTimeout(function () { b.textContent = 'Copiar'; }, 1500); } catch (e) {}
+  });
+  $('dl').addEventListener('click', function () {
+    var blob = new Blob([$('out').value], { type: 'text/markdown' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'plan-' + (state.nombre || 'cliente').toString().toLowerCase().replace(/\s+/g, '-') + '.md';
+    a.click();
+  });
+
+  if (orderId) arrancar(orderId);
+})();
+</script>
+</body>
+</html>
