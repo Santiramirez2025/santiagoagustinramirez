@@ -17,9 +17,9 @@
   var PROMO = { was: '1,500', price: '990', dep: '250', cuotas: '3', slots: 5 };
 
   var T = { title: 'Asistente', sub: 'Respuesta al instante', ph: 'Escribí tu mensaje…', typing: 'Escribiendo…' };
-  var GREET = '¡Hola! 👋 Soy el asistente de Santiago. Ayudo a centros de estética, spa y consultorios a **llenar la agenda y dejar de perder turnos**. ¿Qué te gustaría resolver?';
-  var CHIPS_MAIN = ['😩 Me faltan turnos (no-shows)', '📱 El WhatsApp me consume', '💰 ¿Cuánto sale?', '⚙️ ¿Cómo funciona?'];
-  var CHIPS_MORE = ['💰 ¿Cuánto sale?', '⚙️ ¿Cómo funciona?', '💬 Quiero una demo'];
+  var GREET = '¡Hola! 👋 Soy el asistente de Santiago. Él ordena, digitaliza y hace crecer negocios: desarrollo, marketing y seguimiento con un solo responsable. ¿Qué querés resolver?';
+  var CHIPS_MAIN = ['🧩 Mi negocio es un quilombo', '🌐 Necesito web o sistema', '💰 ¿Cuánto sale?', '⚙️ ¿Cómo empiezo?'];
+  var CHIPS_MORE = ['📋 ¿Qué es el Diagnóstico?', '💰 ¿Cuánto sale?', '📅 Quiero reservar'];
 
   var CSS = `
   .srm-ai-launch{position:fixed;left:22px;bottom:22px;z-index:140;width:60px;height:60px;border-radius:50%;
@@ -53,8 +53,8 @@
   .srm-ai-typing i:nth-child(2){animation-delay:.15s}.srm-ai-typing i:nth-child(3){animation-delay:.3s}
   @keyframes srm-bounce{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-5px);opacity:1}}
   .srm-ai-chips{display:flex;flex-wrap:wrap;gap:7px;align-self:flex-start;max-width:94%}
-  .srm-ai-chips button{font:inherit;font-size:12.5px;font-weight:600;border-radius:999px;padding:8px 13px;cursor:pointer;background:transparent;color:var(--forest,#163A2B);border:1px solid var(--line-2,rgba(23,20,14,.26));transition:background .15s,transform .15s}
-  .srm-ai-chips button:hover{background:color-mix(in srgb,var(--forest,#163A2B) 9%,transparent);transform:translateY(-1px)}
+  .srm-ai-chips button{font:inherit;font-size:13.5px;font-weight:600;border-radius:999px;padding:9px 14px;cursor:pointer;background:color-mix(in srgb,var(--ink,#17140E) 7%,transparent);color:var(--ink,#17140E);border:1px solid color-mix(in srgb,var(--ink,#17140E) 30%,transparent);transition:background .15s,border-color .15s,transform .15s}
+  .srm-ai-chips button:hover{background:color-mix(in srgb,var(--ink,#17140E) 15%,transparent);border-color:var(--signal,#0E9E64);transform:translateY(-1px)}
   .srm-ai-quote{align-self:flex-start;max-width:92%;border:1px solid var(--line,rgba(23,20,14,.14));border-radius:15px;padding:13px 14px;background:color-mix(in srgb,var(--signal,#0E9E64) 8%,transparent);animation:srm-in .32s cubic-bezier(.22,.61,.36,1) both}
   .srm-ai-quote .qh{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--signal-ink,#0B6B45);margin-bottom:2px}
   .srm-ai-quote .qa{font-family:var(--serif,Georgia,serif);font-size:24px;color:var(--forest,#163A2B);line-height:1.05}
@@ -120,27 +120,24 @@
   function waLink(kind) {
     var extra = state.rubro ? ('Tengo un ' + state.rubro + ' y ') : '';
     var msg = kind === 'precio'
-      ? ('Hola Santiago, vengo del asistente. ' + extra + 'quiero el sistema de turnos con seña. ¿Me pasás el presupuesto?')
-      : ('Hola Santiago, vengo del asistente. ' + extra + 'quiero una demo del sistema de turnos con seña. ¿Coordinamos?');
+      ? ('Hola Santiago, vengo del asistente. ' + extra + 'quiero saber cuánto sale ordenar y digitalizar mi negocio.')
+      : ('Hola Santiago, vengo del asistente. ' + extra + 'tengo una duda antes de reservar el Diagnóstico.');
     return 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(msg);
   }
+
   function addCTA(o) {
     o = o || {};
-    var wa = waLink(o.price ? 'precio' : 'demo');
+    var wa = waLink(o.price ? 'precio' : 'duda');
     var card = el('div', 'srm-ai-quote'), html = '';
-    if (o.price) {
-      html += '<div class="qh">🏆 Programa Fundadores · ' + PROMO.slots + ' cupos</div>'
-        + '<div class="qa"><s style="font-size:.5em;color:#9a9a9a;font-weight:600;margin-right:8px">USD ' + PROMO.was + '</s>USD ' + PROMO.price + '</div>'
-        + '<div class="qn">o ' + PROMO.cuotas + ' cuotas · seña desde USD ' + PROMO.dep + ' · el resto lo acordamos en la llamada</div>';
-    } else {
-      html += '<div class="qh">Demo gratis</div><div class="qa" style="font-size:19px">15 min, sin compromiso</div>'
-        + '<div class="qn">Te muestro cómo quedaría tu agenda trabajando sola</div>';
-    }
-    html += '<div class="qb"><a class="primary" href="' + wa + '" target="_blank" rel="noopener" data-track="assistant_wa" data-event="Lead">💬 Reservá tu demo gratis</a>'
-      + '<a class="ghost" href="/app?service=reservas" data-track="assistant_cotizar" data-event="ViewContent">Armar presupuesto</a></div>';
+    html += '<div class="qh">Diagnóstico Negocio Ordenado</div>'
+      + '<div class="qa">USD 75</div>'
+      + '<div class="qn">90 minutos 1 a 1 · plan escrito y cotizado en 24 hs · garantía de devolución</div>';
+    html += '<div class="qb"><a class="primary" href="/reservar.html" data-track="assistant_reservar" data-event="ViewContent">📅 Reservar mi Diagnóstico</a>'
+      + '<a class="ghost" href="' + wa + '" target="_blank" rel="noopener" data-track="assistant_wa" data-event="Lead">Tengo una duda</a></div>';
     card.innerHTML = html;
     body.appendChild(card); scrollDown();
   }
+
 
   // ── Cerebro guiado (reglas por intención) ──────────────────────────────────
   var RUBROS = { estetica: 'centro de estética', 'centro de estetica': 'centro de estética', spa: 'spa', peluqueria: 'salón de belleza', 'salon': 'salón de belleza', unas: 'estudio de uñas', manicura: 'estudio de uñas', depilacion: 'centro de depilación', cosmetologia: 'centro de cosmetología', barberia: 'barbería', consultorio: 'consultorio', nutricion: 'consultorio de nutrición', gimnasio: 'gimnasio', gym: 'gimnasio', masajes: 'centro de masajes', cejas: 'estudio de cejas y pestañas', pestanas: 'estudio de cejas y pestañas' };
@@ -154,37 +151,43 @@
     var t = norm(text);
     detectRubro(t);
 
+    if (/(gratis|sin cargo|no pago|regalado|prueba gratis|demo gratis)/.test(t))
+      return { text: 'Acá lo gratis es esto: responderte dudas por chat o por WhatsApp, todo lo que quieras. 🙌\nLo que no hago son diagnósticos ni auditorías sin cargo. Justamente por eso el **Diagnóstico cuesta USD 75**: es la forma más barata de empezar, y **si no te sirve te devuelvo el 100%**.', cta: {} };
+
     if (/(precio|cuesta|sale|cuanto val|cuanto s|presupuesto|valor|vale|cobras|cobra|caro|barato|inversion)/.test(t))
-      return { text: 'Te tiro números reales, sin vueltas. 👇\nEl **sistema de turnos online con seña** tiene precio de lista **USD ' + PROMO.was + '**, pero estoy con el **Programa Fundadores**: los primeros ' + PROMO.slots + ' negocios lo llevan a **USD ' + PROMO.price + '** (o en **' + PROMO.cuotas + ' cuotas**) a cambio de un testimonio cuando vean resultados.\nArrancás con una **seña desde USD ' + PROMO.dep + '** y el resto lo acordamos en una llamada. Te lo armo a medida en 1 minuto, o lo vemos por WhatsApp.', cta: { price: true } };
+      return { text: 'Depende de qué haya que construir, y para eso primero hay que ver tu negocio. 👀\nPor eso el primer paso tiene precio fijo: el **Diagnóstico Negocio Ordenado, USD 75**. Son 90 minutos 1 a 1 y salís con un **plan escrito y cotizado dentro de las 24 hs** — ahí vas a ver los números exactos de tu proyecto.\nSi después contratás la implementación dentro de las 72 hs, esos USD 75 **se te descuentan**.', cta: { price: true } };
 
-    if (/(reservar|contratar|quiero el sistema|lo quiero|quiero contratar|empezar ya|arrancar ya|pagar la se|dejar la se)/.test(t))
-      return { text: '¡Buenísimo! 🙌 Para arrancar dejás una **seña de reserva** y coordinamos todo en una llamada. ¿Lo hablamos antes por WhatsApp o querés que te arme el presupuesto exacto?', cta: { price: true } };
+    if (/(reservar|contratar|quiero el|lo quiero|quiero contratar|empezar ya|arrancar ya|turno|agendar|reservo)/.test(t))
+      return { text: '¡Buenísimo! 🙌 Elegís día y hora, pagás los USD 75 y te llega el cuestionario previo para que la sesión arranque con todo sobre la mesa.', cta: {} };
 
-    if (/(no.?show|ausencia|falta|faltan|no vienen|no viene|no vino|plantad|cancelan|se borran|dejan colgado)/.test(t))
-      return { text: 'Los no-shows son plata que se va. 😕\nLa solución: tus clientas reservan online y **dejan una seña por Mercado Pago**. El que paga, viene — y si falta, ya cobraste. Además reciben **recordatorios automáticos**. La mayoría baja las ausencias más del **70%**.', chips: CHIPS_MORE };
+    if (/(quilombo|desorden|desordenado|caos|a mano|manual|planilla|excel|cuaderno|papel|no se por donde|perdido|desprolijo|todo junto)/.test(t))
+      return { text: 'Eso es lo más común que veo. 🧩 Casi siempre no es un problema, son **tres fugas** al mismo tiempo: laburo manual que se puede automatizar, plata que se escapa sin que la veas, y marketing que no trae a nadie.\nEl Diagnóstico existe para encontrar esas tres en tu negocio y dejarte el plan por escrito.', chips: CHIPS_MORE };
 
-    if (/(whatsapp|mensaje|contestar|responder|agenda manual|planilla|cuaderno|agenda de papel|todo el dia|me consume|no llego|pierdo tiempo)/.test(t))
-      return { text: 'Te entiendo — contestar turnos todo el día agota y perdés ventas cuando no llegás a responder. 📱\nCon el sistema, un **agente de IA en WhatsApp** atiende, muestra horarios libres, agenda y cobra la seña **solo, 24/7**. Vos te dedicás a atender.', chips: CHIPS_MORE };
+    if (/(web|pagina|sitio|landing|ecommerce|tienda|sistema|app|aplicacion|software|plataforma|automatiz)/.test(t))
+      return { text: '¡Dale, eso lo construyo! 🛠️ Si ya tenés claro qué necesitás, te armo el presupuesto en el cotizador.\nY si todavía no estás seguro del alcance — que es lo más normal — conviene empezar por el **Diagnóstico**: salís con el proyecto definido y cotizado, y no gastás de más en algo que no era.', chips: CHIPS_MORE };
 
-    if (/(como funciona|funciona|que incluye|incluye|que hace|como es|que es|explicame|de que se trata)/.test(t))
-      return { text: 'Simple, en 3 pasos:\n1️⃣ Tu clienta entra a tu web y elige día y hora libres.\n2️⃣ Deja una **seña por Mercado Pago** → turno confirmado.\n3️⃣ Recibe **recordatorios automáticos** y vos ves todo en un panel.\n➕ Opcional: **agente de IA en WhatsApp** que agenda y cobra por vos. Todo con tu marca.', chips: CHIPS_MORE };
+    if (/(whatsapp|mensaje|contestar|responder|todo el dia|me consume|no llego|pierdo tiempo|atender|seguimiento)/.test(t))
+      return { text: 'Contestar todo el día a mano te come el negocio. 📱 Eso casi siempre se automatiza: reservas online, cobros, recordatorios y hasta un agente de IA que atiende solo.\nCuánto de eso te conviene depende de tus números, y eso sale del Diagnóstico.', chips: CHIPS_MORE };
+
+    if (/(diagnostico|como funciona|funciona|que incluye|incluye|que hace|como es|que es|explicame|de que se trata|como empiezo|empezar)/.test(t))
+      return { text: 'El **Diagnóstico Negocio Ordenado** es así:\n1️⃣ Reservás día y hora y pagás USD 75.\n2️⃣ Completás un cuestionario corto para que no perdamos tiempo.\n3️⃣ Nos vemos 90 minutos 1 a 1 y revisamos procesos, presencia digital y marketing.\n4️⃣ Dentro de las 24 hs te llega **un plan escrito y cotizado**, no un audio ni una charla.\nSi no te resulta accionable, te devuelvo el 100%.', cta: {} };
 
     if (/(cuanto tarda|tarda|demora|tiempo|cuando lo|plazo|listo en|entrega)/.test(t))
-      return { text: 'Lo tengo funcionando en **~10 días hábiles**. Empezamos apenas confirmás la seña de reserva. ⚡', chips: ['💬 Quiero una demo', '💰 ¿Cuánto sale?'] };
+      return { text: 'El Diagnóstico lo hacés esta semana y el plan te llega **dentro de las 24 hs**. ⚡\nLos plazos de construcción dependen del proyecto, y van cotizados en ese mismo plan.', chips: CHIPS_MORE };
 
-    if (/(demo|hablar|contacto|persona|humano|asesor|llamada|reunion|coordinar|santiago|whatsapp ya|escribir)/.test(t))
-      return { text: '¡Dale! Coordinemos una **demo gratis de 15 min** (sin compromiso). Te muestro cómo quedaría tu agenda 👇', cta: {} };
+    if (/(hablar|contacto|persona|humano|asesor|llamada|reunion|coordinar|santiago|whatsapp ya|escribir)/.test(t))
+      return { text: 'Dale, escribime por WhatsApp y te respondo yo. 💬 Si lo que querés es que miremos tu negocio en serio, eso es el Diagnóstico.', cta: {} };
 
     if (/^(hola|buenas|buen dia|buenas tardes|hey|holis)/.test(t))
-      return { text: '¡Hola! 😊 ¿Tenés un negocio de agenda (estética, spa, salud) y querés dejar de perder turnos? Contame qué te gustaría resolver.', chips: CHIPS_MAIN };
+      return { text: '¡Hola! 😊 Contame qué te gustaría resolver en tu negocio y te oriento.', chips: CHIPS_MAIN };
 
     if (/(gracias|genial|buenisimo|perfecto|dale|listo|ok|barbaro|de una|me interesa|me sirve)/.test(t))
-      return { text: '¡Cuando quieras! 🙌 ¿Arrancamos con una demo gratis y te muestro todo?', cta: {} };
+      return { text: '¡Cuando quieras! 🙌 ¿Arrancamos por el Diagnóstico y te dejo el plan por escrito?', cta: {} };
 
     if (state.rubro)
-      return { text: '¡Genial, para un **' + state.rubro + '** funciona perfecto! Muchos ya lo usan para no perder turnos y llenar la agenda. ¿Querés que te muestre cómo quedaría?', chips: CHIPS_MORE };
+      return { text: 'Para un **' + state.rubro + '** funciona igual: primero encontramos las fugas, después construimos. ¿Te cuento cómo es el Diagnóstico?', chips: CHIPS_MORE };
 
-    return { text: 'Buena pregunta 🙌 Eso lo vemos mejor en una **demo gratis** (sin compromiso). O si querés, elegí una opción y te cuento:', chips: CHIPS_MAIN };
+    return { text: 'Buena pregunta 🙌 Eso se responde bien mirando tu negocio, que es lo que hacemos en el Diagnóstico. O elegí una opción y te cuento:', chips: CHIPS_MAIN };
   }
 
   function handleUser(text) {
