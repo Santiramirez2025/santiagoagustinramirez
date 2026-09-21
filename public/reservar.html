@@ -211,7 +211,12 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
 
   elName=document.getElementById('name'); elMail=document.getElementById('email'); elBtn=document.getElementById('submit');
   [elName, elMail].forEach(function(i){
-    i.addEventListener('input', function(){ i.classList.remove('bad'); revisar(false); });
+    i.addEventListener('input', function(){
+      i.classList.remove('bad');
+      var h=document.getElementById('hint-'+i.id);
+      if(h){ var sirve = (i.id==='email') ? okMail(i.value.trim()) : !!i.value.trim(); if(sirve) h.hidden=true; }
+      revisar(false);
+    });
     i.addEventListener('blur', function(){ revisar(true); });
   });
 
