@@ -55,6 +55,19 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
   .form input.bad{border-color:#B42318;background:color-mix(in srgb,#B42318 6%,transparent)}
   .fhint{color:#B42318;font-size:12.5px;margin:-6px 0 0 4px}
   .btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed}
+  .paso{margin:26px 0 0;padding:18px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--ink) 4%,transparent)}
+  .paso h2{margin:0 0 4px}
+  .paso .porque{font-size:14px;color:var(--muted);margin:0 0 16px;line-height:1.45}
+  .campo{display:grid;gap:6px;margin-bottom:13px}
+  .campo label{font-size:13.5px;color:var(--ink-soft)}
+  .campo input{width:100%;padding:13px 15px;border:1px solid var(--line);border-radius:11px;background:var(--paper);font:inherit;font-size:16px;color:var(--ink)}
+  .btn-sec{display:block;width:100%;text-align:center;background:transparent;color:var(--ink);border:1px solid var(--ink);border-radius:999px;padding:14px;font-weight:600;font-size:15px;cursor:pointer;font-family:var(--sans);margin-top:4px}
+  .btn-sec[aria-disabled="true"]{opacity:.4;cursor:not-allowed}
+  .saltar{display:block;text-align:center;margin-top:14px;font-size:13.5px;color:var(--muted)}
+  .numero{margin:2px 0 16px;padding:17px;border:1px solid var(--signal);border-radius:13px;background:color-mix(in srgb,var(--signal) 9%,transparent)}
+  .numero .grande{font-family:var(--serif);font-size:clamp(30px,8vw,42px);line-height:1.05;display:block;margin-bottom:8px}
+  .numero p{font-size:14.5px;line-height:1.5;color:var(--ink-soft);margin:0 0 8px}
+  .numero p:last-child{margin-bottom:0}
   .price-ars{display:block;font-family:var(--sans);font-size:14px;color:var(--muted);margin-top:6px}
   .more-slots{margin-top:4px;background:none;border:none;color:var(--ink);font:inherit;font-size:14px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px 0}
   .picked{font-size:13px;color:var(--muted);margin:0 0 2px}
@@ -97,7 +110,39 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
       <p style="margin:0"><strong>Bono:</strong> si reservás la implementación dentro de las 72 hs de la sesión, los USD 75 se descuentan del proyecto.</p>
     </div>
 
-    <h2>Elegí día y hora</h2>
+    <section class="paso" id="paso1">
+      <h2>Antes de reservar: ¿cuánto te cuesta hoy?</h2>
+      <p class="porque">Tres datos y te devuelvo tu número. Es el mismo cálculo con el que arranca la sesión — así ya venís viendo de qué estamos hablando.</p>
+      <div class="campo">
+        <label for="c-ventas">¿Cuántas ventas cerrás por mes, más o menos?</label>
+        <input type="text" id="c-ventas" inputmode="numeric" placeholder="Ej: 40">
+      </div>
+      <div class="campo">
+        <label for="c-ticket">¿Cuánto es tu venta promedio, en pesos?</label>
+        <input type="text" id="c-ticket" inputmode="numeric" placeholder="Ej: 85000">
+      </div>
+      <div class="campo">
+        <label for="c-horas">¿Cuántas horas por semana te comen las tareas repetitivas? (contestar, cargar, coordinar, pasar datos)</label>
+        <input type="text" id="c-horas" inputmode="numeric" placeholder="Ej: 10">
+      </div>
+      <div class="campo">
+        <label for="c-email">¿A qué email te mando el número?</label>
+        <input type="email" id="c-email" inputmode="email" autocomplete="email" placeholder="tu@email.com">
+      </div>
+      <div class="campo">
+        <label for="c-phone">Tu WhatsApp (opcional, por si querés que te escriba)</label>
+        <input type="tel" id="c-phone" inputmode="tel" autocomplete="tel" placeholder="Con código de área">
+      </div>
+      <button class="btn-sec" id="calcular" type="button" aria-disabled="true">Ver mi número →</button>
+      <p class="err" id="c-err" style="display:none"></p>
+      <a class="saltar" href="#horarios" id="saltar">Ya sé lo que quiero, llevame a los horarios →</a>
+    </section>
+
+    <section id="resultado" hidden>
+      <div class="numero" id="numero-box"></div>
+    </section>
+
+    <h2 id="horarios">Elegí día y hora</h2>
     <div id="slots-container"><p class="empty">Cargando horarios disponibles…</p></div>
 
     <div class="form" id="form" style="display:none">
@@ -219,6 +264,55 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
     });
     i.addEventListener('blur', function(){ revisar(true); });
   });
+
+  // ── Paso 1: su propio número. Le mostramos CUÁNTO cuesta, nunca QUÉ hacer:
+  // el qué hacer, en qué orden y cuánto sale es el plan, y el plan es el producto pago.
+  (function(){
+    var ids=['c-ventas','c-ticket','c-horas','c-email'];
+    var btn=document.getElementById('calcular');
+    var err=document.getElementById('c-err');
+    function v(id){ return document.getElementById(id).value.trim(); }
+    function n(id){ var x=Number(v(id).replace(/[^\d.,-]/g,'').replace(/\./g,'').replace(',','.')); return isFinite(x)&&x>0?x:0; }
+    function listo(){ return n('c-ventas')&&n('c-ticket')&&n('c-horas')&&okMail(v('c-email')); }
+    function refrescar(){ btn.setAttribute('aria-disabled', listo()?'false':'true'); }
+    ids.forEach(function(id){ document.getElementById(id).addEventListener('input', refrescar); });
+
+    function pesos(x){ return '$' + Math.round(x).toLocaleString('es-AR'); }
+
+    btn.addEventListener('click', function(){
+      err.style.display='none';
+      if(!listo()){ err.textContent='Completá los cuatro datos para ver tu número.'; err.style.display='block'; return; }
+      btn.setAttribute('aria-disabled','true'); btn.textContent='Calculando…';
+      fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        ventas:n('c-ventas'), ticket:n('c-ticket'), horas:n('c-horas'),
+        email:v('c-email'), phone:v('c-phone'),
+        fbp:getCookie('_fbp'), fbc:getCookie('_fbc'), utm:(window.__srmUtm||{})
+      })}).then(function(r){return r.json();}).then(function(j){
+        if(!j || !j.resultado){ throw new Error('sin resultado'); }
+        var r=j.resultado;
+        document.getElementById('numero-box').innerHTML =
+          '<span class="grande">' + pesos(r.costo_anual) + ' por año</span>' +
+          '<p>Eso es lo que valen, a tu propia facturación, las <b>' + r.horas_anio + ' horas</b> que las tareas repetitivas te sacan cada año. Son <b>' + r.semanas_enteras + ' semanas laborales enteras</b>.</p>' +
+          '<p>Al ticket que manejás, equivale a <b>' + r.ventas_equivalentes + ' ventas</b>.</p>' +
+          '<p>Ese número es el punto de partida. Cuáles son las tres fugas exactas de tu negocio, en qué orden se arreglan y cuánto sale cada una, sale del Diagnóstico — elegí un horario acá abajo.</p>';
+        document.getElementById('resultado').hidden=false;
+        // Precargamos el checkout con lo que ya nos dio: que no escriba dos veces.
+        if(!elMail.value) elMail.value=v('c-email');
+        var tel=document.getElementById('phone'); if(tel && !tel.value) tel.value=v('c-phone');
+        revisar(false);
+        document.getElementById('paso1').hidden=true;
+        document.getElementById('resultado').scrollIntoView({behavior:'smooth',block:'start'});
+      }).catch(function(){
+        btn.setAttribute('aria-disabled','false'); btn.textContent='Ver mi número →';
+        err.textContent='No se pudo calcular ahora. Podés reservar igual acá abajo.'; err.style.display='block';
+      });
+    });
+
+    document.getElementById('saltar').addEventListener('click', function(e){
+      e.preventDefault();
+      document.getElementById('horarios').scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  })();
 
   document.getElementById('submit').addEventListener('click',function(){
     var name=document.getElementById('name').value.trim();
