@@ -23,12 +23,16 @@ module.exports = async (req, res) => {
     // Solo nos interesan pagos.
     if (!type || String(type).indexOf('payment') === -1) { res.status(200).json({ ok: true, ignored: true }); return; }
 
-    const ok = mp.validateSignature({
+    // La firma es una verificación extra, NO la fuente de verdad: si falta MP_WEBHOOK_SECRET
+    // o MP no firma la notificación, igual seguimos. La verificación real es consultar el pago
+    // contra la API de Mercado Pago con NUESTRO access token, abajo. Sin esto, un secreto mal
+    // configurado hacía que ninguna orden se marcara pagada jamás.
+    const sigOk = mp.validateSignature({
       xSignature: req.headers['x-signature'],
       xRequestId: req.headers['x-request-id'],
       dataId
     });
-    if (!ok) { console.warn('[webhook] firma inválida'); res.status(401).json({ error: 'invalid_signature' }); return; }
+    if (!sigOk) console.warn('[webhook] sin firma válida; verifico contra la API de MP. data.id=', dataId);
 
     const payment = await mp.getPayment(dataId);
     if (!payment || payment.status !== 'approved') { res.status(200).json({ ok: true, status: payment && payment.status }); return; }
@@ -36,6 +40,8 @@ module.exports = async (req, res) => {
     const orderId = payment.external_reference;
     if (!orderId) { res.status(200).json({ ok: true, note: 'sin external_reference' }); return; }
 
+    // markPaidOnce solo actualiza una orden que exista en NUESTRA base: un external_reference
+    // inventado no marca nada. Sumado a que el pago se leyó de la API de MP, no hace falta la firma.
     const marked = await db.markPaidOnce(orderId, String(payment.id), payment.transaction_amount);
     if (!marked) { res.status(200).json({ ok: true, duplicate: true }); return; } // ya procesado
 

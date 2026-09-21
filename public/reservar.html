@@ -52,6 +52,9 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
   .note{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
   .empty{color:var(--muted);font-size:15px;padding:12px 0}
   .err{color:#B42318;font-size:14px;margin-top:8px}
+  .form input.bad{border-color:#B42318;background:color-mix(in srgb,#B42318 6%,transparent)}
+  .fhint{color:#B42318;font-size:12.5px;margin:-6px 0 0 4px}
+  .btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed}
   .price-ars{display:block;font-family:var(--sans);font-size:14px;color:var(--muted);margin-top:6px}
   .more-slots{margin-top:4px;background:none;border:none;color:var(--ink);font:inherit;font-size:14px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px 0}
   .picked{font-size:13px;color:var(--muted);margin:0 0 2px}
@@ -100,9 +103,11 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
     <div class="form" id="form" style="display:none">
       <p class="picked" id="picked" hidden></p>
       <input type="text" id="name" placeholder="Tu nombre" autocomplete="name">
+      <p class="fhint" id="hint-name" hidden>Decime tu nombre.</p>
       <input type="email" id="email" placeholder="Tu email" autocomplete="email" inputmode="email">
+      <p class="fhint" id="hint-email" hidden>Poné un email válido: ahí te llega la invitación y el cuestionario.</p>
       <input type="tel" id="phone" placeholder="Tu WhatsApp (con código de área)" autocomplete="tel" inputmode="tel">
-      <button class="btn" id="submit" type="button">Reservar y pagar →</button>
+      <button class="btn" id="submit" type="button" aria-disabled="true">Reservar y pagar →</button>
       <p class="err" id="err" style="display:none"></p>
       <p class="note">Pago seguro con Mercado Pago. Recibís la invitación al calendario por email.</p>
     </div>
@@ -129,6 +134,29 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
       if(/instalar app/i.test(el.textContent||'')) el.style.display='none';
       else if(el.classList.contains('srm-ai-launch')) el.style.display='none';
     });
+  }
+
+  // 4 de cada 5 clics en pagar morían en una validación cuyo error se dibujaba fuera de pantalla.
+  // Ahora el botón no se habilita hasta que los datos sirven, y el error sale pegado al campo.
+  var elName, elMail, elBtn;
+  function okMail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
+  function faltan(){
+    var f=[];
+    if(!selected) f.push('slot');
+    if(!elName.value.trim()) f.push('name');
+    if(!okMail(elMail.value.trim())) f.push('email');
+    return f;
+  }
+  function revisar(mostrar){
+    var f=faltan();
+    elBtn.setAttribute('aria-disabled', f.length ? 'true' : 'false');
+    if(mostrar){
+      elName.classList.toggle('bad', f.indexOf('name')>=0);
+      elMail.classList.toggle('bad', f.indexOf('email')>=0);
+      document.getElementById('hint-name').hidden = f.indexOf('name')<0;
+      document.getElementById('hint-email').hidden = f.indexOf('email')<0;
+    }
+    return f;
   }
 
   function getCookie(n){var m=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return m?m.pop():undefined;}
@@ -173,6 +201,7 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
           p.innerHTML='Turno elegido: <b>'+fmtDay(d)+', '+fmtTime(d)+'</b> (hora de Argentina)';
           p.hidden=false;
           form.style.display='grid';
+          revisar(false);
           pinForm();
           form.scrollIntoView({behavior:'smooth',block:'center'});
         });
@@ -180,13 +209,27 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
     })
     .catch(function(){ container.innerHTML='<p class="empty">No pudimos cargar los horarios. Probá de nuevo o escribime por WhatsApp.</p>'; });
 
+  elName=document.getElementById('name'); elMail=document.getElementById('email'); elBtn=document.getElementById('submit');
+  [elName, elMail].forEach(function(i){
+    i.addEventListener('input', function(){ i.classList.remove('bad'); revisar(false); });
+    i.addEventListener('blur', function(){ revisar(true); });
+  });
+
   document.getElementById('submit').addEventListener('click',function(){
     var name=document.getElementById('name').value.trim();
     var email=document.getElementById('email').value.trim();
     var phone=document.getElementById('phone').value.trim();
     errEl.style.display='none';
-    if(!selected){ errEl.textContent='Elegí un horario primero.'; errEl.style.display='block'; return; }
-    if(!email || email.indexOf('@')<0){ errEl.textContent='Ingresá un email válido.'; errEl.style.display='block'; return; }
+    var f=revisar(true);
+    if(f.length){
+      if(f.indexOf('slot')>=0){
+        errEl.textContent='Elegí un horario primero.'; errEl.style.display='block';
+        document.getElementById('slots-container').scrollIntoView({behavior:'smooth',block:'center'});
+      } else {
+        (f.indexOf('name')>=0 ? elName : elMail).focus();
+      }
+      return;
+    }
     var btn=this; var orig=btn.textContent; btn.disabled=true; btn.textContent='Redirigiendo…';
     fetch('/api/booking',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
       service:SERVICE,slot:selected,name:name,email:email,phone:phone,fbp:getCookie('_fbp'),fbc:getCookie('_fbc'),
