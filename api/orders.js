@@ -53,14 +53,22 @@ module.exports = async (req, res) => {
     const paid = orders.filter(function (o) { return o.status === 'approved' || o.status === 'paid'; });
     const pending = orders.filter(function (o) { return o.status === 'pending'; });
 
+    // Leads del calculador de costo del desorden: gente con contacto que todavía no compró.
+    let leads = [];
+    try { await db.ensureLeadsTable(); leads = await db.listLeads(100); }
+    catch (e) { console.error('[orders] leads', e && e.message); }
+
     res.status(200).json({
       ok: true,
       orders: orders,
+      leads: leads,
       resumen: {
         total: orders.length,
         pagados: paid.length,
         pendientes: pending.length,
-        sin_cuestionario: paid.filter(function (o) { return !o.questionnaire; }).length
+        sin_cuestionario: paid.filter(function (o) { return !o.questionnaire; }).length,
+        leads: leads.length,
+        leads_sin_comprar: leads.filter(function (l) { return !l.compro; }).length
       }
     });
   } catch (e) {
