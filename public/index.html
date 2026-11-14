@@ -581,6 +581,11 @@ fbq('init','1419051696174763');fbq('track','PageView');
         document.getElementById(NEG[tema] ? 'door-negocio' : 'door-cabeza').classList.add('emph');
       }
     }catch(e){}
+    // Evento del embudo al elegir puerta (srmTrack lo expone analytics.js al cargar).
+    ['cabeza','negocio'].forEach(function(p){
+      var el = document.getElementById('door-'+p);
+      if(el) el.addEventListener('click', function(){ if(window.srmTrack) window.srmTrack('puerta_elegida', { puerta: p }); });
+    });
   })();
   </script>
 

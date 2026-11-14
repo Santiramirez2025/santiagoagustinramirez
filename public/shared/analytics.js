@@ -26,6 +26,18 @@
   var visitorId = ls('_srm_vid') || ls('_srm_vid', uuid());
   var sessionId = ss('_srm_sid') || ss('_srm_sid', uuid());
 
+  // A/B simple: variante persistente por visitante, viaja en el meta de cada evento.
+  // Leer resultados: SELECT meta->>'ab' AS variante, event, count(*) FROM events GROUP BY 1,2;
+  function abVariant() {
+    var v = ls('_srm_ab');
+    if (v === 'a' || v === 'b') return v;
+    v = (Math.random() < 0.5) ? 'a' : 'b';
+    ls('_srm_ab', v);
+    return v;
+  }
+  var ab = abVariant();
+  window.__srmAB = ab;
+
   var q = new URLSearchParams(location.search);
   var device = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
     ? (/(iPad|Tablet)/i.test(navigator.userAgent) ? 'tablet' : 'mobile') : 'desktop';
@@ -62,7 +74,7 @@
   };
 
   function send(event, meta, extra) {
-    var payload = Object.assign({}, base, { event: event, url: location.href, meta: meta || {} }, extra || {});
+    var payload = Object.assign({}, base, { event: event, url: location.href, meta: Object.assign({ ab: ab }, meta || {}) }, extra || {});
     var str = JSON.stringify(payload);
     try { if (navigator.sendBeacon && navigator.sendBeacon(ENDPOINT, new Blob([str], { type: 'application/json' }))) return; } catch (e) {}
     try { fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: str, keepalive: true }).catch(function () {}); } catch (e) {}
