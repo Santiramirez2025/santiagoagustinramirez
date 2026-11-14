@@ -7,11 +7,16 @@
     });
   }
 
+  // Contador de visitas: el aviso de instalar recién aparece en la 2ª visita,
+  // para no tapar contenido en el celular en el primer impacto (tráfico viral).
+  var visits = 0;
+  try { visits = (parseInt(localStorage.getItem('_srm_visits') || '0', 10) || 0) + 1; localStorage.setItem('_srm_visits', String(visits)); } catch (e) { visits = 1; }
+
   var deferred = null;
   window.addEventListener('beforeinstallprompt', function (e) {
     e.preventDefault();
     deferred = e;
-    showChip();
+    if (visits >= 2) showChip();
   });
 
   function showChip() {

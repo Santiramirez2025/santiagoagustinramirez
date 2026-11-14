@@ -1,62 +1,62 @@
 # Marca — Santiago Ramírez
 
-> Esta guía **documenta** la identidad que ya vive en el sitio (`public/index.html`). No se inventó marca nueva; se extrajeron los valores reales del CSS en producción para poder reusarlos de forma consistente en las páginas nuevas del rediseño.
+> Identidad: Instrument Serif + Instrument Sans, verde bosque y papel crema. En la 2ª vuelta **se subió el contraste**: papel más claro, tarjetas casi blancas con sombra, una banda oscura por página y un solo color de CTA. El sistema vive en `public/shared/brand.css`.
 
 ## Paleta
-
-El sitio es *theme-aware* (claro/oscuro). El tema se guarda en `localStorage('srm-theme')` y por defecto sigue `prefers-color-scheme`.
 
 ### Tema claro (por defecto)
 | Rol | Variable | Valor |
 | --- | --- | --- |
-| Fondo papel | `--paper` | `#ECE7DA` |
-| Papel 2 / 3 | `--paper-2` / `--paper-3` | `#E3DCCB` / `#D9D1BD` |
+| Fondo base (papel) | `--paper` | `#F6F2EA` |
+| Papel 2 (bandas suaves) | `--paper-2` | `#EFE9DC` |
+| **Tarjetas** | `--card` | `#FFFDF8` |
+| Verde bosque (banda oscura) | `--forest` | `#0F2C20` |
+| Texto sobre bosque | `--on-forest` | `#F3EFE5` |
 | Tinta (texto) | `--ink` | `#17140E` |
 | Tinta suave | `--ink-soft` | `#3A352B` |
-| Apagado (secundario) | `--muted` | `#6E685A` |
-| Verde bosque (primario) | `--forest` | `#0F2C20` |
-| Bosque 2 | `--forest-2` | `#17402F` |
-| Verde señal (acento) | `--signal` | `#0E9E64` |
+| Apagado | `--muted` | `#6E685A` |
+| **CTA (verde señal)** | `--signal` | `#0E9E64` |
+| CTA hover | `--signal-dark` | `#0A7B4E` |
 | Tinta señal | `--signal-ink` | `#0B6B45` |
-| Sobre bosque | `--on-forest` | `#E9E4D6` |
-| Líneas | `--line` / `--line-2` | `rgba(23,20,14,.14)` / `rgba(23,20,14,.26)` |
+| Acento cálido (precios/recomendado) | `--amber` | `#E8A33D` |
+| Acento ember (uso mínimo) | `--ember` | `#E8552B` |
+| Líneas | `--line` / `--line-2` | `rgba(23,20,14,.10)` / `.18` |
+| Sombra | `--shadow` | `0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06)` |
 
 ### Tema oscuro
-| Rol | Valor |
-| --- | --- |
-| `--paper` | `#141210` |
-| `--paper-2` / `--paper-3` | `#1D1915` / `#26211B` |
-| `--ink` | `#EDE8DC` |
-| `--ink-soft` | `#CFC8B8` |
-| `--muted` | `#9A9182` |
-| `--forest` | `#163A2B` |
-| `--forest-2` | `#1E4A37` |
-| `--signal` | `#25B87C` |
-| `--signal-ink` | `#8CDCB8` |
-| `--on-forest` | `#E9E4D6` |
+Papel `#12100D`, tarjetas `#1E1A15`, bosque `#163A2B`, tinta `#F1ECE0`, señal `#25B87C`. Funciona con la paleta nueva (se mantuvo el toggle y `prefers-color-scheme`).
 
-**Color de acento único:** el verde señal (`--signal`). Se usa para el CTA principal y marcadores. El verde bosque es el color de superficie "fuerte" (botones primarios, secciones destacadas). El papel crema es la base cálida de todo el sitio.
+## Reglas de color
+- **Un solo color de CTA en todo el sitio:** verde señal (`--signal`), texto oscuro/blanco, hover más oscuro (`--signal-dark`).
+- **Ámbar** (`--amber`) **con mesura**, solo para destacar precios o la tarjeta "Recomendado".
+- **Secciones alternadas:** papel → blanco (`.section--white`) → una banda oscura verde bosque (`.section--dark`) por página como ancla visual (hero o "Cómo funciona").
 
 ## Tipografía
+- Títulos/display: `--serif` (Instrument Serif). **Cursiva solo en la palabra clave** de cada titular.
+- Cuerpo/UI: `--sans` (Instrument Sans). 18 px desktop, 17 px celular, interlineado 1,5.
+- Escala con contraste: **H1** `clamp(40px,7vw,76px)` · **H2** `clamp(28px,4vw,44px)` · **H3** `clamp(21px,2.4vw,27px)`.
+- Fuentes como archivo (`/fonts/*.woff2`, `display:swap`, cache 1 año).
 
-Dos familias, ambas embebidas como woff2 base64 con `font-display: swap`:
+## Componentes (en `brand.css`)
+- `.door`: tarjeta de puerta grande (≥200 px alto), ícono, título grande, resultado 1 línea, flecha, hover con elevación. `.emph` la resalta (variante por Short).
+- `.tiers` / `.tier.pop`: tarjetas de precio, la del medio con borde ámbar + etiqueta "Recomendado", precio grande y lista con checks.
+- `.card`: superficie blanca con sombra suave.
+- `.btn.btn-cta`: el único CTA. `.btn-ghost`: secundario.
+- `.chip`: rubros.
+- `.faq details`: acordeón con +/−.
 
-- **Títulos / display:** `--serif: "Instrument Serif", Georgia, "Times New Roman", serif` — peso 400, se usa en cursiva para énfasis (ej. *crecer*, *construye*).
-- **Cuerpo / UI:** `--sans: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`.
+## Espaciado y layout
+- Ritmo de 8 px. Secciones: **64 px** en celular, **112 px** en desktop.
+- Sin bloques vacíos arriba de los formularios: el formulario arranca en la primera pantalla.
+- `max-width` de contenido: 1100 px.
 
-> Las páginas nuevas reusan estas mismas `@font-face` (o un partial compartido) para no re-descargar fuentes ni romper el look.
+## Flotantes
+- **Solo WhatsApp** (`.wa-dock`). Se sacaron el chat-asistente y el chip "Instalar app" como flotantes siempre visibles; el aviso de instalar app aparece recién en la 2ª visita.
 
-## Reglas de UI (rediseño mobile-first)
+## Placeholders
+- `.todo-santi`: visible solo en preview. En el dominio real (`santiagoagustinramirez.com`) se agrega `html.is-prod` por un inline temprano y se ocultan (`.is-prod .todo-santi{display:none}`).
 
-- Una sola acción principal por pantalla.
-- Botones de alto mínimo **48 px**, radios redondeados (`999px` en píldoras), foco visible.
-- Tipografía grande y mucho aire; `clamp()` para escalar en móvil.
-- Contraste AA: verde bosque sobre papel y `--on-forest` sobre bosque cumplen; verificar cada combinación nueva.
-- Formato de precio: **`USD 690`** (sin símbolo `$`, para no duplicar la moneda).
-- Textos alternativos en imágenes, `label` en todos los campos de formulario.
-
-## Logo y voz
-
-- Marca denominativa: **Santiago Ramírez** + punto de acento (`.`).
-- Voz: español rioplatense, voseo, directo, sin relleno. (Ej.: "Ordeno, digitalizo y hago *crecer* tu negocio.")
-- Teléfono/WhatsApp de marca: `+54 9 3536 561265`.
+## Voz y logo
+- Marca denominativa **Santiago Ramírez** + punto verde.
+- Voz: rioplatense, voseo, directo y cálido, con humor cuando entra. Beneficio antes que función.
+- Ubicación: **Córdoba, Argentina**. WhatsApp: +54 9 3536 561265.
