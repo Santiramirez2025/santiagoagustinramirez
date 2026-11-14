@@ -74,6 +74,12 @@ El listado del prompt está **parcialmente desactualizado**. Verificado contra e
 
 > Regla aplicada: no se "arregla" lo que no está roto ni se destruye una función que anda (bugs 3 y 4). Se reporta.
 
+### 2b. Concepto nuevo (2ª vuelta): «Radiografía de tu negocio»
+
+Se reemplaza «las 3 fugas» por **la Radiografía de tu negocio** (gratis, 2 min): dónde se te va el tiempo y la plata, y por dónde empezar. Es positivo, da curiosidad y no supone que el negocio está roto. El Diagnóstico de USD 75 pasa a llamarse **Plan Negocio Ordenado** (sesión 1:1 de 90 min + plan escrito de 90 días con precio y plazo por paso).
+
+Dos alternativas a «Radiografía» que se evaluaron: **«Rayos X de tu negocio»** (más agresivo, buena imagen de "ver por dentro") y **«Chequeo de tu negocio»** (más suave, tono salud/control). Se implementa **Radiografía** por equilibrio entre curiosidad y claridad. El copy final vive en [`docs/COPY.md`](./COPY.md).
+
 ---
 
 ## 3. Estrategia: dos puertas
