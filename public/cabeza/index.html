@@ -3,103 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tu cabeza — El test del Método SRM | Santiago Ramírez</title>
-<meta name="description" content="3 preguntas y te devuelvo en qué etapa estás y el primer paso concreto para sostener el cambio. Gratis.">
+<title>El test del Método SRM — ¿Qué te frena para crecer? | Santiago Ramírez</title>
+<meta name="description" content="6 preguntas, 2 minutos y mirás en qué área estás fuerte y cuál te está trabando para crecer. Gratis. El test del Método SRM.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://santiagoagustinramirez.com/cabeza">
 <meta property="og:title" content="El test del Método SRM">
-<meta property="og:description" content="En qué etapa estás y el primer paso para sostener el cambio. Gratis.">
+<meta property="og:description" content="En qué área estás fuerte y cuál te está trabando. Gratis, en 2 minutos.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://santiagoagustinramirez.com/cabeza">
 <meta property="og:image" content="https://santiagoagustinramirez.com/og.png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<script>(function(){try{var s=localStorage.getItem('srm-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}})();</script>
-<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1419051696174763');fbq('track','PageView');</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Course","name":"Método SRM","description":"El sistema para ordenar la cabeza y sostener el cambio: desafío de 7 días, curso completo y comunidad.","provider":{"@type":"Person","name":"Santiago Ramírez","url":"https://santiagoagustinramirez.com"}}
 </script>
+<script>(function(){try{var s=localStorage.getItem('srm-theme');if(s)document.documentElement.setAttribute('data-theme',s);var h=location.hostname;if(h==='santiagoagustinramirez.com'||h==='www.santiagoagustinramirez.com')document.documentElement.classList.add('is-prod');}catch(e){}})();</script>
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1419051696174763');fbq('track','PageView');</script>
 <link rel="stylesheet" href="/shared/fonts.css">
 <link rel="stylesheet" href="/shared/brand.css">
 <style>
   .topbar{ display:flex; align-items:center; justify-content:space-between; padding:14px 0; }
   .brand{ font-family:var(--serif); font-size:20px; text-decoration:none; color:inherit; }
-  .hero .lead{ font-size:clamp(17px,4.4vw,20px); color:var(--ink-soft); max-width:32ch; }
-  .proof{ font-size:14px; color:var(--muted); margin-top:14px; }
-  fieldset{ border:none; padding:0; margin:0 0 16px; }
-  legend{ font-weight:600; font-size:15px; margin-bottom:8px; }
+  .hero{ padding-top:14px; padding-bottom:24px; }
+  fieldset{ border:none; padding:0; margin:0 0 18px; }
+  legend{ font-weight:600; font-size:16px; margin-bottom:4px; }
+  .mod{ font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--signal-ink);font-weight:700;display:block;margin-bottom:6px; }
   .scale{ display:grid; grid-template-columns:repeat(5,1fr); gap:6px; }
-  .scale label{ display:block; text-align:center; border:1px solid var(--line-2); border-radius:10px; padding:12px 0; cursor:pointer; font-size:14px; }
+  .scale label{ display:block; text-align:center; border:1.5px solid var(--line-2); border-radius:10px; padding:12px 0; cursor:pointer; font-size:14px; background:var(--card); }
   .scale input{ position:absolute; opacity:0; }
-  .scale input:checked + span{ font-weight:700; }
-  .scale label:has(input:checked){ border-color:var(--signal); background:color-mix(in srgb,var(--signal) 12%, transparent); }
-  .ladder{ display:grid; gap:12px; grid-template-columns:1fr; margin-top:12px; }
-  @media(min-width:720px){ .ladder{ grid-template-columns:repeat(3,1fr); } }
-  .tier{ border:1px solid var(--line); border-radius:14px; padding:16px; background:var(--paper); }
-  .tier.pop{ border-color:var(--signal); box-shadow:0 0 0 1px var(--signal); }
-  .tier .pprice{ font-family:var(--serif); font-size:26px; margin:6px 0; }
-  .tier .pper{ font-size:13px; color:var(--muted); }
+  .scale label:has(input:checked){ border-color:var(--signal); background:color-mix(in srgb,var(--signal) 12%, transparent); font-weight:700; }
+  .result .score{ font-family:var(--serif); font-size:clamp(34px,9vw,52px); color:var(--signal-ink); line-height:1; }
   .err{ color:#b4231b; font-size:14px; margin-top:8px; }
 </style>
 </head>
 <body>
 <div class="wrap topbar">
   <a href="/" class="brand">Santiago Ramírez<span style="color:var(--signal)">.</span></a>
-  <a class="btn btn-ghost" style="min-height:40px;padding:8px 16px" href="/negocio" data-track="switch_negocio">Tu negocio →</a>
+  <a class="btn btn-ghost" style="min-height:40px;padding:8px 16px;font-size:15px" href="/negocio" data-track="switch_negocio">Ordená tu negocio →</a>
 </div>
 
 <main>
   <section class="wrap hero">
-    <p class="eyebrow"><span class="dot"></span>Tu cabeza</p>
-    <h1>¿Sabés dónde <span class="serif-i">estás parado</span>?</h1>
-    <p class="lead">3 preguntas y te devuelvo en qué etapa estás y el primer paso concreto para sostener el cambio. Gratis.</p>
-    <p class="proof">El test del Método SRM</p>
+    <p class="eyebrow"><span class="dot"></span>Ordená tu cabeza</p>
+    <h1>¿Qué te está <span class="serif-i">frenando</span> para crecer?</h1>
+    <p class="lead">El test del Método SRM: 6 preguntas, 2 minutos, y mirás en qué área estás fuerte y cuál te está trabando. Gratis.</p>
+    <p class="muted" style="font-size:14px;margin-top:10px">Miles ya hicieron el test del Método SRM</p>
   </section>
 
-  <section class="wrap">
+  <section class="wrap" style="padding-top:0">
     <form class="card" data-puerta="cabeza" data-gift="test_srm" data-reveal="#resultado" novalidate>
-      <h2 style="font-size:clamp(20px,5vw,26px)">El test rápido</h2>
-      <p class="muted" style="margin-top:-6px">1 = nada · 5 = totalmente</p>
+      <h2 style="font-size:clamp(22px,5vw,30px)">El test rápido</h2>
+      <p class="muted" style="margin-top:-4px">1 = nada · 5 = totalmente</p>
 
-      <fieldset>
-        <legend>Tengo claro qué quiero cambiar este año.</legend>
+      <fieldset><span class="mod">Mindset</span><legend>Mi cabeza me juega a favor, no en contra.</legend>
         <div class="scale">
-          <label><input type="radio" name="claridad" value="1"><span>1</span></label>
-          <label><input type="radio" name="claridad" value="2"><span>2</span></label>
-          <label><input type="radio" name="claridad" value="3"><span>3</span></label>
-          <label><input type="radio" name="claridad" value="4"><span>4</span></label>
-          <label><input type="radio" name="claridad" value="5"><span>5</span></label>
+          <label><input type="radio" name="mindset" value="1">1</label><label><input type="radio" name="mindset" value="2">2</label><label><input type="radio" name="mindset" value="3">3</label><label><input type="radio" name="mindset" value="4">4</label><label><input type="radio" name="mindset" value="5">5</label>
         </div>
       </fieldset>
-      <fieldset>
-        <legend>Sostengo los hábitos aunque no tenga ganas.</legend>
+      <fieldset><span class="mod">Nicho</span><legend>Tengo clarísimo a quién le sirve lo que hago.</legend>
         <div class="scale">
-          <label><input type="radio" name="habito" value="1"><span>1</span></label>
-          <label><input type="radio" name="habito" value="2"><span>2</span></label>
-          <label><input type="radio" name="habito" value="3"><span>3</span></label>
-          <label><input type="radio" name="habito" value="4"><span>4</span></label>
-          <label><input type="radio" name="habito" value="5"><span>5</span></label>
+          <label><input type="radio" name="nicho" value="1">1</label><label><input type="radio" name="nicho" value="2">2</label><label><input type="radio" name="nicho" value="3">3</label><label><input type="radio" name="nicho" value="4">4</label><label><input type="radio" name="nicho" value="5">5</label>
         </div>
       </fieldset>
-      <fieldset>
-        <legend>Mi cabeza me juega a favor, no en contra.</legend>
+      <fieldset><span class="mod">Especialista</span><legend>Soy el referente de algo puntual, no "hago de todo".</legend>
         <div class="scale">
-          <label><input type="radio" name="mentalidad" value="1"><span>1</span></label>
-          <label><input type="radio" name="mentalidad" value="2"><span>2</span></label>
-          <label><input type="radio" name="mentalidad" value="3"><span>3</span></label>
-          <label><input type="radio" name="mentalidad" value="4"><span>4</span></label>
-          <label><input type="radio" name="mentalidad" value="5"><span>5</span></label>
+          <label><input type="radio" name="especialista" value="1">1</label><label><input type="radio" name="especialista" value="2">2</label><label><input type="radio" name="especialista" value="3">3</label><label><input type="radio" name="especialista" value="4">4</label><label><input type="radio" name="especialista" value="5">5</label>
+        </div>
+      </fieldset>
+      <fieldset><span class="mod">Oferta</span><legend>Lo que ofrezco se entiende y se vende sin que tenga que convencer.</legend>
+        <div class="scale">
+          <label><input type="radio" name="oferta" value="1">1</label><label><input type="radio" name="oferta" value="2">2</label><label><input type="radio" name="oferta" value="3">3</label><label><input type="radio" name="oferta" value="4">4</label><label><input type="radio" name="oferta" value="5">5</label>
+        </div>
+      </fieldset>
+      <fieldset><span class="mod">Ejecución</span><legend>Sostengo lo que me propongo aunque no tenga ganas.</legend>
+        <div class="scale">
+          <label><input type="radio" name="ejecucion" value="1">1</label><label><input type="radio" name="ejecucion" value="2">2</label><label><input type="radio" name="ejecucion" value="3">3</label><label><input type="radio" name="ejecucion" value="4">4</label><label><input type="radio" name="ejecucion" value="5">5</label>
+        </div>
+      </fieldset>
+      <fieldset><span class="mod">Entorno</span><legend>La gente alrededor me empuja para arriba, no para abajo.</legend>
+        <div class="scale">
+          <label><input type="radio" name="entorno" value="1">1</label><label><input type="radio" name="entorno" value="2">2</label><label><input type="radio" name="entorno" value="3">3</label><label><input type="radio" name="entorno" value="4">4</label><label><input type="radio" name="entorno" value="5">5</label>
         </div>
       </fieldset>
 
       <hr style="border:none;border-top:1px solid var(--line);margin:18px 0">
       <div class="field">
-        <label for="email">Tu mail (te mando tu etapa + el primer paso)</label>
+        <label for="email">Tu mail (te mando tu resultado)</label>
         <input id="email" name="email" type="email" required placeholder="vos@mail.com">
       </div>
       <div class="hp" aria-hidden="true"><label>No llenar<input data-hp name="empresa_web" tabindex="-1" autocomplete="off"></label></div>
       <label class="consent"><input type="checkbox" name="consent" required> Quiero recibir mi resultado y el desafío por mail. Me puedo dar de baja cuando quiera.</label>
       <p class="err" data-err hidden></p>
-      <button class="btn btn-signal btn-block" type="submit" style="margin-top:14px">Ver mi resultado →</button>
+      <button class="btn btn-cta btn-block" type="submit" style="margin-top:14px">Ver mi resultado →</button>
       <p class="hint" style="text-align:center;margin-top:10px">Gratis. Aparece acá mismo apenas lo mandás.</p>
     </form>
   </section>
@@ -108,16 +102,18 @@
     <div class="card">
       <p class="eyebrow"><span class="dot"></span>Tu resultado</p>
       <div id="resultado-body"></div>
-      <a class="btn btn-primary btn-block" id="test-completo" href="https://metodo-srm.vercel.app" target="_blank" rel="noopener" data-track="cabeza_test" style="margin-top:12px">Hacer el test completo del Método SRM →</a>
+      <a class="btn btn-cta btn-block" id="test-completo" href="https://metodo-srm.vercel.app" target="_blank" rel="noopener" data-track="cabeza_test" style="margin-top:12px">Hacer el test completo del Método SRM →</a>
       <p class="todo-santi" style="margin-top:12px">Decidir si el test completo se trae al dominio o se enlaza con el contacto ya guardado (hoy enlaza a metodo-srm.vercel.app).</p>
     </div>
   </section>
 
-  <section class="wrap" id="metodo">
-    <p class="eyebrow"><span class="dot"></span>Método SRM</p>
-    <h2>El sistema para sostener el cambio</h2>
-    <p class="muted"><span class="badge-prov">precios provisorios</span></p>
-    <div class="ladder" id="ladder"></div>
+  <section class="section--white" id="metodo">
+    <div class="wrap">
+      <p class="eyebrow"><span class="dot"></span>Método SRM</p>
+      <h2>El sistema para sostener el cambio</h2>
+      <p class="lead">Un cambio por vez, sostenido. <span class="badge-prov">precios provisorios</span></p>
+      <div class="tiers" id="tiers"></div>
+    </div>
   </section>
 </main>
 
@@ -126,38 +122,37 @@
 </a>
 
 <script>
-window.onPuertaResult = function(j){
-  var r = (j && j.resultado && j.resultado.respuestas) || {};
-  // El puntaje se calcula del lado del cliente solo para el mensaje (no es dato sensible).
+var MODULOS = [
+  {k:'mindset', n:'Mindset', paso:'Cambiá una creencia por una acción: elegí un pensamiento que te frena y escribí la acción contraria que vas a hacer hoy.'},
+  {k:'nicho', n:'Nicho', paso:'Escribí en una frase a quién le servís mejor. Si no te sale corta, ahí está el trabajo.'},
+  {k:'especialista', n:'Especialista', paso:'Elegí UNA cosa en la que querés ser el referente y empezá a hablar solo de eso una semana.'},
+  {k:'oferta', n:'Oferta', paso:'Reescribí lo que ofrecés como un resultado, no como una lista de tareas.'},
+  {k:'ejecucion', n:'Ejecución', paso:'Elegí un solo hábito y sostenelo 7 días seguidos. Nada más.'},
+  {k:'entorno', n:'Entorno', paso:'Sumá una conversación por semana con alguien que ya esté donde querés estar.'}
+];
+window.onPuertaResult = function(){
   var form = document.querySelector('form[data-puerta="cabeza"]');
   function val(n){ var el = form.querySelector('[name="'+n+'"]:checked'); return el ? Number(el.value) : 0; }
-  var score = val('claridad') + val('habito') + val('mentalidad');
-  var etapa, paso;
-  if (score <= 6){ etapa = 'Arranque'; paso = 'Elegí UN solo hábito y sostenelo 7 días seguidos. Nada más.'; }
-  else if (score <= 11){ etapa = 'En construcción'; paso = 'Ya tenés base. El próximo salto es ordenar la cabeza para que los días malos no te tiren todo abajo.'; }
-  else { etapa = 'En impulso'; paso = 'Estás para subir la vara: estructura y acompañamiento para no estancarte.'; }
+  var total = 0, min = {k:null, v:99}, max = {k:null, v:0};
+  MODULOS.forEach(function(m){ var v = val(m.k); total += v; if(v<min.v){min={k:m,v:v};} if(v>max.v){max={k:m,v:v};} });
   document.getElementById('resultado-body').innerHTML =
-    '<h3 style="margin-bottom:.2em">Estás en: ' + etapa + '</h3>' +
-    '<p>' + paso + '</p>' +
-    '<p class="muted">Te lo mandé al mail con el primer paso detallado. El desafío de 7 días es la forma más rápida de arrancar.</p>';
+    '<div class="score">Tu Método SRM: ' + total + '/30</div>' +
+    '<p style="margin:12px 0 0">Donde estás más fuerte: <b>' + (max.k?max.k.n:'—') + '</b>.</p>' +
+    '<p style="margin:6px 0 0">Lo que más te está trabando: <b>' + (min.k?min.k.n:'—') + '</b>.</p>' +
+    (min.k ? '<p style="margin:10px 0 0">Tu primer paso: ' + min.k.paso + '</p>' : '') +
+    '<p class="muted" style="margin:10px 0 0">Te lo mandé al mail. El desafío de 7 días es la forma más rápida de arrancar.</p>';
 };
-
 fetch('/config/ofertas.json').then(function(r){return r.json();}).then(function(cfg){
   var m = cfg.metodo_srm; if(!m) return;
-  var test = document.getElementById('test-completo');
-  if (m.test_url) test.href = m.test_url;
-  document.getElementById('ladder').innerHTML = m.escalera.map(function(t,i){
-    var per = t.tipo === 'mensual' ? '/mes' : (t.tipo === 'unico' ? ' único' : '');
-    return '<div class="tier'+(i===0?' pop':'')+'">'
-      + '<div class="pname">'+t.nombre+'</div>'
-      + '<div class="pprice">USD '+t.precio_usd+'</div>'
-      + '<div class="pper">'+per+'</div>'
-      + '</div>';
+  if(m.test_url) document.getElementById('test-completo').href = m.test_url;
+  document.getElementById('tiers').innerHTML = m.escalera.map(function(t,i){
+    var per = t.tipo==='mensual'?'/mes':' único';
+    return '<div class="tier'+(i===0?' pop':'')+'">'+(i===0?'<span class="tag">Para arrancar</span>':'')
+      +'<div class="tname">'+t.nombre+'</div><div class="tprice">USD '+t.precio_usd+'</div><div class="tper">'+per+'</div></div>';
   }).join('');
 }).catch(function(){});
 </script>
 <script src="/shared/analytics.js" defer></script>
 <script src="/shared/puertas.js" defer></script>
-<script src="/shared/stars.js" defer></script>
 </body>
 </html>

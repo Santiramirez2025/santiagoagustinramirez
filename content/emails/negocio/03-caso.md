@@ -18,7 +18,7 @@ Te prometí un caso. Acá va cómo se ve, en concreto, pasar del desorden a un s
 
 Lo importante no es la tecnología. Es que **las horas que antes se iban en lo repetitivo ahora se usan para crecer** (o para no trabajar, que también vale).
 
-Si querés ver qué fugas tiene tu negocio y en qué orden se arreglan, eso es exactamente lo que sale del Diagnóstico.
+Si querés ver tu negocio con el mismo detalle —qué ordenar primero y cuánto sale cada paso— eso es lo que sale del Plan Negocio Ordenado.
 
 👉 https://santiagoagustinramirez.com/diagnostico
 

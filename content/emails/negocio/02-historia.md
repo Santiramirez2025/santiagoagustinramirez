@@ -18,4 +18,4 @@ Mañana te muestro un caso concreto de cómo se ve eso en la práctica.
 
 Santiago
 
-PS: si ya sabés que querés ordenar esto en serio, el Diagnóstico es el primer paso → https://santiagoagustinramirez.com/diagnostico
+PS: si ya sabés que querés ordenar esto en serio, el Plan Negocio Ordenado es el primer paso → https://santiagoagustinramirez.com/diagnostico

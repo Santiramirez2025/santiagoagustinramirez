@@ -4,38 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Concesionarias: turnos + agente IA + panel | Santiago Ramírez</title>
-<meta name="description" content="Consultas por un auto que llegan a cualquier hora y se enfrían antes de que alguien conteste.">
+<meta name="description" content="La consulta por un auto que entra a las 2 de la mañana y se enfría antes de que alguien conteste.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://santiagoagustinramirez.com/sistemas/concesionarias">
 <meta property="og:title" content="Concesionarias: turnos + agente IA + panel | Santiago Ramírez">
-<meta property="og:description" content="Consultas por un auto que llegan a cualquier hora y se enfrían antes de que alguien conteste.">
+<meta property="og:description" content="La consulta por un auto que entra a las 2 de la mañana y se enfría antes de que alguien conteste.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://santiagoagustinramirez.com/sistemas/concesionarias">
 <meta property="og:image" content="https://santiagoagustinramirez.com/og.png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<script>(function(){try{var s=localStorage.getItem('srm-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}})();</script>
+<script>(function(){try{var s=localStorage.getItem('srm-theme');if(s)document.documentElement.setAttribute('data-theme',s);var h=location.hostname;if(h==='santiagoagustinramirez.com'||h==='www.santiagoagustinramirez.com')document.documentElement.classList.add('is-prod');}catch(e){}})();</script>
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1419051696174763');fbq('track','PageView');</script>
 <link rel="stylesheet" href="/shared/fonts.css"><link rel="stylesheet" href="/shared/brand.css">
 <style>
-.ladder{display:grid;gap:12px;grid-template-columns:1fr;margin-top:12px}
-@media(min-width:720px){.ladder{grid-template-columns:repeat(3,1fr)}}
-.tier{border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--paper-2)}
-.tier.pop{border-color:var(--signal);box-shadow:0 0 0 1px var(--signal)}
-.tier .pname{font-weight:700}.tier .pprice{font-family:var(--serif);font-size:26px;margin:6px 0}.tier .pper{font-size:13px;color:var(--muted)}
-.hero-lead{font-size:clamp(17px,4.4vw,20px);color:var(--ink-soft);max-width:34ch}
-.faq details{border-top:1px solid var(--line);padding:14px 0}.faq summary{font-weight:600;cursor:pointer}
 .casos{display:grid;gap:14px;grid-template-columns:1fr}@media(min-width:720px){.casos{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
 <body>
-<div class="wrap" style="display:flex;align-items:center;justify-content:space-between;padding:14px 0"><a href="/" style="font-family:var(--serif);font-size:20px;text-decoration:none;color:inherit">Santiago Ramírez<span style="color:var(--signal)">.</span></a><a class="btn btn-ghost" style="min-height:40px;padding:8px 16px" href="/negocio">Auditoría gratis →</a></div>
+<div class="wrap" style="display:flex;align-items:center;justify-content:space-between;padding:14px 0"><a href="/" style="font-family:var(--serif);font-size:20px;text-decoration:none;color:inherit">Santiago Ramírez<span style="color:var(--signal)">.</span></a><a class="btn btn-ghost" style="min-height:40px;padding:8px 16px" href="/negocio">Radiografía gratis →</a></div>
 <main>
   <section class="wrap">
     <p class="eyebrow"><span class="dot"></span>Sistema para concesionarias</p>
     <h1>Concesionarias, sin el desorden.</h1>
-    <p class="hero-lead">Consultas por un auto que llegan a cualquier hora y se enfrían antes de que alguien conteste.</p>
+    <p class="lead">La consulta por un auto que entra a las 2 de la mañana y se enfría antes de que alguien conteste.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
-      <a class="btn btn-signal" href="/negocio" data-track="rubro_auditoria_concesionarias" data-event="Lead">Hacer la auditoría gratis →</a>
+      <a class="btn btn-cta" href="/negocio" data-track="rubro_radiografia_concesionarias" data-event="Lead">Quiero mi radiografía →</a>
       <a class="btn btn-ghost" href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20tengo%20un%2Fa%20concesionarias%20y%20quiero%20ver%20el%20sistema" target="_blank" rel="noopener" data-track="rubro_wa_concesionarias" data-event="Lead">Consultar por WhatsApp</a>
     </div>
   </section>
@@ -51,25 +44,25 @@
     <p class="eyebrow"><span class="dot"></span>Precios</p>
     <h2>Tres formas de arrancar</h2>
     <p class="muted"><span class="badge-prov">precios provisorios</span></p>
-    <div class="ladder">
+    <div class="tiers">
       <div class="tier">
-        <div class="pname">Base</div>
-        <div class="pprice">USD 690</div>
-        <div class="pper">instalación + USD 79/mes</div>
-        <ul style="margin:10px 0 0;padding-left:18px;font-size:14px"><li>Turnos online</li><li>Agente IA de WhatsApp (respuestas + reservas)</li><li>Panel de control</li></ul>
+        <div class="tname">Base</div>
+        <div class="tprice">USD 690</div>
+        <div class="tper">instalación + USD 79/mes</div>
+        <ul><li>Turnos online</li><li>Agente IA de WhatsApp (respuestas + reservas)</li><li>Panel de control</li></ul>
       </div>
-      <div class="tier pop">
-        <div class="pname">Pro · recomendado</div>
-        <div class="pprice">USD 1.290</div>
-        <div class="pper">instalación + USD 149/mes</div>
-        <ul style="margin:10px 0 0;padding-left:18px;font-size:14px"><li>Todo lo de Base</li><li>Recordatorios automáticos</li><li>Cobros y señas</li><li>Reportes</li></ul>
+      <div class="tier pop"><span class="tag">Recomendado</span>
+        <div class="tname">Pro</div>
+        <div class="tprice">USD 1.290</div>
+        <div class="tper">instalación + USD 149/mes</div>
+        <ul><li>Todo lo de Base</li><li>Recordatorios automáticos</li><li>Cobros y señas</li><li>Reportes</li></ul>
       </div>
       <div class="tier">
-        <div class="pname">Full</div>
-        <div class="pprice">USD 2.490</div>
-        <div class="pper">instalación + USD 249/mes</div>
-        <ul style="margin:10px 0 0;padding-left:18px;font-size:14px"><li>Todo lo de Pro</li><li>Multi-sucursal / multi-staff</li><li>Integraciones a medida</li><li>Prioridad de soporte</li></ul>
-      </div></div><p class="hint" style="margin-top:12px">Precio de fundador para los primeros 10 clientes.</p>
+        <div class="tname">Full</div>
+        <div class="tprice">USD 2.490</div>
+        <div class="tper">instalación + USD 249/mes</div>
+        <ul><li>Todo lo de Pro</li><li>Multi-sucursal / multi-staff</li><li>Integraciones a medida</li><li>Prioridad de soporte</li></ul>
+      </div></div><p class="muted" style="margin-top:14px;font-size:14px">Precio de fundador para los primeros 10 clientes.</p>
   </section>
 
   <section class="wrap">
@@ -80,18 +73,18 @@
 
   <section class="wrap faq">
     <h2>Preguntas</h2>
-    <details><summary>¿Cuánto tarda en estar andando?</summary><p class="muted">Depende del plan y de los materiales que pases. Lo definimos en el diagnóstico, con plazo escrito.</p></details>
+    <details><summary>¿Cuánto tarda en estar andando?</summary><p class="muted">Depende del plan y de los materiales que pases. Lo definimos en el Plan Negocio Ordenado, con plazo escrito.</p></details>
     <details><summary>¿El abono mensual qué incluye?</summary><p class="muted">Hosting, mantenimiento, el agente de IA funcionando y soporte. El detalle según el plan.</p></details>
     <details><summary>¿Puedo empezar por lo mínimo?</summary><p class="muted">Sí. Arrancás con el plan Base y escalás cuando lo necesites.</p></details>
   </section>
 
   <section class="wrap">
     <h2>El primer paso es gratis</h2>
-    <p class="muted">Hacé la auditoría de 2 minutos y mirá cuánto te cuesta hoy el desorden.</p>
-    <a class="btn btn-signal btn-block" href="/negocio" data-track="rubro_cierre_concesionarias" data-event="Lead" style="margin-top:12px">Hacer la auditoría gratis →</a>
+    <p class="muted">Hacé tu Radiografía de 2 minutos y mirá dónde se te va el tiempo y la plata.</p>
+    <a class="btn btn-cta btn-block" href="/negocio" data-track="rubro_cierre_concesionarias" data-event="Lead" style="margin-top:12px">Quiero mi radiografía →</a>
   </section>
 </main>
 <a class="wa-dock" href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20el%20sistema%20para%20mi%20concesionarias" target="_blank" rel="noopener" data-track="dock_wa" data-event="Contact" aria-label="WhatsApp"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24z"/></svg></a>
-<script src="/shared/analytics.js" defer></script><script src="/shared/stars.js" defer></script>
+<script src="/shared/analytics.js" defer></script>
 </body>
 </html>
