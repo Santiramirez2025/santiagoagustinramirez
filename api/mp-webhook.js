@@ -75,7 +75,7 @@ module.exports = async (req, res) => {
               `Antes de la sesión, completá el cuestionario previo (10 minutos):`,
               `${url}/cuestionario.html?order=${orderId}`,
               ``,
-              `Son 14 preguntas sobre tu negocio. Con eso llego sabiendo dónde mirar y los 90 minutos se van enteros en encontrar las fugas.`,
+              `Son 14 preguntas sobre tu negocio. Con eso llego sabiendo dónde mirar y los 90 minutos se van enteros en armar tu radiografía.`,
               ``,
               `—`,
               `Reserva pagada vía Mercado Pago.`,

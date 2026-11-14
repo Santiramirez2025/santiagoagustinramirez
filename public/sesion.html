@@ -114,7 +114,7 @@
     </div>
 
     <div class="col">
-      <h2>Mapa de 3 Fugas</h2>
+      <h2>Radiografía: 3 puntos</h2>
       <p class="hint">Marcá lo que vas confirmando en vivo. La severidad sube sola.</p>
       <div id="fugas"></div>
 
@@ -134,7 +134,7 @@
         <button class="tbtn" id="copy">Copiar</button>
         <button class="tbtn" id="dl">Descargar .md</button>
       </div>
-      <textarea class="out" id="out" placeholder="Apretá «Generar plan» cuando tengas las fugas marcadas y las acciones escritas."></textarea>
+      <textarea class="out" id="out" placeholder="Apretá «Generar plan» cuando tengas los puntos marcados y las acciones escritas."></textarea>
       <p class="hint">Se guarda todo solo en este navegador, por orden. Podés cerrar y volver.</p>
     </div>
   </div>
@@ -172,7 +172,7 @@
       ],
       ojo: 'Lo que buscás es la contradicción: dice que su problema es conseguir clientes, pero pierde la mitad de los presupuestos que manda. No propongas nada todavía — si te tienta una solución, anotala y seguí.' },
 
-    { min: 20, dur: 15, n: 'Fuga 1 — Procesos', d: 'Recorrés el camino de una venta paso a paso, en vivo.',
+    { min: 20, dur: 15, n: 'Punto 1 — Procesos', d: 'Recorrés el camino de una venta paso a paso, en vivo.',
       hacer: 'Agarrás una venta real y la recorrés paso por paso, cronometrando lo que él te va diciendo.',
       decir: [
         'Agarremos el último cliente que te compró. ¿Cómo empezó?',
@@ -181,7 +181,7 @@
       ],
       ojo: 'Marcá los puntos donde el proceso depende de él, donde se copia información de un lado a otro, y donde el tiempo es medible. Cerrá contando: "de todo esto, X pasos los hacés vos a mano".' },
 
-    { min: 35, dur: 15, n: 'Fuga 2 — Presencia digital', d: 'Compartís pantalla y mostrás lo que cronometraste antes.',
+    { min: 35, dur: 15, n: 'Punto 2 — Presencia digital', d: 'Compartís pantalla y mostrás lo que cronometraste antes.',
       hacer: 'Compartís pantalla con su web o perfil y entrás como si fueras un cliente que no lo conoce.',
       decir: [
         'Voy a hacer algo incómodo: voy a entrar a tu web como si no te conociera.',
@@ -190,7 +190,7 @@
       ],
       ojo: 'No critiques el diseño. Cronometrá y mostrá: el dato pega, la opinión no. Si no sabe cuántas consultas le entran, la web no es un canal, es un folleto.' },
 
-    { min: 50, dur: 15, n: 'Fuga 3 — Marketing', d: 'Qué mide y qué no. Casi siempre no mide nada atado a ventas.',
+    { min: 50, dur: 15, n: 'Punto 3 — Marketing', d: 'Qué mide y qué no. Casi siempre no mide nada atado a ventas.',
       hacer: 'Tres preguntas que destapan si hay medición real o no.',
       decir: [
         '¿De dónde vino tu último cliente?',
@@ -219,7 +219,7 @@
   ];
 
   var FUGAS = [
-    { id: 'f1', t: 'Fuga 1 — Procesos manuales', items: [
+    { id: 'f1', t: 'Punto 1 — Procesos manuales', items: [
       'Repite tareas a mano todos los días',
       'Copia datos de un lado a otro',
       'Consultas que quedan sin responder',
@@ -227,7 +227,7 @@
       'El seguimiento depende de su memoria',
       'Si él no abre el WhatsApp, se frena todo'
     ]},
-    { id: 'f2', t: 'Fuga 2 — Presencia digital', items: [
+    { id: 'f2', t: 'Punto 2 — Presencia digital', items: [
       'Tarda más de 10 seg en entenderse qué vende',
       'El precio o el rango no está visible',
       'Más de 3 clics hasta poder comprar o consultar',
@@ -235,7 +235,7 @@
       'No hay prueba social real',
       'No sabe cuántas consultas le entran por la web'
     ]},
-    { id: 'f3', t: 'Fuga 3 — Marketing y medición', items: [
+    { id: 'f3', t: 'Punto 3 — Marketing y medición', items: [
       'No tiene pixel ni medición instalada',
       'Solo mira métricas de vanidad',
       'No sabe cuánto le cuesta conseguir un cliente',
@@ -360,7 +360,7 @@
       lineas.push('- Costo equivalente: USD ' + fmt(c.costoAnual) + ' al año, unas ' + fmt(c.ventasEquivalentes) + ' ventas no hechas');
       lineas.push('');
     }
-    lineas.push('## Las 3 fugas');
+    lineas.push('## La radiografía');
     FUGAS.forEach(function (f) {
       var marcados = f.items.filter(function (_, i) { return $(f.id + '-' + i).checked; });
       if (!marcados.length && !$(f.id + '-nota').value.trim()) return;
