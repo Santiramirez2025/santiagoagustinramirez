@@ -150,4 +150,28 @@
       var si = document.createElement('script'); si.defer = true; si.src = '/_vercel/speed-insights/script.js'; document.head.appendChild(si);
     } catch (e) {}
   }
+
+  // 9) API pública para las páginas del rediseño (dos puertas + captura).
+  //    Reusa el mismo transporte, visitorId/sessionId y UTM que el resto.
+  function parseCampaign(c) {
+    // Formato del Short: pieza_<ID>_<canal>  (ej: pieza_F1_mindset, pieza_N2a_ch05)
+    var out = { pieza: null, canal: null, tema: null, puerta: null };
+    if (!c) return out;
+    var m = String(c).match(/^pieza_([A-Za-z0-9]+)_(.+)$/);
+    if (m) { out.pieza = m[1]; out.canal = m[2]; }
+    var id = out.pieza || String(c);
+    var prefix = id.charAt(0).toUpperCase();
+    // Prefijo del ID → tema (según el brief).
+    var TEMA = { R:'recreo', T:'terapia', W:'warren', K:'cambiar', M:'amigo', I:'inflacion', P:'publicar', D:'ideas', N:'nicho', Q:'comport', F:'futuro', G:'agentes' };
+    out.tema = TEMA[prefix] || null;
+    // Tema → puerta (provisorio): mindset/humor/nostalgia → cabeza; negocio → negocio.
+    var NEGOCIO = { inflacion:1, publicar:1, ideas:1, nicho:1, comport:1, agentes:1 };
+    out.puerta = out.tema ? (NEGOCIO[out.tema] ? 'negocio' : 'cabeza') : null;
+    return out;
+  }
+  var campaign = parseCampaign(utm.utm_campaign);
+  window.__srmCampaign = campaign;      // { pieza, canal, tema, puerta }
+  window.__srmUtmFull = Object.assign({}, utm, { canal: campaign.canal, pieza: campaign.pieza, tema: campaign.tema });
+  // srmTrack(event, meta, extra): emite un evento del embudo con la UTM ya incluida.
+  window.srmTrack = function (event, meta, extra) { try { send(event, meta || {}, extra || {}); } catch (e) {} };
 })();

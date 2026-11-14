@@ -1,0 +1,111 @@
+/* brand.css — sistema de diseño compartido del rediseño.
+ * Paleta y fuentes extraídas del sitio real (ver docs/MARCA.md).
+ * Mobile-first, theme-aware, accesible AA. Cargá antes fonts.css.
+ */
+
+:root {
+  --paper:#ECE7DA; --paper-2:#E3DCCB; --paper-3:#D9D1BD;
+  --ink:#17140E; --ink-soft:#3A352B; --muted:#6E685A;
+  --forest:#0F2C20; --forest-2:#17402F;
+  --signal:#0E9E64; --signal-ink:#0B6B45;
+  --on-forest:#E9E4D6; --on-forest-mut:rgba(233,228,214,.72);
+  --line:rgba(23,20,14,.14); --line-2:rgba(23,20,14,.26);
+  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --sans:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --wrap:1080px; --radius:18px;
+}
+:root[data-theme="dark"] {
+  --paper:#141210; --paper-2:#1D1915; --paper-3:#26211B;
+  --ink:#EDE8DC; --ink-soft:#CFC8B8; --muted:#9A9182;
+  --forest:#163A2B; --forest-2:#1E4A37;
+  --signal:#25B87C; --signal-ink:#8CDCB8;
+  --line:rgba(237,232,220,.14); --line-2:rgba(237,232,220,.30);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:#141210; --paper-2:#1D1915; --paper-3:#26211B;
+    --ink:#EDE8DC; --ink-soft:#CFC8B8; --muted:#9A9182;
+    --forest:#163A2B; --forest-2:#1E4A37;
+    --signal:#25B87C; --signal-ink:#8CDCB8;
+    --line:rgba(237,232,220,.14); --line-2:rgba(237,232,220,.30);
+  }
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:17px; line-height:1.6;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+h1,h2,h3{ font-family:var(--serif); font-weight:400; line-height:1.08; margin:0 0 .4em; }
+h1{ font-size:clamp(32px,8vw,56px); }
+h2{ font-size:clamp(26px,6vw,40px); }
+h3{ font-size:clamp(20px,5vw,26px); }
+p{ margin:0 0 1em; }
+a{ color:inherit; }
+img{ max-width:100%; height:auto; display:block; }
+:focus-visible{ outline:3px solid var(--signal); outline-offset:2px; border-radius:4px; }
+
+.wrap{ width:100%; max-width:var(--wrap); margin-inline:auto; padding-inline:20px; }
+.eyebrow{ display:inline-flex; align-items:center; gap:8px; font-size:12px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--signal-ink); font-weight:600; }
+.eyebrow .dot{ width:7px; height:7px; border-radius:50%; background:var(--signal); }
+.muted{ color:var(--muted); }
+.serif-i{ font-family:var(--serif); font-style:italic; }
+
+/* Botones — alto mínimo 48px */
+.btn{ display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  min-height:52px; padding:14px 26px; border-radius:999px; border:1px solid transparent;
+  font:inherit; font-weight:600; font-size:16px; text-decoration:none; cursor:pointer;
+  transition:transform .18s var(--ease), background .18s var(--ease); }
+.btn:hover{ transform:translateY(-2px); }
+.btn-primary{ background:var(--forest); color:var(--on-forest); }
+.btn-signal{ background:var(--signal); color:#06281B; }
+.btn-ghost{ background:transparent; color:var(--ink); border-color:var(--line-2); }
+.btn-block{ width:100%; }
+
+/* Tarjetas */
+.card{ background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius); padding:22px; }
+
+/* Puertas (home + cierre) */
+.doors{ display:grid; gap:16px; grid-template-columns:1fr; }
+@media (min-width:720px){ .doors{ grid-template-columns:1fr 1fr; } }
+.door{ display:block; text-decoration:none; color:inherit; background:var(--paper-2);
+  border:1px solid var(--line-2); border-radius:var(--radius); padding:26px 24px;
+  transition:transform .2s var(--ease), border-color .2s var(--ease); }
+.door:hover{ transform:translateY(-3px); border-color:var(--signal); }
+.door h3{ margin-bottom:6px; }
+.door .door-k{ font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--signal-ink); font-weight:600; }
+.door .door-go{ margin-top:16px; display:inline-flex; align-items:center; gap:8px; font-weight:600; color:var(--signal-ink); }
+
+/* Formularios de captura */
+.field{ margin-bottom:14px; }
+.field label{ display:block; font-size:14px; font-weight:600; margin-bottom:6px; }
+.field input, .field textarea, .field select{
+  width:100%; min-height:52px; padding:13px 15px; font:inherit; color:var(--ink);
+  background:var(--paper); border:1px solid var(--line-2); border-radius:12px; }
+.field .hint{ font-size:13px; color:var(--muted); margin-top:5px; }
+/* Honeypot: fuera de pantalla, no visible, no tabbable */
+.hp{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+.consent{ display:flex; gap:10px; align-items:flex-start; font-size:13px; color:var(--muted); }
+.consent input{ min-height:auto; width:auto; margin-top:3px; }
+
+/* Secciones */
+section{ padding-block:clamp(40px,9vw,88px); }
+.badge-prov{ display:inline-block; font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); border:1px dashed var(--line-2); border-radius:999px; padding:2px 9px; }
+
+/* Placeholder TODO-SANTIAGO visible en preview, nunca inventa contenido */
+.todo-santi{ border:1px dashed var(--signal); background:color-mix(in srgb,var(--signal) 8%, transparent);
+  border-radius:12px; padding:14px 16px; font-size:14px; color:var(--ink-soft); }
+.todo-santi::before{ content:"TODO-SANTIAGO · "; font-weight:700; color:var(--signal-ink); }
+
+/* WhatsApp flotante (mobile) */
+.wa-dock{ position:fixed; right:16px; bottom:16px; z-index:50; width:56px; height:56px; border-radius:50%;
+  background:var(--signal); color:#06281B; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 8px 24px rgba(0,0,0,.2); text-decoration:none; }
+@media (min-width:860px){ .wa-dock{ width:60px; height:60px; } }
+
+@media (prefers-reduced-motion: reduce){ *{ transition:none !important; animation:none !important; } }
