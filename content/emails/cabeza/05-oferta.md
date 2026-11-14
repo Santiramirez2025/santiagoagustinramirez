@@ -2,29 +2,24 @@
 puerta: cabeza
 orden: 5
 dia: 7
-asunto: "Por dónde seguir"
-preheader: "Desafío, curso o comunidad: elegí tu ritmo."
+asunto: "Precio fundador (y la mentoría, si querés más)"
+preheader: "$49.000 por la academia, antes $150.000."
 ---
 
 Hola{{#nombre}} {{nombre}}{{/nombre}},
 
-Llegaste hasta acá, así que algo adentro tuyo quiere cambiar en serio. Te dejo las tres formas de seguir, de menor a mayor compromiso:
+Llegaste hasta acá, así que algo adentro tuyo quiere ordenar esto en serio. Dos formas:
 
-**1. Desafío de 7 días — USD 19**
-El primer ciclo completo, de la mano. Un cambio, sostenido.
+**1. Academia Método SRM — $49.000 ARS** (precio fundador, antes $150.000)
+Los 4 capítulos, 6 módulos interactivos, acceso de por vida. Pago único o 3 cuotas con tarjeta, por Mercado Pago.
+→ https://www.metodosrm.com/?utm_source=santiagoagustinramirez&utm_medium=email&utm_campaign=cabeza_mail&utm_content=mail5_curso
 
-**2. Curso completo — USD 97**
-Todo el Método SRM para aplicarlo a cualquier área, a tu ritmo.
+**2. Mentoría 1:1 con Santiago, 3 meses — $624.000 ARS**
+Si querés que te acompañe de cerca. Incluye la academia completa.
+→ https://www.metodosrm.com/comprar?p=mentoria&utm_source=santiagoagustinramirez&utm_medium=email&utm_campaign=cabeza_mail&utm_content=mail5_mentoria
 
-**3. Comunidad — USD 19/mes**
-Para no hacerlo solo: seguir sosteniéndolo con gente en la misma.
+El precio fundador es por tiempo limitado. No hace falta que decidas todo hoy, pero si veníste hasta acá, probablemente ya sabés por dónde.
 
-> Precios provisorios hasta confirmación.
-
-👉 Elegí por dónde seguir: https://santiagoagustinramirez.com/cabeza
-
-No se trata de cambiarlo todo hoy. Se trata de dar **un** paso que mañana puedas repetir. Eso ya te separa de la mayoría.
-
-Gracias por llegar hasta acá. Respondé este mail cuando quieras.
+Gracias por llegar hasta el final. Respondé este mail cuando quieras.
 
 Santiago

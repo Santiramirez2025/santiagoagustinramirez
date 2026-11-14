@@ -2,20 +2,20 @@
 puerta: cabeza
 orden: 2
 dia: 1
-asunto: "Por qué la motivación te falla (y qué la reemplaza)"
-preheader: "No es un problema de voluntad. Es de sistema."
+asunto: "No estás roto, solo desordenado"
+preheader: "Por qué armé el Método SRM."
 ---
 
 Hola{{#nombre}} {{nombre}}{{/nombre}},
 
-La motivación es como el clima: va y viene, y no la controlás. Si tu cambio depende de tener ganas, el primer día gris se cae todo.
+Durante mucho tiempo viví ocupado pero sin avanzar: mil ideas, mil cosas empezadas, nada que terminara de arrancar. No me faltaban ganas. Me faltaba **orden**.
 
-Lo que sostiene el cambio no es la fuerza de voluntad. Es el **sistema**: hacer el hábito tan chico y tan obvio que cueste más no hacerlo que hacerlo.
+Cuando entendí que el problema no era yo sino el desorden, cambió todo. Esa es la frase con la que abre la academia: **no estás roto, solo desordenado.**
 
-Eso es el Método SRM. No te pido que seas otra persona. Te doy una estructura para que la persona que ya sos sostenga lo que se propone.
+El Método SRM es lo que me hubiera gustado que alguien me diera en ese momento: un camino claro para ordenar la cabeza, encontrar a quién le servís y, por fin, vender lo que hacés. Sin humo.
 
-Mañana te muestro cómo se ve eso en alguien real.
+Mañana te muestro qué hay adentro.
 
 Santiago
 
-PS: el Desafío de 7 días es exactamente esto, aplicado → https://santiagoagustinramirez.com/cabeza
+PS: si no querés esperar, entrá acá → https://www.metodosrm.com/?utm_source=santiagoagustinramirez&utm_medium=email&utm_campaign=cabeza_mail&utm_content=mail2

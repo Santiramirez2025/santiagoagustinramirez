@@ -164,6 +164,24 @@ const RETOMA = {
   agentes: 'El empleado de IA del video, andando en tu WhatsApp.'
 };
 
+// Tarjeta corta de la academia Método SRM (precios ARS desde la config, al generar).
+function metodoCardMini() {
+  const m = cfg.metodo_srm;
+  const now = '$' + Number(m.curso.precio_ars).toLocaleString('es-AR');
+  const was = '$' + Number(m.curso.precio_anterior_ars).toLocaleString('es-AR');
+  return `<div style="background:#14110d;color:#F3EAD9;border-radius:16px;padding:22px 20px;margin-top:16px">
+      <span style="color:#F07A3D;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:11px">Método SRM · Academia</span>
+      <h3 style="color:#fff;margin:.2em 0 .3em">No estás roto, solo desordenado</h3>
+      <p style="color:#C7BBA6;font-size:14px;margin:0 0 10px">La academia interactiva donde hacés, no mirás. ${m.capitulos.length} capítulos: ${m.capitulos.map((c) => c.split(' —')[0]).join(' · ')}.</p>
+      <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+        <span style="font-family:var(--serif);font-size:30px;color:#fff">${now}</span>
+        <span style="color:#8C8475;text-decoration:line-through">${was}</span>
+        <span style="color:#C7BBA6;font-size:13px">ARS · precio fundador</span>
+      </div>
+      <a class="btn" style="background:#F07A3D;color:#14110d" data-metodo="v_cabeza" data-metodo-path="/" data-track="v_metodosrm">Conocer el Método SRM →</a>
+    </div>`;
+}
+
 function temaPage(key, t) {
   const door = PUERTA_URL[t.puerta];
   const esCabeza = t.puerta === 'cabeza';
@@ -171,7 +189,7 @@ function temaPage(key, t) {
   const regalo = esCabeza
     ? 'El test del Método SRM: en qué área estás fuerte y cuál te está trabando. Gratis.'
     : 'La Radiografía de 2 min: dónde se te va el tiempo y la plata, y por dónde empezar. Gratis.';
-  const prueba = esCabeza ? 'Miles ya hicieron el test del Método SRM' : '+14 sistemas funcionando · Córdoba, Argentina';
+  const prueba = esCabeza ? '9.188 siguiéndome · Córdoba, Argentina' : '+14 sistemas funcionando · Córdoba, Argentina';
   const body = `${TOPBAR}
 <main>
   <section class="wrap" style="padding-top:18px">
@@ -183,6 +201,7 @@ function temaPage(key, t) {
       <p class="muted">${regalo}</p>
       <a class="btn btn-cta btn-block" href="${door}" data-track="v_${key}_regalo" data-event="Lead" style="margin-top:10px">${cta}</a>
     </div>
+    ${esCabeza ? metodoCardMini() : ''}
     <p class="muted" style="font-size:14px;margin-top:16px">${prueba}</p>
   </section>
 </main>

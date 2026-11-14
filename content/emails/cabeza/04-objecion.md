@@ -2,20 +2,20 @@
 puerta: cabeza
 orden: 4
 dia: 5
-asunto: "\"Esto ya lo intenté\""
-preheader: "Si la fuerza de voluntad alcanzara, ya lo habrías logrado."
+asunto: "\"Otro curso más que no voy a aplicar\""
+preheader: "Por eso el Método SRM es interactivo: hacés, no mirás."
 ---
 
 Hola{{#nombre}} {{nombre}}{{/nombre}},
 
-Si estás por decir "esto ya lo intenté", pará un segundo. Probablemente intentaste con **voluntad**, no con **método**. Son cosas distintas.
+Si estás por pensar "otro curso más que compro y no aplico", te entiendo. Los cursos de ver videos acumulan polvo.
 
-La voluntad se agota. El método no te pide aguantar: te pide achicar el cambio hasta que sea casi imposible fallar, y encadenar un día con el siguiente.
+Por eso el Método SRM **no es para mirar, es para hacer.** Es una academia interactiva: en cada capítulo trabajás sobre lo tuyo, no sobre un ejemplo ajeno. El de "El Método" hasta trae un prompt de IA para aplicarlo a tu caso en el momento.
 
-El Desafío de 7 días cuesta USD 19. Es a propósito: lo suficiente para que te comprometas, lo bastante poco para que no sea excusa. Siete días, un cambio, sostenido.
+No salís con apuntes. Salís con decisiones tomadas y cosas hechas.
 
-Si en una semana no sentís la diferencia, ya ganaste algo igual: saber que podés sostener algo siete días seguidos. Eso solo ya cambia cómo te ves.
+Y lo tenés de por vida: lo retomás cuando quieras, desde donde quieras.
 
-👉 Empezá el Desafío: https://santiagoagustinramirez.com/cabeza
+👉 Entrá al Método SRM: https://www.metodosrm.com/?utm_source=santiagoagustinramirez&utm_medium=email&utm_campaign=cabeza_mail&utm_content=mail4
 
 Santiago

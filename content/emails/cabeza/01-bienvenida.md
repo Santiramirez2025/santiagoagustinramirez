@@ -12,11 +12,11 @@ Hiciste el test, así que ya tenés tu puntaje del Método SRM y sabés **cuál 
 
 Eso es lo importante: no querer mejorar las seis a la vez, sino **empezar por la que más te frena.**
 
-El error más común no es falta de ganas. Es querer cambiar diez cosas juntas y abandonar las diez. El Método SRM arranca al revés: **un solo cambio, sostenido, hasta que se vuelve automático.**
+El error más común no es falta de ganas. Es querer cambiar diez cosas juntas y abandonar las diez. El Método SRM va al revés: **un cambio por vez, sostenido, hasta que se vuelve automático.**
 
-En los próximos días te voy contando cómo funciona el método, con ejemplos. La forma más rápida de arrancar es el **Desafío de 7 días**.
+En los próximos días te cuento cómo nació esto y qué hay adentro de la academia. Si ya querés entrar, es acá:
 
-👉 Mirá el Método SRM: https://santiagoagustinramirez.com/cabeza
+👉 Método SRM: https://www.metodosrm.com/?utm_source=santiagoagustinramirez&utm_medium=email&utm_campaign=cabeza_mail&utm_content=mail1
 
 Respondé este mail cuando quieras. Te leo.
 
