@@ -128,15 +128,51 @@
     </div>
   </section>
 
-  <!-- 4. Tu cabeza -->
+  <!-- 4. Tu cabeza → academia Método SRM -->
+  <style>
+    .srm-academy{ background:#14110d; color:#F3EAD9; border-radius:var(--radius); padding:clamp(26px,5vw,44px); box-shadow:var(--shadow-lg); --srm-orange:#F07A3D; }
+    .srm-academy .srm-eyebrow{ color:var(--srm-orange); font-weight:700; letter-spacing:.14em; text-transform:uppercase; font-size:12px; }
+    .srm-academy h2{ color:#F3EAD9; font-size:clamp(28px,4.5vw,46px); margin:.2em 0 .3em; }
+    .srm-academy .srm-sub{ color:#C7BBA6; max-width:46ch; }
+    .srm-caps{ list-style:none; padding:0; margin:22px 0; display:grid; gap:10px; }
+    @media(min-width:680px){ .srm-caps{ grid-template-columns:1fr 1fr; } }
+    .srm-caps li{ position:relative; padding-left:28px; color:#E4D9C6; font-size:15px; }
+    .srm-caps li::before{ content:counter(cap); counter-increment:cap; position:absolute; left:0; top:-1px; width:20px; height:20px; border-radius:50%; background:var(--srm-orange); color:#14110d; font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; }
+    .srm-caps{ counter-reset:cap; }
+    .srm-price{ display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin:6px 0 4px; }
+    .srm-price .now{ font-family:var(--serif); font-size:clamp(34px,6vw,52px); color:#fff; line-height:1; }
+    .srm-price .was{ color:#8C8475; text-decoration:line-through; font-size:20px; }
+    .srm-price .tag{ background:var(--srm-orange); color:#14110d; font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; padding:3px 10px; border-radius:999px; }
+    .srm-detail{ color:#C7BBA6; font-size:14px; }
+    .btn-srm{ background:var(--srm-orange); color:#14110d; }
+    .btn-srm:hover{ background:#ff8a4d; color:#14110d; }
+    .srm-actions{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top:20px; }
+    .srm-mentoria{ color:var(--srm-orange); text-decoration:none; font-weight:600; font-size:15px; }
+    .srm-mentoria:hover{ text-decoration:underline; }
+    .srm-test{ color:#C7BBA6; text-decoration:none; font-weight:600; font-size:15px; border:1px solid rgba(243,234,217,.28); border-radius:999px; padding:12px 20px; min-height:48px; display:inline-flex; align-items:center; }
+    .srm-test:hover{ color:#fff; border-color:rgba(243,234,217,.5); }
+  </style>
   <section id="cabeza">
     <div class="wrap">
       <span class="eyebrow"><span class="dot"></span>Ordená tu cabeza</span>
-      <h2 class="sec-head">Ordená la cabeza y el resto sigue</h2>
-      <p class="lead">El Método SRM para dejar de empezar y abandonar. Un cambio por vez, sostenido.</p>
-      <div class="tiers" id="tiers-cabeza" style="grid-template-columns:1fr"></div>
-      <div style="margin-top:24px">
-        <a class="btn btn-cta" href="/cabeza" data-track="home_cabeza_cta" data-event="Lead">Hacer el test (2 min) →</a>
+      <h2 class="sec-head">La academia que te ordena la cabeza</h2>
+      <div class="srm-academy" style="margin-top:20px">
+        <span class="srm-eyebrow">Método SRM · Academia</span>
+        <h2>No estás roto, solo desordenado</h2>
+        <p class="srm-sub">La academia interactiva de Santiago: hacés, no mirás. En 4 capítulos ordenás la cabeza y, de una vez, avanzás.</p>
+        <ul class="srm-caps" id="srm-caps"></ul>
+        <div class="srm-price">
+          <span class="tag" id="srm-tag">Precio fundador</span>
+          <span class="now" id="srm-now">$49.000</span>
+          <span class="was" id="srm-was">$150.000</span>
+          <span class="srm-detail" style="align-self:center">ARS</span>
+        </div>
+        <p class="srm-detail" id="srm-detail">Pago único · acceso de por vida · 3 cuotas con tarjeta</p>
+        <div class="srm-actions">
+          <a class="btn btn-srm" data-metodo="home_academia" data-metodo-path="/" data-track="home_metodosrm">Conocer el Método SRM →</a>
+          <a class="srm-test" href="/cabeza" data-track="home_cabeza_test" data-event="Lead">Hacer el test (2 min)</a>
+        </div>
+        <p style="margin:16px 0 0"><a class="srm-mentoria" data-metodo="home_mentoria" data-metodo-path="/comprar?p=mentoria" data-metodo-event="mentoria_click" data-track="home_mentoria">¿Querés acompañamiento? Ver la mentoría 1:1 con Santiago →</a></p>
       </div>
     </div>
   </section>
@@ -276,12 +312,14 @@ fetch('/config/ofertas.json').then(function(r){return r.json();}).then(function(
   }
   var m=cfg.metodo_srm;
   if(m){
-    document.getElementById('tiers-cabeza').style.gridTemplateColumns='';
-    document.getElementById('tiers-cabeza').innerHTML=m.escalera.map(function(t,i){
-      var per=t.tipo==='mensual'?'/mes':' único';
-      return '<div class="tier'+(i===0?' pop':'')+'">'+(i===0?'<span class="tag">Para arrancar</span>':'')
-        +'<div class="tname">'+t.nombre+'</div><div class="tprice">USD '+t.precio_usd+'</div><div class="tper">'+per+'</div></div>';
-    }).join('');
+    function ars(n){ return '$'+Number(n).toLocaleString('es-AR'); }
+    if(m.capitulos) document.getElementById('srm-caps').innerHTML=m.capitulos.map(function(c){return '<li>'+c+'</li>';}).join('');
+    if(m.curso){
+      document.getElementById('srm-now').textContent=ars(m.curso.precio_ars);
+      document.getElementById('srm-was').textContent=ars(m.curso.precio_anterior_ars);
+      if(m.curso.etiqueta) document.getElementById('srm-tag').textContent=m.curso.etiqueta;
+      if(m.curso.detalle) document.getElementById('srm-detail').textContent=m.curso.detalle;
+    }
   }
 }).catch(function(){});
 </script>
