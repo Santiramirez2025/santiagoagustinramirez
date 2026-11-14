@@ -186,4 +186,29 @@
   window.__srmUtmFull = Object.assign({}, utm, { canal: campaign.canal, pieza: campaign.pieza, tema: campaign.tema });
   // srmTrack(event, meta, extra): emite un evento del embudo con la UTM ya incluida.
   window.srmTrack = function (event, meta, extra) { try { send(event, meta || {}, extra || {}); } catch (e) {} };
+
+  // --- Links a la academia metodosrm.com (otro sitio) con atribución, SIN PII. ---
+  // Campaña = la del Short con la que entró el visitante, o 'cabeza_directo'.
+  var metodoCamp = (utm && utm.utm_campaign) ? utm.utm_campaign : 'cabeza_directo';
+  window.srmMetodoUrl = function (path, boton) {
+    var base = 'https://www.metodosrm.com' + (path || '/');
+    var sep = base.indexOf('?') > -1 ? '&' : '?';
+    return base + sep + 'utm_source=santiagoagustinramirez&utm_medium=web' +
+      '&utm_campaign=' + encodeURIComponent(metodoCamp) +
+      '&utm_content=' + encodeURIComponent(boton || 'cabeza');
+  };
+  // Reescribe los <a data-metodo="boton" [data-metodo-path="/comprar?p=mentoria"]>:
+  // arma la URL con UTM, abre en la misma pestaña y dispara el evento al click.
+  try {
+    var links = document.querySelectorAll('a[data-metodo]');
+    Array.prototype.forEach.call(links, function (a) {
+      var boton = a.getAttribute('data-metodo') || 'cabeza';
+      var path = a.getAttribute('data-metodo-path') || '/';
+      a.setAttribute('href', window.srmMetodoUrl(path, boton));
+      a.addEventListener('click', function () {
+        var ev = a.getAttribute('data-metodo-event') || 'metodosrm_click';
+        send(ev, { boton: boton, page: location.pathname });
+      });
+    });
+  } catch (e) {}
 })();
