@@ -403,17 +403,17 @@ fbq('init','1419051696174763');fbq('track','PageView');
       <div class="rz-project" id="r-project">—</div>
       <div class="rz-today">
         <span class="rz-today-label" data-en="Start today with">Empezás hoy con</span>
-        <div class="rz-today-amt">USD $<span id="r-deposit-num">0</span></div>
+        <div class="rz-today-amt">USD <span id="r-deposit-num">0</span></div>
         <span class="rz-today-sub" data-en="deposit · you lock in your spot">de seña · reservás tu cupo</span>
       </div>
       <div class="rz-split">
         <div class="rz-bar"><span class="rz-fill" id="split-fill"></span></div>
         <div class="rz-legend">
-          <span><b id="r-deposit">USD $0</b><i data-en="today">hoy</i></span>
-          <span><b id="r-balance">USD $0</b><i data-en="on kickoff">al arrancar</i></span>
+          <span><b id="r-deposit">USD 0</b><i data-en="today">hoy</i></span>
+          <span><b id="r-balance">USD 0</b><i data-en="on kickoff">al arrancar</i></span>
         </div>
       </div>
-      <div class="rz-total"><span data-en="Full project:">Proyecto completo:</span> <b id="r-price">USD $0</b> · <span id="r-days">~0 días</span></div>
+      <div class="rz-total"><span data-en="Full project:">Proyecto completo:</span> <b id="r-price">USD 0</b> · <span id="r-days">~0 días</span></div>
     </div>
 
     <!-- AJUSTE EN VIVO -->
@@ -451,13 +451,13 @@ fbq('init','1419051696174763');fbq('track','PageView');
         <span class="plan-title" data-en="Suggested monthly plan">Plan mensual sugerido</span>
         <span class="plan-badge" data-en="OPTIONAL">OPCIONAL</span>
       </div>
-      <div class="plan-price"><strong id="r-plan-price">USD $0</strong><span id="r-plan-per">/mes</span></div>
+      <div class="plan-price"><strong id="r-plan-price">USD 0</strong><span id="r-plan-per">/mes</span></div>
       <div class="plan-name" id="r-plan-name">—</div>
       <ul id="r-plan-features"></ul>
     </div>
 
     <div class="actions">
-      <button class="btn btn-primary" id="r-reserve" type="button"><span data-en="Reserve my spot">Reservar mi cupo</span> · USD $<span id="r-cta-dep">0</span> →</button>
+      <button class="btn btn-primary" id="r-reserve" type="button"><span data-en="Reserve my spot">Reservar mi cupo</span> · USD <span id="r-cta-dep">0</span> →</button>
       <a id="r-wa" href="#" target="_blank" rel="noopener" class="btn btn-ghost" data-en="Prefer to talk first?">¿Preferís charlar antes?</a>
     </div>
     <p class="rz-scarcity" data-en="I take on 2 new projects a month · 2 spots left">Tomo 2 proyectos nuevos por mes · quedan 2 cupos</p>
@@ -693,7 +693,7 @@ fbq('init','1419051696174763');fbq('track','PageView');
       var on = state.modules.has(m.id);
       return '<button class="mod'+(on?' checked':'')+'" data-mod="'+m.id+'" type="button" aria-pressed="'+on+'">'
         + '<span class="mod-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>'
-        + '<span class="mod-b"><span class="mod-name">'+mName(m)+'</span><span class="mod-meta">+USD $'+m.price+' · +'+m.days+' '+daysWord(m.days)+'</span></span>'
+        + '<span class="mod-b"><span class="mod-name">'+mName(m)+'</span><span class="mod-meta">+USD '+m.price+' · +'+m.days+' '+daysWord(m.days)+'</span></span>'
         + '</button>';
     }).join('');
     $$('[data-mod]').forEach(function(b){b.addEventListener('click',function(){toggleModule(b.getAttribute('data-mod'));});});
@@ -768,7 +768,7 @@ fbq('init','1419051696174763');fbq('track','PageView');
     $('#r-days').textContent = '~'+r.days+' '+tt.days;
     var tld=$('#tl-days'); if(tld) tld.textContent = r.days;
     $('#r-includes').innerHTML = items.map(function(t){return '<li>'+t+'</li>';}).join('');
-    $('#r-plan-price').textContent = 'USD $'+plan.price;
+    $('#r-plan-price').textContent = 'USD '+plan.price;
     $('#r-plan-per').textContent = tt.per;
     $('#r-plan-name').textContent = pName(plan);
     $('#r-plan-features').innerHTML = pFeat(plan).map(function(f){return '<li>'+f+'</li>';}).join('');
@@ -785,7 +785,7 @@ fbq('init','1419051696174763');fbq('track','PageView');
       w[10]+(state.integration?w[11]:w[12]),'',
       w[13]+money(r.min)+'–'+money(r.max),
       w[14]+r.days+w[15],
-      w[16]+pName(plan)+' · USD $'+plan.price+w[17],'',w[18]
+      w[16]+pName(plan)+' · USD '+plan.price+w[17],'',w[18]
     ].join('\n');
     $('#r-wa').href = 'https://wa.me/'+PHONE+'?text='+encodeURIComponent(lines);
   }

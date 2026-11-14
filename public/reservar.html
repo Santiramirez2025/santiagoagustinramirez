@@ -100,7 +100,7 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
     <div class="head">
       <h1>Diagnóstico Negocio Ordenado</h1>
       <p class="sub">90 minutos 1:1 para diagnosticar tu negocio y salir con un plan de acción escrito.</p>
-      <div class="price"><strong id="price">USD $75</strong><span>· pago único</span></div>
+      <div class="price"><strong id="price">USD 75</strong><span>· pago único</span></div>
       <span class="price-ars" id="price-ars" hidden></span>
     </div>
 
@@ -211,7 +211,7 @@ fbq('init','1419051696174763');fbq('track','PageView');fbq('track','ViewContent'
   fetch('/api/availability?service='+SERVICE)
     .then(function(r){return r.json();})
     .then(function(data){
-      if(data && data.price_usd) document.getElementById('price').textContent='USD $'+data.price_usd;
+      if(data && data.price_usd) document.getElementById('price').textContent='USD '+data.price_usd;
       // Referencia en pesos: casi todo el tráfico es de Argentina y paga con Mercado Pago.
       if(data && data.price_ars){
         var ars=document.getElementById('price-ars');
