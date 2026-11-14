@@ -1,0 +1,103 @@
+{
+  "_meta": {
+    "descripcion": "Fuente única de verdad de las ofertas que se muestran en la web pública (home, puertas, landings de rubro). NO toca el cotizador /app ni el checkout de proyectos, que siguen usando public/shared/pricing.js. Todos los precios marcados `provisorio: true` son propuestas iniciales del rediseño: Santiago los confirma antes de producción.",
+    "moneda": "USD",
+    "formato_precio": "USD 690 (nunca 'USD $690': el símbolo se omite para no duplicar la moneda)",
+    "actualizado": "2026-11-14",
+    "provisorio_global": true
+  },
+
+  "sistema_rubro": {
+    "nombre": "Sistema por rubro",
+    "resumen": "Turnos + agente IA de WhatsApp + panel, listo para tu rubro.",
+    "es_oferta_principal": true,
+    "provisorio": true,
+    "precio_fundador": {
+      "activo": true,
+      "cupos": 10,
+      "nota": "Precio de fundador para los primeros 10 clientes."
+    },
+    "escalera": [
+      {
+        "id": "base",
+        "nombre": "Base",
+        "instalacion_usd": 690,
+        "abono_mes_usd": 79,
+        "destacado": false,
+        "incluye": ["Turnos online", "Agente IA de WhatsApp (respuestas + reservas)", "Panel de control"],
+        "provisorio": true
+      },
+      {
+        "id": "pro",
+        "nombre": "Pro",
+        "instalacion_usd": 1290,
+        "abono_mes_usd": 149,
+        "destacado": true,
+        "incluye": ["Todo lo de Base", "Recordatorios automáticos", "Cobros y señas", "Reportes"],
+        "provisorio": true
+      },
+      {
+        "id": "full",
+        "nombre": "Full",
+        "instalacion_usd": 2490,
+        "abono_mes_usd": 249,
+        "destacado": false,
+        "incluye": ["Todo lo de Pro", "Multi-sucursal / multi-staff", "Integraciones a medida", "Prioridad de soporte"],
+        "provisorio": true
+      }
+    ],
+    "rubros": [
+      { "slug": "clinicas-esteticas", "nombre": "Clínicas estéticas", "demo": "TODO-SANTIAGO" },
+      { "slug": "clinicas-dentales", "nombre": "Clínicas dentales", "demo": "TODO-SANTIAGO" },
+      { "slug": "gimnasios", "nombre": "Gimnasios", "demo": "TODO-SANTIAGO" },
+      { "slug": "cabanas", "nombre": "Cabañas y complejos", "demo": "TODO-SANTIAGO" },
+      { "slug": "concesionarias", "nombre": "Concesionarias", "demo": "TODO-SANTIAGO" },
+      { "slug": "padel", "nombre": "Clubes de pádel", "demo": "TODO-SANTIAGO" }
+    ]
+  },
+
+  "metodo_srm": {
+    "nombre": "Método SRM",
+    "resumen": "El sistema para ordenar tu cabeza y sostener el cambio.",
+    "puerta": "cabeza",
+    "provisorio": true,
+    "escalera": [
+      { "id": "desafio", "nombre": "Desafío de 7 días", "precio_usd": 19, "tipo": "unico", "provisorio": true },
+      { "id": "curso", "nombre": "Curso completo", "precio_usd": 97, "tipo": "unico", "provisorio": true },
+      { "id": "comunidad", "nombre": "Comunidad", "precio_usd": 19, "tipo": "mensual", "provisorio": true }
+    ],
+    "test_url": "https://metodo-srm.vercel.app",
+    "test_nota": "TODO-SANTIAGO: decidir si se trae el test al dominio o se enlaza con el contacto ya guardado."
+  },
+
+  "diagnostico": {
+    "nombre": "Diagnóstico Negocio Ordenado",
+    "resumen": "90 minutos 1:1. Salís con un plan escrito en 24 horas.",
+    "puerta": "negocio",
+    "precio_usd": 75,
+    "tipo": "unico",
+    "duracion_min": 90,
+    "entrega": "Plan de acción escrito en 24 h.",
+    "descontable": { "activo": true, "ventana_horas": 72, "nota": "Descontable del proyecto si contrata dentro de las 72 h." },
+    "garantia": "Si no te sirvió, te devuelvo los USD 75 dentro de los 7 días. Lo pedís por WhatsApp y listo.",
+    "muestra_documento": "TODO-SANTIAGO: subir una muestra del documento que se entrega, con los datos del cliente tapados.",
+    "provisorio": false,
+    "nota_precio": "Precio vigente en producción (ya cobrado hoy). No es provisorio."
+  },
+
+  "proyecto_medida": {
+    "nombre": "Proyecto a medida",
+    "resumen": "Software hecho para tu operación, después del diagnóstico.",
+    "desde_usd": 2500,
+    "requiere_diagnostico": true,
+    "provisorio": true
+  },
+
+  "mentoria_grupal": {
+    "nombre": "Mentoría grupal",
+    "resumen": "Acompañamiento en grupo, mes a mes.",
+    "precio_usd": 49,
+    "tipo": "mensual",
+    "provisorio": true
+  }
+}
