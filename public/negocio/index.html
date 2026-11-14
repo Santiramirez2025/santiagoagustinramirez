@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tu negocio — Auditoría gratis de 2 minutos | Santiago Ramírez</title>
+<meta name="description" content="5 preguntas y te devuelvo las 3 fugas que le están costando plata a tu negocio y cuánto te cuesta cada una por año. Gratis, sin tarjeta.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://santiagoagustinramirez.com/negocio">
+<meta property="og:title" content="Auditoría gratis de 2 minutos para tu negocio">
+<meta property="og:description" content="Las 3 fugas que te cuestan plata y cuánto te cuesta cada una por año. Gratis.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://santiagoagustinramirez.com/negocio">
+<meta property="og:image" content="https://santiagoagustinramirez.com/og.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script>(function(){try{var s=localStorage.getItem('srm-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}})();</script>
+<!-- Meta Pixel -->
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1419051696174763');fbq('track','PageView');</script>
+<link rel="stylesheet" href="/shared/fonts.css">
+<link rel="stylesheet" href="/shared/brand.css">
+<style>
+  .topbar{ display:flex; align-items:center; justify-content:space-between; padding:14px 0; }
+  .brand{ font-family:var(--serif); font-size:20px; text-decoration:none; color:inherit; }
+  .hero{ padding-top:8px; }
+  .hero h1{ margin-top:.2em; }
+  .hero .lead{ font-size:clamp(17px,4.4vw,20px); color:var(--ink-soft); max-width:30ch; }
+  .proof{ font-size:14px; color:var(--muted); margin-top:14px; }
+  .audit{ margin-top:8px; }
+  .audit .card{ background:var(--paper-2); }
+  .q2{ display:grid; gap:14px; grid-template-columns:1fr; }
+  @media(min-width:560px){ .q2{ grid-template-columns:1fr 1fr; } }
+  .result .num{ font-family:var(--serif); font-size:clamp(30px,8vw,46px); color:var(--signal-ink); line-height:1.05; }
+  .leaks li{ margin-bottom:8px; }
+  .offer-grid{ display:grid; gap:16px; grid-template-columns:1fr; margin-top:18px; }
+  @media(min-width:760px){ .offer-grid{ grid-template-columns:1fr 1fr; } }
+  .ladder{ display:grid; gap:12px; grid-template-columns:1fr; margin-top:12px; }
+  @media(min-width:720px){ .ladder{ grid-template-columns:repeat(3,1fr); } }
+  .tier{ border:1px solid var(--line); border-radius:14px; padding:16px; background:var(--paper); }
+  .tier.pop{ border-color:var(--signal); box-shadow:0 0 0 1px var(--signal); }
+  .tier .pname{ font-weight:700; }
+  .tier .pprice{ font-family:var(--serif); font-size:26px; margin:6px 0; }
+  .tier .pper{ font-size:13px; color:var(--muted); }
+  .err{ color:#b4231b; font-size:14px; margin-top:8px; }
+</style>
+</head>
+<body>
+<div class="wrap topbar">
+  <a href="/" class="brand">Santiago Ramírez<span style="color:var(--signal)">.</span></a>
+  <a class="btn btn-ghost" style="min-height:40px;padding:8px 16px" href="/cabeza" data-track="switch_cabeza">Tu cabeza →</a>
+</div>
+
+<main>
+  <section class="wrap hero">
+    <p class="eyebrow"><span class="dot"></span>Tu negocio</p>
+    <h1>Las 3 fugas que te <span class="serif-i">cuestan plata</span>.</h1>
+    <p class="lead">5 preguntas, 2 minutos. Te devuelvo cuánto te cuesta por año el desorden de tu operación. Gratis, sin tarjeta.</p>
+    <p class="proof">+14 sistemas en producción · 9.188 seguidores</p>
+  </section>
+
+  <section class="wrap audit">
+    <form class="card" data-puerta="negocio" data-gift="auditoria" data-reveal="#resultado" novalidate>
+      <h2 style="font-size:clamp(20px,5vw,26px)">Tu auditoría de 2 minutos</h2>
+      <div class="field">
+        <label for="rubro">¿De qué es tu negocio?</label>
+        <select id="rubro" name="rubro">
+          <option value="">Elegí…</option>
+          <option>Clínica estética</option><option>Clínica dental</option><option>Gimnasio</option>
+          <option>Cabañas / complejo</option><option>Concesionaria</option><option>Club de pádel</option>
+          <option>Comercio / tienda</option><option>Servicios profesionales</option><option>Otro</option>
+        </select>
+      </div>
+      <div class="q2">
+        <div class="field">
+          <label for="ventas">Ventas por mes (cantidad)</label>
+          <input id="ventas" name="ventas" type="number" inputmode="numeric" min="0" placeholder="Ej: 120">
+        </div>
+        <div class="field">
+          <label for="ticket">Ticket promedio (USD)</label>
+          <input id="ticket" name="ticket" type="number" inputmode="numeric" min="0" placeholder="Ej: 40">
+        </div>
+      </div>
+      <div class="q2">
+        <div class="field">
+          <label for="horas">Horas/semana en tareas repetitivas</label>
+          <input id="horas" name="horas" type="number" inputmode="numeric" min="0" placeholder="Ej: 12">
+          <span class="hint">Agendar, responder lo mismo, cargar datos, cobrar.</span>
+        </div>
+        <div class="field">
+          <label for="problema">¿Qué te duele más hoy?</label>
+          <select id="problema" name="problema">
+            <option value="">Elegí…</option>
+            <option>Pierdo turnos / consultas sin responder</option>
+            <option>Todo pasa por mí, no delego</option>
+            <option>No sé mis números</option>
+            <option>Vendo pero no escala</option>
+          </select>
+        </div>
+      </div>
+      <hr style="border:none;border-top:1px solid var(--line);margin:18px 0">
+      <div class="q2">
+        <div class="field">
+          <label for="email">Tu mail (te mando el resultado)</label>
+          <input id="email" name="email" type="email" required placeholder="vos@tunegocio.com">
+        </div>
+        <div class="field">
+          <label for="phone">WhatsApp (opcional)</label>
+          <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="+54 9 ...">
+        </div>
+      </div>
+      <!-- honeypot anti-bot -->
+      <div class="hp" aria-hidden="true"><label>No llenar<input data-hp name="empresa_web" tabindex="-1" autocomplete="off"></label></div>
+      <label class="consent"><input type="checkbox" name="consent" required> Quiero recibir mi resultado y tips por mail. Puedo darme de baja cuando quiera.</label>
+      <p class="err" data-err hidden></p>
+      <button class="btn btn-signal btn-block" type="submit" style="margin-top:14px">Ver mis 3 fugas →</button>
+      <p class="hint" style="text-align:center;margin-top:10px">Gratis. El resultado aparece acá mismo apenas lo mandás.</p>
+    </form>
+  </section>
+
+  <!-- Resultado: se revela SOLO tras dejar contacto -->
+  <section class="wrap result" id="resultado" hidden>
+    <div class="card">
+      <p class="eyebrow"><span class="dot"></span>Tu resultado</p>
+      <div id="resultado-num"></div>
+      <div id="resultado-body"></div>
+      <div class="offer-grid">
+        <div class="card">
+          <h3>Diagnóstico Negocio Ordenado</h3>
+          <p class="muted">90 minutos 1:1. Salís con las 3 fugas exactas y un plan escrito en 24 h.</p>
+          <p><strong id="diag-price">USD 75</strong> · descontable si contratás en 72 h</p>
+          <a class="btn btn-primary btn-block" href="/diagnostico" data-track="negocio_diag" data-event="Lead">Reservar mi Diagnóstico →</a>
+          <p class="hint" style="margin-top:8px">Garantía: si no te sirvió, te devuelvo los USD 75 dentro de los 7 días.</p>
+        </div>
+        <div class="card">
+          <h3>Sistema por rubro</h3>
+          <p class="muted">Turnos + agente IA de WhatsApp + panel, listo para lo tuyo.</p>
+          <a class="btn btn-ghost btn-block" href="#sistema" data-track="negocio_sistema">Ver el sistema →</a>
+          <a class="btn btn-ghost btn-block" style="margin-top:8px" href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20hice%20la%20auditor%C3%ADa%20y%20quiero%20hablar%20de%20mi%20negocio" target="_blank" rel="noopener" data-track="negocio_wa" data-event="Lead">Seguir por WhatsApp →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sistema por rubro: escalera desde la config -->
+  <section class="wrap" id="sistema">
+    <p class="eyebrow"><span class="dot"></span>La oferta principal</p>
+    <h2>El sistema por rubro</h2>
+    <p class="muted">Turnos, agente IA de WhatsApp y panel. <span class="badge-prov">precios provisorios</span></p>
+    <div class="ladder" id="ladder"></div>
+    <p class="hint" id="fundador" style="margin-top:12px"></p>
+    <div class="todo-santi" style="margin-top:16px">Falta la demo de cada rubro y los casos con números reales.</div>
+  </section>
+</main>
+
+<a class="wa-dock" href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20hablar%20de%20mi%20negocio" target="_blank" rel="noopener" data-track="dock_wa" data-event="Contact" aria-label="WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24z"/></svg>
+</a>
+
+<script>
+// Render del resultado (número real computado por el server) + 3 fugas como teaser del Diagnóstico.
+function pesos(x){ return 'USD ' + Math.round(x).toLocaleString('es-AR'); }
+window.onPuertaResult = function(j){
+  var r = (j && j.resultado) || {};
+  var numEl = document.getElementById('resultado-num');
+  var bodyEl = document.getElementById('resultado-body');
+  if (r.costo_anual) {
+    numEl.innerHTML = '<div class="num">' + pesos(r.costo_anual) + ' por año</div>';
+    bodyEl.innerHTML =
+      '<p>Eso valen, a tu propia facturación, las <b>' + r.horas_anio + ' horas</b> que las tareas repetitivas te sacan cada año: <b>' + r.semanas_enteras + ' semanas laborales enteras</b>, equivalente a <b>' + r.ventas_equivalentes + ' ventas</b>.</p>' +
+      '<p><b>Las 3 fugas exactas</b> de tu negocio —cuáles son, en qué orden se arreglan y cuánto sale cada una— salen del Diagnóstico. Este número es solo el punto de partida.</p>';
+  } else {
+    numEl.innerHTML = '<div class="num">Listo.</div>';
+    bodyEl.innerHTML = '<p>Te mandé el resultado al mail. Para ver las 3 fugas exactas de tu negocio y el plan, el siguiente paso es el Diagnóstico.</p>';
+  }
+};
+
+// Escalera del sistema desde public/config/ofertas.json (un solo archivo de precios).
+fetch('/config/ofertas.json').then(function(r){return r.json();}).then(function(cfg){
+  var s = cfg.sistema_rubro; if(!s) return;
+  document.getElementById('ladder').innerHTML = s.escalera.map(function(t){
+    return '<div class="tier'+(t.destacado?' pop':'')+'">'
+      + '<div class="pname">'+t.nombre+(t.destacado?' · recomendado':'')+'</div>'
+      + '<div class="pprice">USD '+t.instalacion_usd.toLocaleString('es-AR')+'</div>'
+      + '<div class="pper">instalación + USD '+t.abono_mes_usd+'/mes</div>'
+      + '<ul style="margin:10px 0 0;padding-left:18px;font-size:14px">'+t.incluye.map(function(i){return '<li>'+i+'</li>';}).join('')+'</ul>'
+      + '</div>';
+  }).join('');
+  if(s.precio_fundador && s.precio_fundador.activo){
+    document.getElementById('fundador').textContent = 'Precio de fundador para los primeros ' + s.precio_fundador.cupos + ' clientes.';
+  }
+  // Precio del diagnóstico desde la misma config
+  if(cfg.diagnostico && cfg.diagnostico.precio_usd){ document.getElementById('diag-price').textContent = 'USD ' + cfg.diagnostico.precio_usd; }
+}).catch(function(){});
+</script>
+<script src="/shared/analytics.js" defer></script>
+<script src="/shared/puertas.js" defer></script>
+<script src="/shared/stars.js" defer></script>
+</body>
+</html>

@@ -3,6 +3,11 @@
   "buildCommand": null,
   "installCommand": "npm install",
   "outputDirectory": "public",
+  "redirects": [
+    { "source": "/reservar.html", "destination": "/diagnostico", "permanent": true },
+    { "source": "/reservar", "destination": "/diagnostico", "permanent": true },
+    { "source": "/diagnostico.html", "destination": "/diagnostico", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ],

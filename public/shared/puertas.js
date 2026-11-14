@@ -66,6 +66,10 @@
         path: location.pathname
       };
 
+      // Si la auditoría trae números de facturación, los elevamos al top-level
+      // para que el server calcule el costo real (fuente única de verdad).
+      ['ventas', 'ticket', 'horas'].forEach(function (k) { if (respuestas[k] != null) payload[k] = respuestas[k]; });
+
       if (btn) { btn.setAttribute('aria-disabled', 'true'); btn.dataset._t = btn.textContent; btn.textContent = 'Un segundo…'; }
       track('contacto_dejado', { puerta: puerta });
 

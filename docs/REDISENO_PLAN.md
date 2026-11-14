@@ -132,7 +132,7 @@ Mobile-first, tipografía grande, mucho aire, un color de acento, botones ≥48 
 ## 8. Plan por fases (un commit por fase)
 
 1. **Bugs** — `USD $` → `USD`, exit-intent al regalo gratis, 301 de la URL vieja del diagnóstico, guards del wizard. *(incluye config de ofertas y docs de marca/plan)*
-2. **Base y diseño** — `config/ofertas.json`, `docs/MARCA.md`, parciales/estilos compartidos, legales (`/privacidad`, `/terminos`).
+2. **Base y diseño** — `public/config/ofertas.json`, `docs/MARCA.md`, parciales/estilos compartidos, legales (`/privacidad`, `/terminos`).
 3. **Home y dos puertas** — hero de dos puertas + variante por UTM; páginas `/cabeza` y `/negocio` con captura.
 4. **Captura, mails y medición** — `/api/lead` extendido + schema, eventos nuevos, 5 mails por puerta en `content/emails/`, A/B flag.
 5. **Rubros, casos y Shorts** — `/sistemas/[rubro]` (6), `/casos/[slug]`, `/v/[tema]` (12).
