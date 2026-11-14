@@ -57,17 +57,45 @@
   },
 
   "metodo_srm": {
+    "_nota": "Academia real en metodosrm.com. Precios en ARS verificados el 14/11/2026. NO inventar ni convertir a USD. verificar contra metodosrm.com antes de producción.",
     "nombre": "Método SRM",
-    "resumen": "El sistema para ordenar tu cabeza y sostener el cambio.",
+    "tagline": "No estás roto, solo desordenado",
+    "resumen": "La academia interactiva para ordenar la cabeza y, de una vez, avanzar.",
     "puerta": "cabeza",
-    "provisorio": true,
-    "escalera": [
-      { "id": "desafio", "nombre": "Desafío de 7 días", "precio_usd": 19, "tipo": "unico", "provisorio": true },
-      { "id": "curso", "nombre": "Curso completo", "precio_usd": 97, "tipo": "unico", "provisorio": true },
-      { "id": "comunidad", "nombre": "Comunidad", "precio_usd": 19, "tipo": "mensual", "provisorio": true }
+    "verificado": "2026-11-14",
+    "url": "https://www.metodosrm.com/",
+    "url_mentoria": "https://www.metodosrm.com/comprar?p=mentoria",
+    "url_alumnos": "https://www.metodosrm.com/sign-in",
+    "moneda": "ARS",
+    "capitulos": [
+      "El Método — interactivo, con prompt de IA de bonus",
+      "Mentalidad — 7 clases",
+      "Ventas — el capítulo más potente",
+      "Contenido sin plata"
     ],
-    "test_url": "https://metodo-srm.vercel.app",
-    "test_nota": "TODO-SANTIAGO: decidir si se trae el test al dominio o se enlaza con el contacto ya guardado."
+    "incluye": ["6 módulos interactivos", "Acceso de por vida", "En cualquier dispositivo"],
+    "curso": {
+      "nombre": "Academia Método SRM",
+      "precio_ars": 49000,
+      "precio_anterior_ars": 150000,
+      "etiqueta": "Precio fundador",
+      "detalle": "Pago único · acceso de por vida · 3 cuotas con tarjeta",
+      "pago": "Mercado Pago"
+    },
+    "mentoria": {
+      "nombre": "Mentoría 1:1 con Santiago",
+      "precio_ars": 624000,
+      "duracion": "3 meses",
+      "detalle": "Incluye el curso · o en cuotas",
+      "pago": "Mercado Pago"
+    },
+    "pregunta": "¿Dónde sentís que estás hoy?",
+    "opciones": [
+      { "id": "ocupado", "texto": "Vivo ocupado, pero no avanzo" },
+      { "id": "vender", "texto": "Tengo algo para ofrecer y no sé cómo venderlo" },
+      { "id": "abandono", "texto": "Empiezo cosas con todo y las abandono" },
+      { "id": "no_arranco", "texto": "Sé que puedo más, pero no arranco" }
+    ]
   },
 
   "diagnostico": {
