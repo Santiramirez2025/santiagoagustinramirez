@@ -42,6 +42,14 @@ El A/B no necesita variable: la variante se asigna sola por visitante (cookie `_
 - [ ] **Lighthouse móvil** del preview: no pude correrlo acá (faltan `node_modules`/CLI en tu entorno local). Corré en el preview y pegá los números en `docs/REDISENO_PLAN.md` §11. Objetivo: LCP < 1,5 s, CLS < 0,05.
 - [ ] **Reordenar la home** completa al orden del brief (video → prueba social → ofertas → sobre mí → FAQ → cierre): hoy el hero de dos puertas ya abre arriba; debajo quedó el sitio actual funcionando.
 
+## 4b. Pendientes de la 2ª vuelta (copy, concepto y diseño)
+
+- [ ] **Lighthouse móvil**: no se pudo correr (en tu máquina el toolchain de Node/npm está roto: `nvm` sin módulos globales, y no hay Playwright). Corré `npx lighthouse` contra el preview con un Protection Bypass, o `nvm install 20 && nvm use 20` y `npm i -g lighthouse`. Objetivo: Performance ≥ 90, LCP < 1,5 s. Pegalo en `REDISENO_PLAN.md` §11.
+- [ ] **Capturas 390×844 reales**: entregué 3 (home, /negocio, /sistemas/clinicas-esteticas) en `docs/capturas/` al ancho que permitía el entorno (no había control de viewport ni Playwright). El layout es responsive (media queries); verificá en tu celular desde el preview.
+- [ ] **Concepto "Radiografía"**: implementado en todo el sitio. Dos alternativas por si querés cambiarlo: *Rayos X de tu negocio* / *Chequeo de tu negocio* (ver `REDISENO_PLAN.md` §2b).
+- [ ] **sesion.html**: la consola interna sigue con los identificadores de código `.fuga`/`FUGAS` (el brief pidió tocar solo textos ahí). Los textos visibles ya dicen "Radiografía / Punto N". Si querés, en otra pasada se renombran los identificadores internos.
+- [ ] **Confirmar** el nuevo H1, los titulares por tema del Short y los 10 mails reescritos (`content/emails/`).
+
 ## 5. Para ir a producción
 
 Cuando lo apruebes: merge de `rediseno` a `main` (o promover el deployment en Vercel). Antes de eso, cargá las variables de entorno nuevas y revisá los precios provisorios.
