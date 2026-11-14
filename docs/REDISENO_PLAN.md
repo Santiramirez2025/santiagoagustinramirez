@@ -2,7 +2,7 @@
 
 > Rama: `rediseno` · Deploy: preview de Vercel · A producción solo con OK de Santiago.
 > Fecha: 2026-11-14 · Autor del plan: equipo de rediseño (sesión Claude Code).
-> **Preview:** https://santiagoagustinramirez-hbo0h7cu8-santiagos-projects-d0dc89d2.vercel.app (requiere login de Vercel) · Checklist: [`docs/TODO-SANTIAGO.md`](./TODO-SANTIAGO.md).
+> **Preview:** https://santiagoagustinramirez-git-rediseno-santiagos-projects-d0dc89d2.vercel.app (requiere login de Vercel) · Checklist: [`docs/TODO-SANTIAGO.md`](./TODO-SANTIAGO.md).
 
 Objetivo: convertir tráfico frío de Shorts (móvil) en **contactos capturados** y después en ventas.
 Métrica 1: contactos por cada 100 visitas. Métrica 2: ventas/diagnósticos por cada 100 contactos.

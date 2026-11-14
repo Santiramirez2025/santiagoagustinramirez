@@ -1,8 +1,8 @@
 # TODO-SANTIAGO — qué falta que pongas vos
 
 > Rama `rediseno` (7 commits). **Nada tocó producción** (`main` intacto).
-> Preview: **https://santiagoagustinramirez-hbo0h7cu8-santiagos-projects-d0dc89d2.vercel.app**
-> (El preview está detrás del login de Vercel: abrilo logueado con tu cuenta. El alias por rama también sirve: `…-git-rediseno-santiagos-projects-d0dc89d2.vercel.app`).
+> Preview: **https://santiagoagustinramirez-git-rediseno-santiagos-projects-d0dc89d2.vercel.app**
+> (Alias estable de la rama: siempre apunta al último commit. Está detrás del login de Vercel: abrilo logueado con tu cuenta.)
 
 ---
 
