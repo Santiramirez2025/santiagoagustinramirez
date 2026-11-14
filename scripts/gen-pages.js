@@ -223,3 +223,31 @@ Object.keys(CASOS).forEach((s) => written.push(write(`casos/${s}`, casoPage(s, C
 
 console.log('Generadas ' + written.length + ' páginas:');
 written.forEach((w) => console.log('  /' + w));
+
+// ---------- SITEMAP ----------
+const BASE = 'https://santiagoagustinramirez.com';
+const TODAY = new Date().toISOString().slice(0, 10);
+const staticUrls = [
+  { loc: '', pr: '1.0', cf: 'weekly' },
+  { loc: '/cabeza', pr: '0.9', cf: 'weekly' },
+  { loc: '/negocio', pr: '0.9', cf: 'weekly' },
+  { loc: '/diagnostico', pr: '0.9', cf: 'monthly' },
+  { loc: '/turnos.html', pr: '0.8', cf: 'monthly' },
+  { loc: '/portfolio.html', pr: '0.7', cf: 'monthly' },
+  { loc: '/privacidad', pr: '0.3', cf: 'yearly' },
+  { loc: '/terminos', pr: '0.3', cf: 'yearly' }
+];
+const genUrls = written.map((w) => ({ loc: '/' + w, pr: w.startsWith('v/') ? '0.6' : '0.7', cf: 'monthly' }));
+const all = staticUrls.concat(genUrls);
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${all.map((u) => `  <url>
+    <loc>${BASE}${u.loc}</loc>
+    <lastmod>${TODAY}</lastmod>
+    <changefreq>${u.cf}</changefreq>
+    <priority>${u.pr}</priority>
+  </url>`).join('\n')}
+</urlset>
+`;
+fs.writeFileSync(path.join(PUB, 'sitemap.xml'), sitemap);
+console.log('sitemap.xml actualizado con ' + all.length + ' URLs.');

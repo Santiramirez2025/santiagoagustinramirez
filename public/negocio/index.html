@@ -16,6 +16,9 @@
 <script>(function(){try{var s=localStorage.getItem('srm-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}})();</script>
 <!-- Meta Pixel -->
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1419051696174763');fbq('track','PageView');</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","name":"Sistema por rubro","serviceType":"Software de gestión para pymes","provider":{"@type":"Person","name":"Santiago Ramírez","url":"https://santiagoagustinramirez.com"},"areaServed":"AR","description":"Turnos, agente de IA de WhatsApp y panel, listo para tu rubro."}
+</script>
 <link rel="stylesheet" href="/shared/fonts.css">
 <link rel="stylesheet" href="/shared/brand.css">
 <style>
@@ -147,6 +150,10 @@
     <p class="muted">Turnos, agente IA de WhatsApp y panel. <span class="badge-prov">precios provisorios</span></p>
     <div class="ladder" id="ladder"></div>
     <p class="hint" id="fundador" style="margin-top:12px"></p>
+    <div style="margin-top:18px">
+      <p class="muted" style="font-size:14px;margin-bottom:8px">Landing y demo por rubro:</p>
+      <div id="rubros" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+    </div>
     <div class="todo-santi" style="margin-top:16px">Falta la demo de cada rubro y los casos con números reales.</div>
   </section>
 </main>
@@ -186,6 +193,11 @@ fetch('/config/ofertas.json').then(function(r){return r.json();}).then(function(
   }).join('');
   if(s.precio_fundador && s.precio_fundador.activo){
     document.getElementById('fundador').textContent = 'Precio de fundador para los primeros ' + s.precio_fundador.cupos + ' clientes.';
+  }
+  if(Array.isArray(s.rubros)){
+    document.getElementById('rubros').innerHTML = s.rubros.map(function(r){
+      return '<a class="btn btn-ghost" style="min-height:40px;padding:8px 14px;font-size:14px" href="/sistemas/'+r.slug+'" data-track="rubro_link_'+r.slug+'">'+r.nombre+' →</a>';
+    }).join('');
   }
   // Precio del diagnóstico desde la misma config
   if(cfg.diagnostico && cfg.diagnostico.precio_usd){ document.getElementById('diag-price').textContent = 'USD ' + cfg.diagnostico.precio_usd; }
