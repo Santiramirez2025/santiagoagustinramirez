@@ -50,6 +50,13 @@ El A/B no necesita variable: la variante se asigna sola por visitante (cookie `_
 - [ ] **sesion.html**: la consola interna sigue con los identificadores de código `.fuga`/`FUGAS` (el brief pidió tocar solo textos ahí). Los textos visibles ya dicen "Radiografía / Punto N". Si querés, en otra pasada se renombran los identificadores internos.
 - [ ] **Confirmar** el nuevo H1, los titulares por tema del Short y los 10 mails reescritos (`content/emails/`).
 
+## 4c. Pendientes de la 3ª vuelta (puerta cabeza → metodosrm.com)
+
+- [ ] **Verificar precios de metodosrm.com antes de producción**: cargué los del 14/11/2026 (curso fundador **$49.000 ARS** antes $150.000, mentoría 1:1 3 meses **$624.000 ARS**). Están en `public/config/ofertas.json` → `metodo_srm`, con la nota "verificar contra metodosrm.com antes de producción". Si cambian, se editan ahí (la home, `/cabeza` y `/v` los leen de ahí).
+- [ ] **Confirmar los 5 mails de la puerta cabeza** reescritos hacia metodosrm.com (`content/emails/cabeza/`).
+- [ ] **Atribución**: los links a metodosrm.com llevan `utm_source=santiagoagustinramirez&utm_medium=web&utm_campaign=<la del Short o cabeza_directo>&utm_content=<botón>`. Para cerrar el círculo de medición, en metodosrm.com tenés que **leer esos UTM al momento de la compra** (lo maneja ese proyecto, que no está en este repo).
+- [ ] La oferta inventada (desafío USD 19 / curso USD 97 / comunidad USD 19) quedó **borrada** de todo el sitio y los mails. El test de 6 preguntas se conserva como gancho gratis.
+
 ## 5. Para ir a producción
 
 Cuando lo apruebes: merge de `rediseno` a `main` (o promover el deployment en Vercel). Antes de eso, cargá las variables de entorno nuevas y revisá los precios provisorios.
