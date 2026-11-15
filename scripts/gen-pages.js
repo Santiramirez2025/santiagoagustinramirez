@@ -178,7 +178,7 @@ function metodoCardMini() {
         <span style="color:#8C8475;text-decoration:line-through">${was}</span>
         <span style="color:#C7BBA6;font-size:13px">ARS · precio fundador</span>
       </div>
-      <a class="btn" style="background:#F07A3D;color:#14110d" data-metodo="v_cabeza" data-metodo-path="/" data-track="v_metodosrm">Conocer el Método SRM →</a>
+      <a class="btn" style="background:#F07A3D;color:#14110d" href="https://www.metodosrm.com/" data-metodo="v_cabeza" data-metodo-path="/" data-track="v_metodosrm">Conocer el Método SRM →</a>
     </div>`;
 }
 

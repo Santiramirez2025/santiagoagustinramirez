@@ -197,14 +197,23 @@
       '&utm_campaign=' + encodeURIComponent(metodoCamp) +
       '&utm_content=' + encodeURIComponent(boton || 'cabeza');
   };
-  // Reescribe los <a data-metodo="boton" [data-metodo-path="/comprar?p=mentoria"]>:
-  // arma la URL con UTM, abre en la misma pestaña y dispara el evento al click.
+  // Enriquece los <a data-metodo="boton">: AGREGA la UTM al href que ya trae el
+  // HTML (link directo a metodosrm.com). Nunca deja el botón sin destino: si este
+  // script no corre o lo bloquea un ad-blocker, el href directo del HTML funciona igual.
   try {
     var links = document.querySelectorAll('a[data-metodo]');
     Array.prototype.forEach.call(links, function (a) {
       var boton = a.getAttribute('data-metodo') || 'cabeza';
-      var path = a.getAttribute('data-metodo-path') || '/';
-      a.setAttribute('href', window.srmMetodoUrl(path, boton));
+      var current = a.getAttribute('href');
+      // Base = el href directo del HTML si apunta a metodosrm.com; si no, se arma del path.
+      var base = (current && current.indexOf('metodosrm.com') > -1)
+        ? current
+        : ('https://www.metodosrm.com' + (a.getAttribute('data-metodo-path') || '/'));
+      var sep = base.indexOf('?') > -1 ? '&' : '?';
+      a.setAttribute('href', base + sep +
+        'utm_source=santiagoagustinramirez&utm_medium=web' +
+        '&utm_campaign=' + encodeURIComponent(metodoCamp) +
+        '&utm_content=' + encodeURIComponent(boton));
       a.addEventListener('click', function () {
         var ev = a.getAttribute('data-metodo-event') || 'metodosrm_click';
         send(ev, { boton: boton, page: location.pathname });
