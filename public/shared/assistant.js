@@ -19,7 +19,7 @@
   var T = { title: 'Asistente', sub: 'Respuesta al instante', ph: 'Escribí tu mensaje…', typing: 'Escribiendo…' };
   var GREET = '¡Hola! 👋 Soy el asistente de Santiago. Él ordena, digitaliza y hace crecer negocios: desarrollo, marketing y seguimiento con un solo responsable. ¿Qué querés resolver?';
   var CHIPS_MAIN = ['🧩 Mi negocio es un quilombo', '🌐 Necesito web o sistema', '💰 ¿Cuánto sale?', '⚙️ ¿Cómo empiezo?'];
-  var CHIPS_MORE = ['📋 ¿Qué es el Diagnóstico?', '💰 ¿Cuánto sale?', '📅 Quiero reservar'];
+  var CHIPS_MORE = ['📋 ¿Qué es el Plan?', '💰 ¿Cuánto sale?', '📅 Quiero reservar'];
 
   var CSS = `
   .srm-ai-launch{position:fixed;left:22px;bottom:22px;z-index:140;width:60px;height:60px;border-radius:50%;
@@ -121,7 +121,7 @@
     var extra = state.rubro ? ('Tengo un ' + state.rubro + ' y ') : '';
     var msg = kind === 'precio'
       ? ('Hola Santiago, vengo del asistente. ' + extra + 'quiero saber cuánto sale ordenar y digitalizar mi negocio.')
-      : ('Hola Santiago, vengo del asistente. ' + extra + 'tengo una duda antes de reservar el Diagnóstico.');
+      : ('Hola Santiago, vengo del asistente. ' + extra + 'tengo una duda antes de reservar el Plan.');
     return 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(msg);
   }
 
@@ -129,10 +129,10 @@
     o = o || {};
     var wa = waLink(o.price ? 'precio' : 'duda');
     var card = el('div', 'srm-ai-quote'), html = '';
-    html += '<div class="qh">Diagnóstico Negocio Ordenado</div>'
+    html += '<div class="qh">Plan Negocio Ordenado</div>'
       + '<div class="qa">USD 75</div>'
       + '<div class="qn">90 minutos 1 a 1 · plan escrito y cotizado en 24 hs · garantía de devolución</div>';
-    html += '<div class="qb"><a class="primary" href="/reservar.html" data-track="assistant_reservar" data-event="ViewContent">📅 Reservar mi Diagnóstico</a>'
+    html += '<div class="qb"><a class="primary" href="/diagnostico" data-track="assistant_reservar" data-event="ViewContent">📅 Reservar mi Plan</a>'
       + '<a class="ghost" href="' + wa + '" target="_blank" rel="noopener" data-track="assistant_wa" data-event="Lead">Tengo una duda</a></div>';
     card.innerHTML = html;
     body.appendChild(card); scrollDown();
@@ -152,42 +152,42 @@
     detectRubro(t);
 
     if (/(gratis|sin cargo|no pago|regalado|prueba gratis|demo gratis)/.test(t))
-      return { text: 'Acá lo gratis es esto: responderte dudas por chat o por WhatsApp, todo lo que quieras. 🙌\nLo que no hago son diagnósticos ni auditorías sin cargo. Justamente por eso el **Diagnóstico cuesta USD 75**: es la forma más barata de empezar, y **si no te sirve te devuelvo el 100%**.', cta: {} };
+      return { text: 'Acá lo gratis es esto: responderte dudas por chat o por WhatsApp, todo lo que quieras. 🙌\nLo que no hago son diagnósticos ni auditorías sin cargo. Justamente por eso el **Plan cuesta USD 75**: es la forma más barata de empezar, y **si no te sirve te devuelvo el 100%**.', cta: {} };
 
     if (/(precio|cuesta|sale|cuanto val|cuanto s|presupuesto|valor|vale|cobras|cobra|caro|barato|inversion)/.test(t))
-      return { text: 'Depende de qué haya que construir, y para eso primero hay que ver tu negocio. 👀\nPor eso el primer paso tiene precio fijo: el **Diagnóstico Negocio Ordenado, USD 75**. Son 90 minutos 1 a 1 y salís con un **plan escrito y cotizado dentro de las 24 hs** — ahí vas a ver los números exactos de tu proyecto.\nSi después contratás la implementación dentro de las 72 hs, esos USD 75 **se te descuentan**.', cta: { price: true } };
+      return { text: 'Depende de qué haya que construir, y para eso primero hay que ver tu negocio. 👀\nPor eso el primer paso tiene precio fijo: el **Plan Negocio Ordenado, USD 75**. Son 90 minutos 1 a 1 y salís con un **plan escrito y cotizado dentro de las 24 hs** — ahí vas a ver los números exactos de tu proyecto.\nSi después contratás la implementación dentro de las 72 hs, esos USD 75 **se te descuentan**.', cta: { price: true } };
 
     if (/(reservar|contratar|quiero el|lo quiero|quiero contratar|empezar ya|arrancar ya|turno|agendar|reservo)/.test(t))
       return { text: '¡Buenísimo! 🙌 Elegís día y hora, pagás los USD 75 y te llega el cuestionario previo para que la sesión arranque con todo sobre la mesa.', cta: {} };
 
     if (/(quilombo|desorden|desordenado|caos|a mano|manual|planilla|excel|cuaderno|papel|no se por donde|perdido|desprolijo|todo junto)/.test(t))
-      return { text: 'Eso es lo más común que veo. 🧩 Casi siempre no es un problema, son **tres fugas** al mismo tiempo: laburo manual que se puede automatizar, plata que se escapa sin que la veas, y marketing que no trae a nadie.\nEl Diagnóstico existe para encontrar esas tres en tu negocio y dejarte el plan por escrito.', chips: CHIPS_MORE };
+      return { text: 'Eso es lo más común que veo. 🧩 Casi siempre no es un problema, son **tres frentes** al mismo tiempo: laburo manual que se puede automatizar, plata que se escapa sin que la veas, y marketing que no trae a nadie.\nEl Plan existe para encontrar esas tres en tu negocio y dejarte el plan por escrito.', chips: CHIPS_MORE };
 
     if (/(web|pagina|sitio|landing|ecommerce|tienda|sistema|app|aplicacion|software|plataforma|automatiz)/.test(t))
-      return { text: '¡Dale, eso lo construyo! 🛠️ Si ya tenés claro qué necesitás, te armo el presupuesto en el cotizador.\nY si todavía no estás seguro del alcance — que es lo más normal — conviene empezar por el **Diagnóstico**: salís con el proyecto definido y cotizado, y no gastás de más en algo que no era.', chips: CHIPS_MORE };
+      return { text: '¡Dale, eso lo construyo! 🛠️ Si ya tenés claro qué necesitás, te armo el presupuesto en el cotizador.\nY si todavía no estás seguro del alcance — que es lo más normal — conviene empezar por el **Plan**: salís con el proyecto definido y cotizado, y no gastás de más en algo que no era.', chips: CHIPS_MORE };
 
     if (/(whatsapp|mensaje|contestar|responder|todo el dia|me consume|no llego|pierdo tiempo|atender|seguimiento)/.test(t))
-      return { text: 'Contestar todo el día a mano te come el negocio. 📱 Eso casi siempre se automatiza: reservas online, cobros, recordatorios y hasta un agente de IA que atiende solo.\nCuánto de eso te conviene depende de tus números, y eso sale del Diagnóstico.', chips: CHIPS_MORE };
+      return { text: 'Contestar todo el día a mano te come el negocio. 📱 Eso casi siempre se automatiza: reservas online, cobros, recordatorios y hasta un agente de IA que atiende solo.\nCuánto de eso te conviene depende de tus números, y eso sale del Plan.', chips: CHIPS_MORE };
 
     if (/(diagnostico|como funciona|funciona|que incluye|incluye|que hace|como es|que es|explicame|de que se trata|como empiezo|empezar)/.test(t))
-      return { text: 'El **Diagnóstico Negocio Ordenado** es así:\n1️⃣ Reservás día y hora y pagás USD 75.\n2️⃣ Completás un cuestionario corto para que no perdamos tiempo.\n3️⃣ Nos vemos 90 minutos 1 a 1 y revisamos procesos, presencia digital y marketing.\n4️⃣ Dentro de las 24 hs te llega **un plan escrito y cotizado**, no un audio ni una charla.\nSi no te resulta accionable, te devuelvo el 100%.', cta: {} };
+      return { text: 'El **Plan Negocio Ordenado** es así:\n1️⃣ Reservás día y hora y pagás USD 75.\n2️⃣ Completás un cuestionario corto para que no perdamos tiempo.\n3️⃣ Nos vemos 90 minutos 1 a 1 y revisamos procesos, presencia digital y marketing.\n4️⃣ Dentro de las 24 hs te llega **un plan escrito y cotizado**, no un audio ni una charla.\nSi no te resulta accionable, te devuelvo el 100%.', cta: {} };
 
     if (/(cuanto tarda|tarda|demora|tiempo|cuando lo|plazo|listo en|entrega)/.test(t))
-      return { text: 'El Diagnóstico lo hacés esta semana y el plan te llega **dentro de las 24 hs**. ⚡\nLos plazos de construcción dependen del proyecto, y van cotizados en ese mismo plan.', chips: CHIPS_MORE };
+      return { text: 'El Plan lo hacés esta semana y el plan te llega **dentro de las 24 hs**. ⚡\nLos plazos de construcción dependen del proyecto, y van cotizados en ese mismo plan.', chips: CHIPS_MORE };
 
     if (/(hablar|contacto|persona|humano|asesor|llamada|reunion|coordinar|santiago|whatsapp ya|escribir)/.test(t))
-      return { text: 'Dale, escribime por WhatsApp y te respondo yo. 💬 Si lo que querés es que miremos tu negocio en serio, eso es el Diagnóstico.', cta: {} };
+      return { text: 'Dale, escribime por WhatsApp y te respondo yo. 💬 Si lo que querés es que miremos tu negocio en serio, eso es el Plan.', cta: {} };
 
     if (/^(hola|buenas|buen dia|buenas tardes|hey|holis)/.test(t))
       return { text: '¡Hola! 😊 Contame qué te gustaría resolver en tu negocio y te oriento.', chips: CHIPS_MAIN };
 
     if (/(gracias|genial|buenisimo|perfecto|dale|listo|ok|barbaro|de una|me interesa|me sirve)/.test(t))
-      return { text: '¡Cuando quieras! 🙌 ¿Arrancamos por el Diagnóstico y te dejo el plan por escrito?', cta: {} };
+      return { text: '¡Cuando quieras! 🙌 ¿Arrancamos por el Plan y te dejo el plan por escrito?', cta: {} };
 
     if (state.rubro)
-      return { text: 'Para un **' + state.rubro + '** funciona igual: primero encontramos las fugas, después construimos. ¿Te cuento cómo es el Diagnóstico?', chips: CHIPS_MORE };
+      return { text: 'Para un **' + state.rubro + '** funciona igual: primero encontramos qué ordenar, después construimos. ¿Te cuento cómo es el Plan?', chips: CHIPS_MORE };
 
-    return { text: 'Buena pregunta 🙌 Eso se responde bien mirando tu negocio, que es lo que hacemos en el Diagnóstico. O elegí una opción y te cuento:', chips: CHIPS_MAIN };
+    return { text: 'Buena pregunta 🙌 Eso se responde bien mirando tu negocio, que es lo que hacemos en el Plan. O elegí una opción y te cuento:', chips: CHIPS_MAIN };
   }
 
   function handleUser(text) {

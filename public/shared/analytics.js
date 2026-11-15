@@ -26,6 +26,18 @@
   var visitorId = ls('_srm_vid') || ls('_srm_vid', uuid());
   var sessionId = ss('_srm_sid') || ss('_srm_sid', uuid());
 
+  // A/B simple: variante persistente por visitante, viaja en el meta de cada evento.
+  // Leer resultados: SELECT meta->>'ab' AS variante, event, count(*) FROM events GROUP BY 1,2;
+  function abVariant() {
+    var v = ls('_srm_ab');
+    if (v === 'a' || v === 'b') return v;
+    v = (Math.random() < 0.5) ? 'a' : 'b';
+    ls('_srm_ab', v);
+    return v;
+  }
+  var ab = abVariant();
+  window.__srmAB = ab;
+
   var q = new URLSearchParams(location.search);
   var device = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
     ? (/(iPad|Tablet)/i.test(navigator.userAgent) ? 'tablet' : 'mobile') : 'desktop';
@@ -62,7 +74,7 @@
   };
 
   function send(event, meta, extra) {
-    var payload = Object.assign({}, base, { event: event, url: location.href, meta: meta || {} }, extra || {});
+    var payload = Object.assign({}, base, { event: event, url: location.href, meta: Object.assign({ ab: ab }, meta || {}) }, extra || {});
     var str = JSON.stringify(payload);
     try { if (navigator.sendBeacon && navigator.sendBeacon(ENDPOINT, new Blob([str], { type: 'application/json' }))) return; } catch (e) {}
     try { fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: str, keepalive: true }).catch(function () {}); } catch (e) {}
@@ -150,4 +162,53 @@
       var si = document.createElement('script'); si.defer = true; si.src = '/_vercel/speed-insights/script.js'; document.head.appendChild(si);
     } catch (e) {}
   }
+
+  // 9) API pública para las páginas del rediseño (dos puertas + captura).
+  //    Reusa el mismo transporte, visitorId/sessionId y UTM que el resto.
+  function parseCampaign(c) {
+    // Formato del Short: pieza_<ID>_<canal>  (ej: pieza_F1_mindset, pieza_N2a_ch05)
+    var out = { pieza: null, canal: null, tema: null, puerta: null };
+    if (!c) return out;
+    var m = String(c).match(/^pieza_([A-Za-z0-9]+)_(.+)$/);
+    if (m) { out.pieza = m[1]; out.canal = m[2]; }
+    var id = out.pieza || String(c);
+    var prefix = id.charAt(0).toUpperCase();
+    // Prefijo del ID → tema (según el brief).
+    var TEMA = { R:'recreo', T:'terapia', W:'warren', K:'cambiar', M:'amigo', I:'inflacion', P:'publicar', D:'ideas', N:'nicho', Q:'comport', F:'futuro', G:'agentes' };
+    out.tema = TEMA[prefix] || null;
+    // Tema → puerta (provisorio): mindset/humor/nostalgia → cabeza; negocio → negocio.
+    var NEGOCIO = { inflacion:1, publicar:1, ideas:1, nicho:1, comport:1, agentes:1 };
+    out.puerta = out.tema ? (NEGOCIO[out.tema] ? 'negocio' : 'cabeza') : null;
+    return out;
+  }
+  var campaign = parseCampaign(utm.utm_campaign);
+  window.__srmCampaign = campaign;      // { pieza, canal, tema, puerta }
+  window.__srmUtmFull = Object.assign({}, utm, { canal: campaign.canal, pieza: campaign.pieza, tema: campaign.tema });
+  // srmTrack(event, meta, extra): emite un evento del embudo con la UTM ya incluida.
+  window.srmTrack = function (event, meta, extra) { try { send(event, meta || {}, extra || {}); } catch (e) {} };
+
+  // --- Links a la academia metodosrm.com (otro sitio) con atribución, SIN PII. ---
+  // Campaña = la del Short con la que entró el visitante, o 'cabeza_directo'.
+  var metodoCamp = (utm && utm.utm_campaign) ? utm.utm_campaign : 'cabeza_directo';
+  window.srmMetodoUrl = function (path, boton) {
+    var base = 'https://www.metodosrm.com' + (path || '/');
+    var sep = base.indexOf('?') > -1 ? '&' : '?';
+    return base + sep + 'utm_source=santiagoagustinramirez&utm_medium=web' +
+      '&utm_campaign=' + encodeURIComponent(metodoCamp) +
+      '&utm_content=' + encodeURIComponent(boton || 'cabeza');
+  };
+  // Reescribe los <a data-metodo="boton" [data-metodo-path="/comprar?p=mentoria"]>:
+  // arma la URL con UTM, abre en la misma pestaña y dispara el evento al click.
+  try {
+    var links = document.querySelectorAll('a[data-metodo]');
+    Array.prototype.forEach.call(links, function (a) {
+      var boton = a.getAttribute('data-metodo') || 'cabeza';
+      var path = a.getAttribute('data-metodo-path') || '/';
+      a.setAttribute('href', window.srmMetodoUrl(path, boton));
+      a.addEventListener('click', function () {
+        var ev = a.getAttribute('data-metodo-event') || 'metodosrm_click';
+        send(ev, { boton: boton, page: location.pathname });
+      });
+    });
+  } catch (e) {}
 })();

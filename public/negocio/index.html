@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radiografía gratis de tu negocio | Santiago Ramírez</title>
+<meta name="description" content="5 preguntas, 2 minutos y mirás dónde se te va el tiempo y la plata, y por dónde empezar. Gratis, sin tarjeta. Córdoba, Argentina.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://santiagoagustinramirez.com/negocio">
+<meta property="og:title" content="Radiografía gratis de tu negocio">
+<meta property="og:description" content="Dónde se te va el tiempo y la plata, y por dónde empezar. Gratis, en 2 minutos.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://santiagoagustinramirez.com/negocio">
+<meta property="og:image" content="https://santiagoagustinramirez.com/og.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","name":"Sistema por rubro","serviceType":"Software de gestión para pymes","provider":{"@type":"Person","name":"Santiago Ramírez","url":"https://santiagoagustinramirez.com"},"areaServed":"AR","description":"Turnos, agente de IA de WhatsApp y panel, listo para tu rubro."}
+</script>
+<script>(function(){try{var s=localStorage.getItem('srm-theme');if(s)document.documentElement.setAttribute('data-theme',s);var h=location.hostname;if(h==='santiagoagustinramirez.com'||h==='www.santiagoagustinramirez.com')document.documentElement.classList.add('is-prod');}catch(e){}})();</script>
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1419051696174763');fbq('track','PageView');</script>
+<link rel="stylesheet" href="/shared/fonts.css">
+<link rel="stylesheet" href="/shared/brand.css?v=2">
+<style>
+  .topbar{ display:flex; align-items:center; justify-content:space-between; padding:14px 0; }
+  .brand{ font-family:var(--serif); font-size:20px; text-decoration:none; color:inherit; }
+  .hero{ padding-top:14px; padding-bottom:28px; }
+  .q2{ display:grid; gap:14px; grid-template-columns:1fr; }
+  @media(min-width:560px){ .q2{ grid-template-columns:1fr 1fr; } }
+  .result .num{ font-family:var(--serif); font-size:clamp(30px,8vw,46px); color:var(--signal-ink); line-height:1.05; }
+  .rbloque{ border-left:3px solid var(--signal); padding:4px 0 4px 16px; margin:16px 0; }
+  .rbloque .rk{ font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--signal-ink);font-weight:700; }
+  .offer-grid{ display:grid; gap:16px; grid-template-columns:1fr; margin-top:22px; }
+  @media(min-width:760px){ .offer-grid{ grid-template-columns:1fr 1fr; } }
+  .err{ color:#b4231b; font-size:14px; margin-top:8px; }
+</style>
+</head>
+<body>
+<div class="wrap topbar">
+  <a href="/" class="brand">Santiago Ramírez<span style="color:var(--signal)">.</span></a>
+  <a class="btn btn-ghost" style="min-height:40px;padding:8px 16px;font-size:15px" href="/cabeza" data-track="switch_cabeza">Ordená tu cabeza →</a>
+</div>
+
+<main>
+  <section class="wrap hero">
+    <p class="eyebrow"><span class="dot"></span>Ordená tu negocio</p>
+    <h1>¿Cuánto te cuesta <span class="serif-i">el desorden</span>?</h1>
+    <p class="lead">Hacé tu Radiografía gratis: 5 preguntas, 2 minutos, y mirás dónde se te va el tiempo y la plata. Sin tarjeta.</p>
+    <p class="muted" style="font-size:14px;margin-top:10px">+14 sistemas funcionando · Córdoba, Argentina</p>
+  </section>
+
+  <section class="wrap" style="padding-top:0">
+    <form class="card" data-puerta="negocio" data-gift="radiografia" data-reveal="#resultado" novalidate>
+      <h2 style="font-size:clamp(22px,5vw,30px)">Tu radiografía en 2 minutos</h2>
+      <p class="muted" style="margin-top:-4px;font-size:14px">Montos en dólares (USD).</p>
+      <div class="field">
+        <label for="rubro">¿De qué es tu negocio?</label>
+        <select id="rubro" name="rubro">
+          <option value="">Elegí…</option>
+          <option>Clínica estética</option><option>Clínica dental</option><option>Gimnasio</option>
+          <option>Cabañas / complejo</option><option>Concesionaria</option><option>Club de pádel</option>
+          <option>Comercio / tienda</option><option>Servicios profesionales</option><option>Otro</option>
+        </select>
+      </div>
+      <div class="q2">
+        <div class="field">
+          <label for="ventas">Ventas por mes (cantidad)</label>
+          <input id="ventas" name="ventas" type="number" inputmode="numeric" min="0" placeholder="Ej: 120">
+        </div>
+        <div class="field">
+          <label for="ticket">Ticket promedio (USD)</label>
+          <input id="ticket" name="ticket" type="number" inputmode="numeric" min="0" placeholder="Ej: 40">
+        </div>
+      </div>
+      <div class="q2">
+        <div class="field">
+          <label for="horas">Horas/semana en tareas repetitivas</label>
+          <input id="horas" name="horas" type="number" inputmode="numeric" min="0" placeholder="Ej: 12">
+          <span class="hint">La clienta que te escribe a las 23, agendar, cobrar, cargar datos.</span>
+        </div>
+        <div class="field">
+          <label for="problema">¿Qué te complica más hoy?</label>
+          <select id="problema" name="problema">
+            <option value="">Elegí…</option>
+            <option>Pierdo turnos / consultas sin responder</option>
+            <option>Todo pasa por mí, no delego</option>
+            <option>No sé mis números</option>
+            <option>Vendo pero no escala</option>
+          </select>
+        </div>
+      </div>
+      <hr style="border:none;border-top:1px solid var(--line);margin:18px 0">
+      <div class="q2">
+        <div class="field">
+          <label for="email">Tu mail (te mando tu radiografía)</label>
+          <input id="email" name="email" type="email" required placeholder="vos@tunegocio.com">
+        </div>
+        <div class="field">
+          <label for="phone">WhatsApp (opcional)</label>
+          <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="+54 9 ...">
+        </div>
+      </div>
+      <div class="hp" aria-hidden="true"><label>No llenar<input data-hp name="empresa_web" tabindex="-1" autocomplete="off"></label></div>
+      <label class="consent"><input type="checkbox" name="consent" required> Quiero recibir mi radiografía y tips por mail. Puedo darme de baja cuando quiera.</label>
+      <p class="err" data-err hidden></p>
+      <button class="btn btn-cta btn-block" type="submit" style="margin-top:14px">Quiero mi radiografía →</button>
+      <p class="hint" style="text-align:center;margin-top:10px">Gratis. Tu radiografía aparece acá mismo apenas la mandás.</p>
+    </form>
+  </section>
+
+  <!-- Resultado: se revela SOLO tras dejar contacto -->
+  <section class="wrap result" id="resultado" hidden>
+    <div class="card">
+      <p class="eyebrow"><span class="dot"></span>Tu radiografía</p>
+      <div id="radiografia"></div>
+      <div class="offer-grid">
+        <div class="card" style="box-shadow:none">
+          <h3>Plan Negocio Ordenado</h3>
+          <p class="muted">90 minutos 1:1 y salís con un plan escrito de 90 días: qué hacer, en qué orden, con precio y plazo.</p>
+          <p><strong id="plan-price">USD 75</strong> · descontable si contratás en 72 h</p>
+          <a class="btn btn-cta btn-block" href="/diagnostico" data-track="negocio_plan" data-event="Lead">Quiero mi plan →</a>
+          <p class="hint" style="margin-top:8px">Garantía: si no te sirvió, te devuelvo los USD 75 dentro de los 7 días.</p>
+        </div>
+        <div class="card" style="box-shadow:none">
+          <h3>Sistema por rubro</h3>
+          <p class="muted">Turnos + agente de IA en WhatsApp + panel, listo para lo tuyo.</p>
+          <a class="btn btn-ghost btn-block" href="#sistema" data-track="negocio_sistema">Ver precios de mi rubro →</a>
+          <a class="btn btn-ghost btn-block" style="margin-top:8px" href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20hice%20mi%20radiograf%C3%ADa%20y%20quiero%20hablar%20de%20mi%20negocio" target="_blank" rel="noopener" data-track="negocio_wa" data-event="Lead">Seguir por WhatsApp →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sistema por rubro -->
+  <section class="section--white" id="sistema">
+    <div class="wrap">
+      <p class="eyebrow"><span class="dot"></span>La oferta principal</p>
+      <h2>El sistema que atiende por vos</h2>
+      <p class="lead">Turnos, un agente de IA en WhatsApp y un panel para ver todo. <span class="badge-prov">precios provisorios</span></p>
+      <div class="tiers" id="tiers"></div>
+      <p class="muted" id="fundador" style="margin-top:14px;font-size:14px"></p>
+      <div style="margin-top:18px">
+        <p class="muted" style="font-size:14px;margin-bottom:8px">Landing y demo por rubro:</p>
+        <div class="chips" id="rubros"></div>
+      </div>
+      <div class="todo-santi" style="margin-top:18px">Falta la demo de cada rubro y los casos con números reales.</div>
+    </div>
+  </section>
+</main>
+
+<a class="wa-dock" href="https://wa.me/5493536561265?text=Hola%20Santiago%2C%20quiero%20hablar%20de%20mi%20negocio" target="_blank" rel="noopener" data-track="dock_wa" data-event="Contact" aria-label="WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24z"/></svg>
+</a>
+
+<script>
+function usd(x){ return 'USD ' + Math.round(x).toLocaleString('es-AR'); }
+window.onPuertaResult = function(j){
+  var r = (j && j.resultado) || {};
+  var el = document.getElementById('radiografia');
+  if (r.costo_anual) {
+    el.innerHTML =
+      '<div class="rbloque"><div class="rk">Dónde se te va el tiempo</div><p style="margin:4px 0 0">Las <b>' + r.horas_anio + ' horas</b> al año en tareas repetitivas son <b>' + r.semanas_enteras + ' semanas laborales enteras</b>.</p></div>' +
+      '<div class="rbloque"><div class="rk">Cuánto te cuesta</div><div class="num">' + usd(r.costo_anual) + ' por año</div><p style="margin:4px 0 0">A tu propia facturación. Equivale a <b>' + r.ventas_equivalentes + ' ventas</b>.</p></div>' +
+      '<div class="rbloque"><div class="rk">Por dónde empezar</div><p style="margin:4px 0 0">Este número es el punto de partida. El orden exacto para ordenarlo sale del Plan Negocio Ordenado: qué primero, qué después y cuánto sale cada paso.</p></div>';
+  } else {
+    el.innerHTML = '<p>Te mandé tu radiografía al mail. El siguiente paso para ordenarlo en serio es el Plan Negocio Ordenado.</p>';
+  }
+};
+
+fetch('/config/ofertas.json').then(function(r){return r.json();}).then(function(cfg){
+  var s = cfg.sistema_rubro; if(s){
+    document.getElementById('tiers').innerHTML = s.escalera.map(function(t){
+      return '<div class="tier'+(t.destacado?' pop':'')+'">'+(t.destacado?'<span class="tag">Recomendado</span>':'')
+        +'<div class="tname">'+t.nombre+'</div><div class="tprice">USD '+t.instalacion_usd.toLocaleString('es-AR')+'</div>'
+        +'<div class="tper">instalación + USD '+t.abono_mes_usd+'/mes</div>'
+        +'<ul>'+t.incluye.map(function(i){return '<li>'+i+'</li>';}).join('')+'</ul></div>';
+    }).join('');
+    if(s.precio_fundador&&s.precio_fundador.activo) document.getElementById('fundador').textContent='Precio de fundador para los primeros '+s.precio_fundador.cupos+' clientes.';
+    document.getElementById('rubros').innerHTML=s.rubros.map(function(r){return '<a class="chip" href="/sistemas/'+r.slug+'" data-track="rubro_link_'+r.slug+'">'+r.nombre+' →</a>';}).join('');
+  }
+  if(cfg.diagnostico&&cfg.diagnostico.precio_usd) document.getElementById('plan-price').textContent='USD '+cfg.diagnostico.precio_usd;
+}).catch(function(){});
+</script>
+<script src="/shared/analytics.js" defer></script>
+<script src="/shared/puertas.js" defer></script>
+</body>
+</html>
